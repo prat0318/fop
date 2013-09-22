@@ -103,7 +103,7 @@ class ContainerPrint extends ContainerTimeStamp{
     }
 }
 
-public class Container {
+public class Container extends ContainerPrint{
     Container(String name) {
         super(name);
     }
