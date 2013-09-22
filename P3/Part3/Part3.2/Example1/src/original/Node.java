@@ -32,17 +32,8 @@ class NodeBasic {
         }
     }
 
- class NodeTimeStamp extends NodeDoublyLinkList {
-    public int creation_time;
 
-    NodeTimeStamp(String d1, int d2, int d3) {
-        super(d1, d2, d3);
-        creation_time = 0;
-    }
-    
-}
-
-class NodePrint extends NodeTimeStamp {
+class NodePrint extends NodeDoublyLinkList {
     NodePrint(String d1, int d2, int d3) {
         super(d1, d2, d3);
         if (ContainerPrint.debug) {
@@ -55,11 +46,25 @@ class NodePrint extends NodeTimeStamp {
 
     @Override
     public String toString() {
-        return (data1 + tab + data2 + tab + data3 + tab + creation_time);
+        return (data1 + tab + data2 + tab + data3 + tab);
     }
 }
 
-public class Node extends NodePrint{
+class NodeTimeStamp extends NodePrint {
+    public int creation_time;
+
+    NodeTimeStamp(String d1, int d2, int d3) {
+        super(d1, d2, d3);
+        creation_time = 0;
+    }
+     
+    @Override
+    public String toString() {
+        return (super.toString() + creation_time);
+    }
+}
+
+public class Node extends NodeTimeStamp {
     Node(String d1, int d2, int d3){
         super(d1, d2,d3);
     }
