@@ -46,7 +46,7 @@ class ContainerDoublyLinkList {
     }
     
     public void print() {
-        
+        System.out.println(name + "{");
     }
 }
 

@@ -1,4 +1,4 @@
-mylist{ // has 6 elements
+mylist{
    scarlet	 20	 7	 6
    chief	 20	 11	 5
    hannah	 19	 94	 4
@@ -6,12 +6,12 @@ mylist{ // has 6 elements
    karen	 19	 60	 2
    don  	 19	 53	 1
 }
-mylist{ // has 3 elements
+mylist{
    scarlet	 20	 7	 6
    hannah	 19	 94	 4
    karen	 19	 60	 2
 }
-mylist{ // has 5 elements
+mylist{
    chili	 19	 94	 8
    kelsey	 19	 88	 7
    scarlet	 20	 7	 6
