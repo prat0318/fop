@@ -8,19 +8,19 @@ package original;
  *
  * @author dsb
  */
-public class IteratorDoublyLinkList {
+class IteratorDoublyLinkList {
 
-    ContainerDoublyLinkList c;
-    NodeDoublyLinkList current;
-    boolean init;
+    public ContainerDoublyLinkList c;
+    public NodeDoublyLinkList current;
+    public boolean init;
 
-    IteratorDoublyLinkList(Container c) {
+    IteratorDoublyLinkList(ContainerDoublyLinkList c) {
         this.c = c;
         current = c.getHead();
         init = true;
     }
 
-    Node getNext() {
+    NodeDoublyLinkList getNext() {
         if (init) {
             init = false;
         } else {
@@ -40,15 +40,34 @@ public class IteratorDoublyLinkList {
     }
 
     void delete() {
-        Node next = current.right;
+        NodeDoublyLinkList next = current.right;
         c.delete(current);
         current = next;
         init = true;
     }
 }
 
-public class Iterator extends IteratorDoublyLinkList {
+class IteratorPrint extends IteratorDoublyLinkList {
+    public NodePrint current;
+    
+    IteratorPrint(ContainerPrint c) {
+        super(c);
+    }
+    
+    NodePrint getNext() {
+        return (NodePrint)super.getNext();
+    }
+    
+}
+
+public class Iterator extends IteratorPrint {
+    public Node current;
+    
     Iterator(Container c) {
         super(c);
+    }
+    
+    Node getNext() {
+        return (Node)super.getNext();
     }
 }

@@ -85,7 +85,7 @@ class ContainerTimeStamp extends ContainerSizeOf {
         
 }
 
-class ContainerPrint extends ContainerTimeStamp{
+class ContainerPrint extends ContainerTimeStamp {
     public static boolean debug = false;  // set to true for debugging
     
     ContainerPrint(String name) {
