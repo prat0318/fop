@@ -30,6 +30,11 @@ class NodeBasic {
             left = null;
             right = null;
         }
+        
+        public String toString() {
+            return "";
+        }
+
     }
 
  class NodeTimeStamp extends NodeDoublyLinkList {
@@ -39,7 +44,11 @@ class NodeBasic {
         super(d1, d2, d3);
         creation_time = 0;
     }
-    
+ 
+    @Override
+    public String toString() {
+        return (super.toString() + creation_time);
+    }
 }
 
 class NodePrint extends NodeTimeStamp {
@@ -55,7 +64,7 @@ class NodePrint extends NodeTimeStamp {
 
     @Override
     public String toString() {
-        return (data1 + tab + data2 + tab + data3 + tab + creation_time);
+        return (data1 + tab + data2 + tab + data3 + tab);
     }
 }
 

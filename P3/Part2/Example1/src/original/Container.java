@@ -44,6 +44,10 @@ class ContainerDoublyLinkList {
     public NodeDoublyLinkList getHead() {
         return head;
     }
+
+    public void print() {
+        System.out.println(name + "{");
+    }
 }
 
 class ContainerSizeOf extends ContainerDoublyLinkList {
@@ -69,6 +73,13 @@ class ContainerSizeOf extends ContainerDoublyLinkList {
         sizeOf++;
         super.insert(n);
     }
+    
+    @Override
+    public void print() {
+        super.print();
+        System.out.println(" // has " + sizeOf + " elements");
+    }
+
 }
 
 class ContainerTimeStamp extends ContainerSizeOf {
@@ -83,7 +94,10 @@ class ContainerTimeStamp extends ContainerSizeOf {
         super.insert(n);
         n.creation_time = ++counter;
     } 
+      
+    public void print() {
         
+    }
 }
 
 class ContainerPrint extends ContainerTimeStamp {
