@@ -4,34 +4,24 @@
  */
 package original;
 
-/**
- *
- * @author dsb
- */
-public class Container {
 
-    public static boolean debug = false;  // set to true for debugging
-    private String name;
-    private int sizeOf;
-    private Node head;
-    private int counter;
+class ContainerDoublyLinkList {
+    public String name;
+    public NodeDoublyLinkList head;
 
-    Container(String name) {
+    public ContainerDoublyLinkList(String name) {
         this.name = name;
-        sizeOf = 0;
         head = null;
-        counter = 0;
     }
-
-    String getName() {
+    
+    public String getName() {
         return name;
     }
 
-    void delete(Node n) {
+    public void delete(NodeDoublyLinkList n) {
         if (n == null) {
             return;
         }
-        sizeOf--;
         if (n.left != null) {
             n.left.right = n.right;
             n.left = null;
@@ -42,9 +32,7 @@ public class Container {
         }
     }
 
-    void insert(Node n) {
-        sizeOf++;
-        n.creation_time = ++counter;
+    public void insert(NodeDoublyLinkList n) { 
         n.left = null;
         if (head != null) {
             head.left = n;
@@ -53,17 +41,70 @@ public class Container {
         head = n;
     }
 
-    Node getHead() {
+    public NodeDoublyLinkList getHead() {
         return head;
     }
+}
 
-    void print() {
+class ContainerSizeOf extends ContainerDoublyLinkList {
+    public int sizeOf;
+    
+    public ContainerSizeOf(String name) {
+        super(name);
+        sizeOf = 0;
+    }
+    
+    @Override
+    public void delete(NodeDoublyLinkList n) {
+        if (n == null) {
+            return;
+        }
+            
+        sizeOf--;
+        super.delete(n);
+    }
+    
+    @Override
+    public void insert(NodeDoublyLinkList n) {
+        sizeOf++;
+        super.insert(n);
+    }
+}
+
+class ContainerTimeStamp extends ContainerSizeOf {
+    public int counter;
+    
+    public ContainerTimeStamp(String name) {
+        super(name);
+        counter = 0;
+    }
+    
+    public void insert(NodeTimeStamp n) {
+        n.creation_time = ++counter;
+    } 
+        
+}
+
+class ContainerPrint extends ContainerTimeStamp{
+    public static boolean debug = false;  // set to true for debugging
+    
+    ContainerPrint(String name) {
+        super(name);
+    }
+    
+    public void print() {
         System.out.println(name + "{ // has " + sizeOf + " elements");
-        Iterator i = new Iterator(this);
+        IteratorPrint i = new IteratorPrint(this);
         while (i.hasNext()) {
-            Node n = i.getNext();
+            NodePrint n = i.getNext();
             System.out.println("   " + n);
         }
         System.out.println("}");
+    }
+}
+
+public class Container {
+    Container(String name) {
+        super(name);
     }
 }
