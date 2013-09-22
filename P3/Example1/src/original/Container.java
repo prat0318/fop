@@ -80,6 +80,7 @@ class ContainerTimeStamp extends ContainerSizeOf {
     }
     
     public void insert(NodeTimeStamp n) {
+        super.insert(n);
         n.creation_time = ++counter;
     } 
         
