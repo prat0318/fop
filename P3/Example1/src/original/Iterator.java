@@ -8,13 +8,13 @@ package original;
  *
  * @author dsb
  */
-public class Iterator {
+public class IteratorDoublyLinkList {
 
-    Container c;
-    Node current;
+    ContainerDoublyLinkList c;
+    NodeDoublyLinkList current;
     boolean init;
 
-    Iterator(Container c) {
+    IteratorDoublyLinkList(Container c) {
         this.c = c;
         current = c.getHead();
         init = true;
@@ -44,5 +44,11 @@ public class Iterator {
         c.delete(current);
         current = next;
         init = true;
+    }
+}
+
+public class Iterator extends IteratorDoublyLinkList {
+    Iterator(Container c) {
+        super(c);
     }
 }
