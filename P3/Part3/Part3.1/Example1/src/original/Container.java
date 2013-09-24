@@ -55,9 +55,11 @@ class ContainerTimeStamp extends ContainerDoublyLinkList  {
         counter = 0;
     }
     
-    public void insert(NodeTimeStamp n) {
-        super.insert(n);
-        n.creation_time = ++counter;
+    @Override
+    public void insert(NodeDoublyLinkList n) {
+        NodeTimeStamp nodeTimeStamp = (NodeTimeStamp)n;
+        super.insert(nodeTimeStamp);
+        nodeTimeStamp.creation_time = ++counter;
     } 
         
 }
@@ -80,10 +82,10 @@ class ContainerSizeOf extends ContainerTimeStamp {
         super.delete(n);
     }
     
-    @Override
+    @Override 
     public void insert(NodeDoublyLinkList n) {
-        sizeOf++;
         super.insert(n);
+        sizeOf++;
     }
 }
 
