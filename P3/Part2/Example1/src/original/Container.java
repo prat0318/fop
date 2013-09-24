@@ -70,8 +70,8 @@ class ContainerSizeOf extends ContainerDoublyLinkList {
     
     @Override
     public void insert(NodeDoublyLinkList n) {
-        sizeOf++;
         super.insert(n);
+        sizeOf++;
     }
     
     @Override
