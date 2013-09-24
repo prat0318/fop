@@ -50,13 +50,7 @@ class NodeBasic {
     } 
 }
 
-class NodeSizeOf extends NodeTimeStamp {
-    NodeSizeOf(String d1, int d2, int d3) {
-        super(d1,d2,d3);
-    }
-}
-
-class NodePrint extends NodeSizeOf {
+class NodePrint extends NodeTimeStamp {
     NodePrint(String d1, int d2, int d3) {
         super(d1, d2, d3);
         if (ContainerPrint.debug) {

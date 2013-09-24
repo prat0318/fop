@@ -6,30 +6,33 @@ if ! type javac >/dev/null 2>&1; then
   exit 1
 fi
 
-cd P3/Part2/Example1/
+cd Part2/Example1/
 
-jvac -cp . src/original/*.java && echo "Finished Compiling Class Files successfully for Part 2!"
+javac -cp . src/original/*.java && echo "Finished Compiling Class Files successfully for Part 2!"
 
-javac -classpath test/original/:src/original:build/classes/:./junit-4.10.jar:./regressionTest.jar:.  src/original/*.java test/original/*.javai && echo "Finished Compiling Test Files successfully for Part2!"
+javac -classpath test/original/:src/original:build/classes/:./junit-4.10.jar:./regressionTest.jar:.  src/original/*.java test/original/*.java && echo "Finished Compiling Test Files successfully for Part2!"
 
 java -classpath "test:src:junit-4.10.jar:regressionTest.jar" org.junit.runner.JUnitCore original.MainTest
+cd ../..
 
-
-
-cd P3/Part3.1/Example1/
+#Next is the script for Part 3 of the problem
+#Part 3.1 shows the swap of TimeStamp and CreationOF
+cd Part3/Part3.1/Example1/
 
 javac -cp . src/original/*.java && echo "Finished Compiling Class Files successfully for Part3.1!"
 
 javac -classpath test/original/:src/original:build/classes/:./junit-4.10.jar:./regressionTest.jar:.  src/original/*.java test/original/*.java && echo "Finished Compiling Class Files successfully! for Part 3.1"
 
 java -classpath "test:src:junit-4.10.jar:regressionTest.jar" org.junit.runner.JUnitCore original.MainTest
+cd ../../..
 
-cd P3/Part3.2/Example1/
+#Part 3.2 shows the removal of CreationOf feature from the project
+cd Part3/Part3.2/Example1/
 
 javac -cp . src/original/*.java && echo "Finished Compiling Class Files successfully for Part 3.2!"
 
 javac -classpath test/original/:src/original:build/classes/:./junit-4.10.jar:./regressionTest.jar:.  src/original/*.java test/original/*.java && echo "Finished Compiling Class Files successfully for Part 3.2!"
 
 java -classpath "test:src:junit-4.10.jar:regressionTest.jar" org.junit.runner.JUnitCore original.MainTest
-
+cd ../../..
 

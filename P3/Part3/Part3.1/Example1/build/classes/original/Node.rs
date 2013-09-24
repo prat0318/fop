@@ -1,5 +1,0 @@
-original.Node
-original.NodeBasic
-original.NodePrint
-original.NodeTimeStamp
-original.NodeDoublyLinkList

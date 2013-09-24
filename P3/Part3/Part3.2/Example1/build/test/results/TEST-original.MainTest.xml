@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="prat0318" name="original.MainTest" tests="2" time="0.171" timestamp="2013-09-22T06:21:28">
+<testsuite errors="0" failures="0" hostname="prat0318" name="original.MainTest" tests="2" time="0.144" timestamp="2013-09-24T02:59:34">
   <properties>
     <property name="netbeans.autoupdate.country" value="US" />
     <property name="nb.wait.for.caches" value="true" />
@@ -42,7 +42,7 @@
     <property name="copylibs.rebase" value="true" />
     <property name="manifest.available+main.class" value="true" />
     <property name="libs.swing-layout.maven-pom" value="" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner original.MainTest filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/prat0318/Documents/courses/FOP/fop/P3/Part3/Part3.2/Example1/build/test/results/TEST-original.MainTest.xml crashfile=/home/prat0318/Documents/courses/FOP/fop/P3/Part3/Part3.2/Example1/build/junitvmwatcher7570961515006106885.properties propsfile=/home/prat0318/Documents/courses/FOP/fop/P3/Part3/Part3.2/Example1/build/junit8925833866792429090.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner original.MainTest filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/prat0318/Documents/courses/FOP/fop/P3/Part3/Part3.2/Example1/build/test/results/TEST-original.MainTest.xml crashfile=/home/prat0318/Documents/courses/FOP/fop/P3/Part3/Part3.2/Example1/build/junitvmwatcher3974283670336312949.properties propsfile=/home/prat0318/Documents/courses/FOP/fop/P3/Part3/Part3.2/Example1/build/junit7192705564023129699.properties" />
     <property name="build.classes.dir" value="build/classes" />
     <property name="netbeans.accept_license_class" value="org.netbeans.license.AcceptLicense" />
     <property name="jnlp.descriptor" value="application" />
@@ -85,6 +85,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD" />
     <property name="libs.junit.classpath" value="/home/prat0318/netbeans-7.3.1/java/modules/ext/junit-3.8.2.jar" />
     <property name="libs.jaxb.javadoc" value="/home/prat0318/netbeans-7.3.1/ide/docs/jaxb-api-doc.zip" />
+    <property name="org.openide.awt.SwingBrowserImpl.do-not-block-awt" value="true" />
     <property name="ant.home" value="/home/prat0318/netbeans-7.3.1/java/ant" />
     <property name="libs.junit_4.src" value="/home/prat0318/netbeans-7.3.1/java/docs/junit-4.10-sources.jar" />
     <property name="libs.testng.classpath" value="/home/prat0318/netbeans-7.3.1/platform/modules/ext/testng-6.5.1-dist.jar" />
@@ -187,7 +188,6 @@
     <property name="meta.inf.dir" value="src/META-INF" />
     <property name="javadoc.encoding.used" value="UTF-8" />
     <property name="dist.jar" value="dist/Example1.jar" />
-    <property name="netbeans.automatic.build" value="true" />
     <property name="java.runtime.name" value="OpenJDK Runtime Environment" />
     <property name="ant.project.name" value="Example1" />
     <property name="netbeans.hash.code" value="unique=NB_JAVA088672960-cca0-4136-94b4-f433eed9fe4a_f95e46dd-f620-4fe0-86f3-28a25a9df713" />
@@ -312,8 +312,8 @@
     <property name="platform.active" value="default_platform" />
     <property name="awt.toolkit" value="sun.awt.X11.XToolkit" />
   </properties>
-  <testcase classname="original.MainTest" name="testMainNoArgs" time="0.01" />
-  <testcase classname="original.MainTest" name="testMainWArgs" time="0.003" />
+  <testcase classname="original.MainTest" name="testMainWArgs" time="0.013" />
+  <testcase classname="original.MainTest" name="testMainNoArgs" time="0.001" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

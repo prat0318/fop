@@ -50,6 +50,27 @@ class ContainerDoublyLinkList {
     }
 }
 
+class ContainerTimeStamp extends ContainerSizeOf {
+    public int counter;
+    
+    public ContainerTimeStamp(String name) {
+        super(name);
+        counter = 0;
+    }
+    
+    @Override
+    public void insert(NodeDoublyLinkList n) {
+        NodeTimeStamp nodeTimeStamp = (NodeTimeStamp)n;
+        super.insert(nodeTimeStamp);
+        nodeTimeStamp.creation_time = ++counter;
+    } 
+
+    @Override
+    public void print() {
+        super.print();
+    }
+}
+
 class ContainerSizeOf extends ContainerDoublyLinkList {
     public int sizeOf;
     
@@ -80,22 +101,6 @@ class ContainerSizeOf extends ContainerDoublyLinkList {
         System.out.println(" // has " + sizeOf + " elements");
     }
 
-}
-
-class ContainerTimeStamp extends ContainerSizeOf {
-    public int counter;
-    
-    public ContainerTimeStamp(String name) {
-        super(name);
-        counter = 0;
-    }
-    
-    @Override
-    public void insert(NodeDoublyLinkList n) {
-        NodeTimeStamp nodeTimeStamp = (NodeTimeStamp)n;
-        super.insert(nodeTimeStamp);
-        nodeTimeStamp.creation_time = ++counter;
-    } 
 }
 
 class ContainerPrint extends ContainerTimeStamp {

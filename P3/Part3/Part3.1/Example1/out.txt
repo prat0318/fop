@@ -1,48 +1,20 @@
-new node (don  ,19,53)
-new node (karen,19,60)
-new node (alex ,19,92)
-new node (hannah,19,94)
-new node (chief,20,11)
-new node (scarlet,20,7)
-mylist{ // has 0 elements
-get next returns scarlet	 20	 7	 6
+mylist{ // has 6 elements
    scarlet	 20	 7	 6
-get next returns chief	 20	 11	 5
    chief	 20	 11	 5
-get next returns hannah	 19	 94	 4
    hannah	 19	 94	 4
-get next returns alex 	 19	 92	 3
    alex 	 19	 92	 3
-get next returns karen	 19	 60	 2
    karen	 19	 60	 2
-get next returns don  	 19	 53	 1
    don  	 19	 53	 1
 }
-get next returns scarlet	 20	 7	 6
-get next returns chief	 20	 11	 5
-get next returns hannah	 19	 94	 4
-get next returns alex 	 19	 92	 3
-get next returns karen	 19	 60	 2
-get next returns don  	 19	 53	 1
-mylist{ // has -3 elements
-get next returns scarlet	 20	 7	 6
+mylist{ // has 3 elements
    scarlet	 20	 7	 6
-get next returns hannah	 19	 94	 4
    hannah	 19	 94	 4
-get next returns karen	 19	 60	 2
    karen	 19	 60	 2
 }
-new node (kelsey,19,88)
-new node (chili,19,94)
-mylist{ // has -3 elements
-get next returns chili	 19	 94	 8
+mylist{ // has 5 elements
    chili	 19	 94	 8
-get next returns kelsey	 19	 88	 7
    kelsey	 19	 88	 7
-get next returns scarlet	 20	 7	 6
    scarlet	 20	 7	 6
-get next returns hannah	 19	 94	 4
    hannah	 19	 94	 4
-get next returns karen	 19	 60	 2
    karen	 19	 60	 2
 }
