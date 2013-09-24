@@ -46,7 +46,7 @@ class ContainerDoublyLinkList {
     }
 
     public void print() {
-        System.out.println(name + "{");
+        System.out.print(name + "{");
     }
 }
 
@@ -70,8 +70,8 @@ class ContainerSizeOf extends ContainerDoublyLinkList {
     
     @Override
     public void insert(NodeDoublyLinkList n) {
-        sizeOf++;
         super.insert(n);
+        sizeOf++;
     }
     
     @Override
@@ -90,14 +90,12 @@ class ContainerTimeStamp extends ContainerSizeOf {
         counter = 0;
     }
     
-    public void insert(NodeTimeStamp n) {
-        super.insert(n);
-        n.creation_time = ++counter;
+    @Override
+    public void insert(NodeDoublyLinkList n) {
+        NodeTimeStamp nodeTimeStamp = (NodeTimeStamp)n;
+        super.insert(nodeTimeStamp);
+        nodeTimeStamp.creation_time = ++counter;
     } 
-      
-    public void print() {
-        
-    }
 }
 
 class ContainerPrint extends ContainerTimeStamp {
@@ -108,7 +106,7 @@ class ContainerPrint extends ContainerTimeStamp {
     }
     
     public void print() {
-        System.out.println(name + "{ // has " + sizeOf + " elements");
+        super.print();
         IteratorPrint i = new IteratorPrint(this);
         while (i.hasNext()) {
             NodePrint n = i.getNext();

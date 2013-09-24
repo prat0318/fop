@@ -30,6 +30,10 @@ class NodeBasic {
             left = null;
             right = null;
         }
+ 
+        public String toString() {
+            return "";
+        }
     }
 
  class NodeTimeStamp extends NodeDoublyLinkList {
@@ -40,9 +44,19 @@ class NodeBasic {
         creation_time = 0;
     }
     
+    @Override
+    public String toString() {
+        return (creation_time + super.toString());
+    } 
 }
 
-class NodePrint extends NodeTimeStamp {
+class NodeSizeOf extends NodeTimeStamp {
+    NodeSizeOf(String d1, int d2, int d3) {
+        super(d1,d2,d3);
+    }
+}
+
+class NodePrint extends NodeSizeOf {
     NodePrint(String d1, int d2, int d3) {
         super(d1, d2, d3);
         if (ContainerPrint.debug) {
@@ -55,7 +69,7 @@ class NodePrint extends NodeTimeStamp {
 
     @Override
     public String toString() {
-        return (data1 + tab + data2 + tab + data3 + tab + creation_time);
+        return (data1 + tab + data2 + tab + data3 + tab + super.toString());
     }
 }
 

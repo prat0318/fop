@@ -47,7 +47,7 @@ class NodeBasic {
  
     @Override
     public String toString() {
-        return (super.toString() + creation_time);
+        return (creation_time + super.toString());
     }
 }
 
@@ -64,7 +64,7 @@ class NodePrint extends NodeTimeStamp {
 
     @Override
     public String toString() {
-        return (data1 + tab + data2 + tab + data3 + tab);
+        return (data1 + tab + data2 + tab + data3 + tab + super.toString());
     }
 }
 
