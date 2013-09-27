@@ -1,4 +1,4 @@
-layer container;
+layer original;
 
 SoUrCe RooT root "../root/Container.jak"; //created on: Thu Sep 26 19:16:05 CDT 2013
 
@@ -8,11 +8,11 @@ abstract class Container$$root {
     private Node head;
 
     Container$$root( String name ) {
-        this.name = name;
-        containerConstructor();
+        containerConstructor( name );
     }
 
-    void containerConstructor( String name ) {
+    void containerConstructor( String containerName ) {
+        name = containerName;
         head = null;
     }
 
@@ -98,7 +98,7 @@ abstract class Container$$sizeOf extends  Container$$debug {
 
 SoUrCe  counter "../counter/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
 
-class Container extends  Container$$sizeOf {
+abstract class Container$$counter extends  Container$$sizeOf {
 
     private int counter;
 
@@ -112,3 +112,7 @@ class Container extends  Container$$sizeOf {
         n.creation_time = ++counter;
     }
 }
+
+SoUrCe  concrete "../concrete/Container.jak";
+
+class Container extends  Container$$counter {}

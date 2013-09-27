@@ -6,11 +6,11 @@ class Container {
     private Node head;
 
     Container(String name) {
-        containerConstructor();
+        containerConstructor(name);
     }
 
-    void containerConstructor( String name ) {
-        this.name = name;
+    void containerConstructor( String containerName ) {
+        name = containerName;
         head = null;
     }
 

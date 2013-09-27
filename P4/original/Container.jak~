@@ -1,18 +1,18 @@
-layer container;
+layer original;
 
-SoUrCe RooT root "../root/Container.jak"; //created on: Thu Sep 26 19:16:05 CDT 2013
+SoUrCe RooT root "../root/Container.jak";//created on: Thu Sep 26 19:16:05 CDT 2013
 
 abstract class Container$$root {
 
     private String name;
     private Node head;
 
-    Container$$root( String name ) {
-        this.name = name;
-        containerConstructor();
+    Container$$root(String name) {
+        containerConstructor(name);
     }
 
-    void containerConstructor( String name ) {
+    void containerConstructor( String containerName ) {
+        name = containerName;
         head = null;
     }
 
@@ -62,31 +62,31 @@ abstract class Container$$root {
     }
 }
 
-SoUrCe  debug "../debug/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
+SoUrCe  debug "../debug/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
 
-abstract class Container$$debug extends  Container$$root {
+ abstract class Container$$debug extends  Container$$root  {
 
-    public static boolean debug = false; // set to true for debugging
+    public static boolean debug = false;  // set to true for debugging
 }
 
-SoUrCe  sizeOf "../sizeOf/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
+SoUrCe  sizeOf "../sizeOf/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
 
-abstract class Container$$sizeOf extends  Container$$debug {
+ abstract class Container$$sizeOf extends  Container$$debug  {
 
     private int sizeOf;
 
-    void containerConstructor( String name ) {
-        Super( name ).containerConstructor( name );
+    void containerConstructor (String name) {
+        Super(name).containerConstructor(name);
         sizeOf = 0;
     }
 
-    void insert( Node n ) {
-        Super( Node ).insert( n );
+    void insert(Node n) {
+        Super(Node).insert(n);
         sizeOf++;
     }
 
-    void delete( Node n ) {
-        Super( Node ).delete( n );
+    void delete(Node n) {
+        Super(Node).delete(n);
         sizeOf--;
     }
 
@@ -96,19 +96,23 @@ abstract class Container$$sizeOf extends  Container$$debug {
     }
 }
 
-SoUrCe  counter "../counter/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
+SoUrCe  counter "../counter/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
 
-class Container extends  Container$$sizeOf {
+ abstract class Container$$counter extends  Container$$sizeOf  {
 
     private int counter;
 
-    void containerCosntructor( String name ) {
-        Super( String ).containerConstructor( name );
+    void containerCosntructor(String name) {
+        Super(String).containerConstructor(name);
         counter = 0;
     }
 
-    void insert( Node n ) {
-        Super( Node ).insert( n );
+    void insert(Node n) {
+        Super(Node).insert(n);
         n.creation_time = ++counter;
     }
+}
+
+SoUrCe  concrete "../concrete/Container.jak"; class Container extends  Container$$counter  {
+
 }
