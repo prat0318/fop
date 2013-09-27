@@ -1,0 +1,35 @@
+ class Iterator {
+
+    Container c;
+    Node current;
+    boolean init;
+
+    Iterator(Container c) {
+        this.c = c;
+        current = c.getHead();
+        init = true;
+    }
+
+    Node getNext() {
+        if (init) {
+            init = false;
+        } else {
+            current = current.right;
+        }
+        return current;
+    }
+
+    boolean hasNext() {
+        if (init && current != null) {
+            return true;
+        }
+        return (current != null && current.right != null);
+    }
+
+    void delete() {
+        Node next = current.right;
+        c.delete(current);
+        current = next;
+        init = true;
+    }
+}

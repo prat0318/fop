@@ -1,0 +1,13 @@
+refines class Node {
+
+    int creation_time;
+
+    void nodeConstructor(String d1, int d2, int d3) {
+        Super(String, int, int).nodeConstructor(d1, d2, d3);
+        creation_time = 0;
+    }
+
+    public String extra() {
+        return super.extra() + creation_time;
+    }
+}
