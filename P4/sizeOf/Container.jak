@@ -1,0 +1,26 @@
+//created on: Thu Sep 26 19:20:34 CDT 2013
+
+refines class Container {
+
+    private int sizeOf;
+
+    void containerConstructor (String name) {
+        Super(name).containerConstructor(name);
+        sizeOf = 0;
+    }
+
+    void insert(Node n) {
+        Super(Node).insert(n);
+        sizeOf++;
+    }
+
+    void delete(Node n) {
+        Super(Node).delete(n);
+        sizeOf--;
+    }
+
+    @Override
+    String PrintHook() {
+        return Super().PrintHook() + "has " + sizeOf + " elements";
+    }
+}
