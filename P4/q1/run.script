@@ -1,0 +1,29 @@
+cd configurations/AllFeatures
+echo "Compiling configuration with all features..."
+javac -classpath test/original/:src/original:build/classes/:./junit-4.10.jar:./regressionTest.jar:.  src/original/*.java test/original/*.java && echo "Finished Compiling Files successfully!"
+echo "Running the test suite..."
+java -classpath "test:src:junit-4.10.jar:regressionTest.jar" org.junit.runner.JUnitCore original.MainTest
+echo "Test suite completed for all feature configuration"
+
+cd ../Config1
+echo "Compiling configuration with Config 1...features: [sizeOf, counter]"
+javac -classpath test/original/:src/original:build/classes/:./junit-4.10.jar:./regressionTest.jar:.  src/original/*.java test/original/*.java && echo "Finished Compiling Files successfully!"
+echo "Running the test suite..."
+java -classpath "test:src:junit-4.10.jar:regressionTest.jar" org.junit.runner.JUnitCore original.MainTest
+echo "Test suite completed for configuration 1"
+
+cd ../Config2
+echo "Compiling configuration with Config 2...features: [debug, counter]"
+javac -classpath test/original/:src/original:build/classes/:./junit-4.10.jar:./regressionTest.jar:.  src/original/*.java test/original/*.java && echo "Finished Compiling Files successfully!"
+echo "Running the test suite..."
+java -classpath "test:src:junit-4.10.jar:regressionTest.jar" org.junit.runner.JUnitCore original.MainTest
+echo "Test suite completed for configuration 2"
+
+cd ../Config3
+echo "Compiling configuration with Config 3...features: [debug, sizeof]"
+javac -classpath test/original/:src/original:build/classes/:./junit-4.10.jar:./regressionTest.jar:.  src/original/*.java test/original/*.java && echo "Finished Compiling Files successfully!"
+echo "Running the test suite..."
+java -classpath "test:src:junit-4.10.jar:regressionTest.jar" org.junit.runner.JUnitCore original.MainTest
+echo "Test suite completed for configuration 3"
+
+
