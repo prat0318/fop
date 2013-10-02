@@ -8,7 +8,7 @@ package original;
  *
  * @author dsb
  */
-public class Main {
+abstract class Main0 {
 
     /**
      * @param args the command line arguments
@@ -50,4 +50,20 @@ public class Main {
         c.insert(new Node("kelsey", 19, 88));
         c.insert(new Node("chili", 19, 94));
     }
+}
+
+abstract class MainDebug extends Main0 {
+    public static void main(String[] args) {
+        Container.debug = (args != null);   // any command-line arguments, turn on debugging
+        Main0.main(args);
+    }
+}
+
+abstract class MainSizeOf extends MainDebug {
+}
+
+abstract class MainCntr extends MainSizeOf {
+}
+
+class Main extends MainCntr {
 }

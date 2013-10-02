@@ -1,18 +1,20 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package original;
 
- //created on: Thu Sep 26 19:16:05 CDT 2013
-
-abstract class Container$$root {
+/**
+ *
+ * @author dsb
+ */
+abstract class Container0 {
 
     private String name;
     private Node head;
 
-    Container$$root( String name ) {
-        containerConstructor( name );
-    }
-
-    void containerConstructor( String containerName ) {
-        name = containerName;
+    Container0(String name) {
+        this.name = name;
         head = null;
     }
 
@@ -20,23 +22,23 @@ abstract class Container$$root {
         return name;
     }
 
-    void delete( Node n ) {
-        if ( n == null ) {
+    void delete(Node n) {
+        if (n == null) {
             return;
         }
-        if ( n.left != null ) {
+        if (n.left != null) {
             n.left.right = n.right;
             n.left = null;
         }
-        if ( n.right != null ) {
+        if (n.right != null) {
             n.right.left = n.left;
             n.right = null;
         }
     }
 
-    void insert( Node n ) {
+    void insert(Node n) {
         n.left = null;
-        if ( head != null ) {
+        if (head != null) {
             head.left = n;
         }
         n.right = head;
@@ -48,13 +50,13 @@ abstract class Container$$root {
     }
 
     void print() {
-        System.out.println( name +  PrintHook() );
-        Iterator i = new Iterator( ( Container ) ((Container) this) );
-        while ( i.hasNext() ) {
+        System.out.println(name +  PrintHook());
+        Iterator i = new Iterator((Container) this);
+        while (i.hasNext()) {
             Node n = i.getNext();
-            System.out.println( "   " + n );
+            System.out.println("   " + n);
         }
-        System.out.println( "}" );
+        System.out.println("}");
     }
 
     String PrintHook() {
@@ -62,36 +64,30 @@ abstract class Container$$root {
     }
 }
 
- //created on: Thu Sep 26 19:20:34 CDT 2013
-
-abstract class Container$$debug extends  Container$$root {
-
-    public static boolean debug = false;
-      // inherited constructors
-
-
-
-    Container$$debug (  String name ) { super(name); } // set to true for debugging
+abstract class ContainerDebug extends Container0 {
+    public static boolean debug = false;  // set to true for debugging
+    
+    ContainerDebug(String name) {
+        super(name);
+    }
 }
 
- //created on: Thu Sep 26 19:20:34 CDT 2013
-
-abstract class Container$$sizeOf extends  Container$$debug {
+abstract class ContainerSizeOf extends ContainerDebug {
 
     private int sizeOf;
 
-    void containerConstructor( String name ) {
-        super.containerConstructor( name );
+    ContainerSizeOf(String name) {
+        super(name);
         sizeOf = 0;
     }
 
-    void insert( Node n ) {
-        super.insert( n );
+    void insert(Node n) {
+        super.insert(n);
         sizeOf++;
     }
 
-    void delete( Node n ) {
-        super.delete( n );
+    void delete(Node n) {
+        super.delete(n);
         sizeOf--;
     }
 
@@ -99,40 +95,26 @@ abstract class Container$$sizeOf extends  Container$$debug {
     String PrintHook() {
         return super.PrintHook() + "has " + sizeOf + " elements";
     }
-      // inherited constructors
-
-
-
-    Container$$sizeOf (  String name ) { super(name); }
 }
 
- //created on: Thu Sep 26 19:20:34 CDT 2013
-
-abstract class Container$$counter extends  Container$$sizeOf {
+abstract class ContainerCntr extends ContainerSizeOf {
 
     private int counter;
 
-    void containerCosntructor( String name ) {
-        super.containerConstructor( name );
+    ContainerCntr(String name) {
+        super(name);
         counter = 0;
     }
 
-    void insert( Node n ) {
-        super.insert( n );
+    void insert(Node n) {
+        super.insert(n);
         n.creation_time = ++counter;
     }
-      // inherited constructors
-
-
-
-    Container$$counter (  String name ) { super(name); }
 }
 
+public class Container extends ContainerCntr {
 
-
-class Container extends  Container$$counter {
-      // inherited constructors
-
-
-
-    Container (  String name ) { super(name); }}
+    Container(String name) {
+        super(name);
+    }
+}
