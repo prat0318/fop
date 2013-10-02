@@ -1,4 +1,4 @@
-package original;
+package conf1;
 
 
 
@@ -35,37 +35,27 @@ abstract class Node$$rootDel {
 
 
 
-abstract class Node$$debugBasic extends  Node$$rootDel {
-    void nodeConstructor( String d1, int d2, int d3 ) {
-        super.nodeConstructor( d1, d2, d3 );
-        if ( Container.debug ) {
-            System.out.println( "new node (" + d1 + comma + d2 + comma + d3 + ")" );
-        }
-    }
+abstract class Node$$sizeOfBasic extends  Node$$rootDel {
       // inherited constructors
 
 
 
-    Node$$debugBasic (  String d1, int d2, int d3 ) { super(d1, d2, d3); }
-}
+    Node$$sizeOfBasic (  String d1, int d2, int d3 ) { super(d1, d2, d3); }}
 
 
 
-class Node extends  Node$$debugBasic {
-
-    int creation_time;
-
-    void nodeConstructor( String d1, int d2, int d3 ) {
-        super.nodeConstructor( d1, d2, d3 );
-        creation_time = 0;
-    }
-
-    public String extra() {
-        return super.extra() + creation_time;
-    }
+abstract class Node$$sizeofDel extends  Node$$sizeOfBasic {
       // inherited constructors
 
 
 
-    Node (  String d1, int d2, int d3 ) { super(d1, d2, d3); }
-}
+    Node$$sizeofDel (  String d1, int d2, int d3 ) { super(d1, d2, d3); }}
+
+
+
+class Node extends  Node$$sizeofDel {
+      // inherited constructors
+
+
+
+    Node (  String d1, int d2, int d3 ) { super(d1, d2, d3); }}

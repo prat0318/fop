@@ -1,4 +1,4 @@
-layer original;
+layer conf2;
 
 SoUrCe RooT root "../root/Container.jak"; //created on: Thu Sep 26 19:16:05 CDT 2013
 
@@ -103,7 +103,7 @@ abstract class Container$$sizeofDel extends  Container$$sizeOfBasic {
 
 SoUrCe  counterBasic "../counterBasic/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
 
-class Container extends  Container$$sizeofDel {
+abstract class Container$$counterBasic extends  Container$$sizeofDel {
 
     private int counter;
 
@@ -117,3 +117,7 @@ class Container extends  Container$$sizeofDel {
         n.creation_time = ++counter;
     }
 }
+
+SoUrCe  concrete "../concrete/Container.jak";
+
+class Container extends  Container$$counterBasic {}

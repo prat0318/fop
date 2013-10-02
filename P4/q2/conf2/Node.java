@@ -1,4 +1,4 @@
-package original;
+package conf2;
 
 
 
@@ -53,7 +53,7 @@ abstract class Node$$sizeofDel extends  Node$$sizeOfBasic {
 
 
 
-class Node extends  Node$$sizeofDel {
+abstract class Node$$counterBasic extends  Node$$sizeofDel {
 
     int creation_time;
 
@@ -69,5 +69,14 @@ class Node extends  Node$$sizeofDel {
 
 
 
-    Node (  String d1, int d2, int d3 ) { super(d1, d2, d3); }
+    Node$$counterBasic (  String d1, int d2, int d3 ) { super(d1, d2, d3); }
 }
+
+
+
+class Node extends  Node$$counterBasic {
+      // inherited constructors
+
+
+
+    Node (  String d1, int d2, int d3 ) { super(d1, d2, d3); }}

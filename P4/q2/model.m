@@ -1,4 +1,4 @@
-Pr : [counterBasic] [sizeofDel] [sizeOfBasic] [debugBasic] [rootDel] [delete] [sizeOf] [counter] [debug] root :: PL ;
+Pr : concrete [counterBasic] [sizeofDel] [sizeOfBasic] [debugBasic] [rootDel] [delete] [sizeOf] [counter] [debug] root :: PL ;
 
 %%
 debugBasic iff (debug);
@@ -7,6 +7,7 @@ rootDel iff (root and delete);
 sizeOfBasic iff (sizeOf);
 sizeofDel iff (sizeOf and delete);
 ##
+concrete {hidden}
 rootDel {hidden}
 counterBasic {hidden}
 debugBasic {hidden}

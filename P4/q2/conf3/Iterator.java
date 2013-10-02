@@ -1,4 +1,4 @@
-package original;
+package conf3;
 
 
 
@@ -62,7 +62,16 @@ abstract class Iterator$$sizeOfBasic extends  Iterator$$debugBasic {
 
 
 
-class Iterator extends  Iterator$$sizeOfBasic {
+abstract class Iterator$$counterBasic extends  Iterator$$sizeOfBasic {
+      // inherited constructors
+
+
+
+    Iterator$$counterBasic (  Container c ) { super(c); }}
+
+
+
+class Iterator extends  Iterator$$counterBasic {
       // inherited constructors
 
 

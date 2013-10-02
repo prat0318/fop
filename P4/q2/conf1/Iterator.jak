@@ -1,4 +1,4 @@
-layer original;
+layer conf1;
 
 SoUrCe RooT root "../root/Iterator.jak";
 
@@ -45,19 +45,14 @@ abstract class Iterator$$rootDel extends  Iterator$$root {
     }
 }
 
-SoUrCe  debugBasic "../debugBasic/Iterator.jak";
+SoUrCe  sizeOfBasic "../sizeOfBasic/Iterator.jak";
 
-abstract class Iterator$$debugBasic extends  Iterator$$rootDel {
+abstract class Iterator$$sizeOfBasic extends  Iterator$$rootDel {}
 
-    Node getNext() {
-        Node current = super.getNext();
-        if ( Container.debug ) {
-            System.out.println( "get next returns " + current );
-        }
-        return current;
-    }
-}
+SoUrCe  sizeofDel "../sizeofDel/Iterator.jak";
 
-SoUrCe  counterBasic "../counterBasic/Iterator.jak";
+abstract class Iterator$$sizeofDel extends  Iterator$$sizeOfBasic {}
 
-class Iterator extends  Iterator$$debugBasic {}
+SoUrCe  concrete "../concrete/Iterator.jak";
+
+class Iterator extends  Iterator$$sizeofDel {}

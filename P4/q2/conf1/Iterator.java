@@ -1,4 +1,4 @@
-package original;
+package conf1;
 
 
 
@@ -52,25 +52,25 @@ abstract class Iterator$$rootDel extends  Iterator$$root {
 
 
 
-abstract class Iterator$$debugBasic extends  Iterator$$rootDel {
-
-    Node getNext() {
-        Node current = super.getNext();
-        if ( Container.debug ) {
-            System.out.println( "get next returns " + current );
-        }
-        return current;
-    }
+abstract class Iterator$$sizeOfBasic extends  Iterator$$rootDel {
       // inherited constructors
 
 
 
-    Iterator$$debugBasic (  Container c ) { super(c); }
-}
+    Iterator$$sizeOfBasic (  Container c ) { super(c); }}
 
 
 
-class Iterator extends  Iterator$$debugBasic {
+abstract class Iterator$$sizeofDel extends  Iterator$$sizeOfBasic {
+      // inherited constructors
+
+
+
+    Iterator$$sizeofDel (  Container c ) { super(c); }}
+
+
+
+class Iterator extends  Iterator$$sizeofDel {
       // inherited constructors
 
 

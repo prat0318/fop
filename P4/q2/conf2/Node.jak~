@@ -1,4 +1,4 @@
-layer original;
+layer conf2;
 
 SoUrCe RooT rootDel "../rootDel/Node.jak";abstract class Node$$rootDel {
 
@@ -39,7 +39,7 @@ SoUrCe  sizeofDel "../sizeofDel/Node.jak"; abstract class Node$$sizeofDel extend
 
 }
 
-SoUrCe  counterBasic "../counterBasic/Node.jak"; class Node extends  Node$$sizeofDel  {
+SoUrCe  counterBasic "../counterBasic/Node.jak"; abstract class Node$$counterBasic extends  Node$$sizeofDel  {
 
     int creation_time;
 
@@ -51,4 +51,8 @@ SoUrCe  counterBasic "../counterBasic/Node.jak"; class Node extends  Node$$sizeo
     public String extra() {
         return super.extra() + creation_time;
     }
+}
+
+SoUrCe  concrete "../concrete/Node.jak"; class Node extends  Node$$counterBasic  {
+
 }

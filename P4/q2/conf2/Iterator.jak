@@ -1,4 +1,4 @@
-layer original;
+layer conf2;
 
 SoUrCe RooT root "../root/Iterator.jak";
 
@@ -55,4 +55,8 @@ abstract class Iterator$$sizeofDel extends  Iterator$$sizeOfBasic {}
 
 SoUrCe  counterBasic "../counterBasic/Iterator.jak";
 
-class Iterator extends  Iterator$$sizeofDel {}
+abstract class Iterator$$counterBasic extends  Iterator$$sizeofDel {}
+
+SoUrCe  concrete "../concrete/Iterator.jak";
+
+class Iterator extends  Iterator$$counterBasic {}

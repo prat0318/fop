@@ -1,4 +1,4 @@
-package original;
+package conf1;
 
  //created on: Thu Sep 26 19:16:05 CDT 2013
 
@@ -75,34 +75,52 @@ abstract class Container$$rootDel extends  Container$$root {
 
  //created on: Thu Sep 26 19:20:34 CDT 2013
 
-abstract class Container$$debugBasic extends  Container$$rootDel {
+abstract class Container$$sizeOfBasic extends  Container$$rootDel {
 
-    public static boolean debug = false;
-      // inherited constructors
+    public int sizeOf;
 
-
-
-    Container$$debugBasic (  String name ) { super(name); } // set to true for debugging
-}
-
- //created on: Thu Sep 26 19:20:34 CDT 2013
-
-class Container extends  Container$$debugBasic {
-
-    private int counter;
-
-    void containerCosntructor( String name ) {
+    void containerConstructor( String name ) {
         super.containerConstructor( name );
-        counter = 0;
+        sizeOf = 0;
     }
 
     void insert( Node n ) {
         super.insert( n );
-        n.creation_time = ++counter;
+        sizeOf++;
+    }
+
+    @Override
+    String PrintHook() {
+        return super.PrintHook() + "has " + sizeOf + " elements";
     }
       // inherited constructors
 
 
 
-    Container (  String name ) { super(name); }
+    Container$$sizeOfBasic (  String name ) { super(name); }
 }
+
+ //created on: Thu Sep 26 19:20:34 CDT 2013
+
+abstract class Container$$sizeofDel extends  Container$$sizeOfBasic {
+
+    void delete( Node n ) {
+        super.delete( n );
+        sizeOf--;
+    }
+      // inherited constructors
+
+
+
+    Container$$sizeofDel (  String name ) { super(name); }
+
+}
+
+
+
+class Container extends  Container$$sizeofDel {
+      // inherited constructors
+
+
+
+    Container (  String name ) { super(name); }}

@@ -1,4 +1,4 @@
-package original;
+package conf2;
 
  //created on: Thu Sep 26 19:16:05 CDT 2013
 
@@ -118,7 +118,7 @@ abstract class Container$$sizeofDel extends  Container$$sizeOfBasic {
 
  //created on: Thu Sep 26 19:20:34 CDT 2013
 
-class Container extends  Container$$sizeofDel {
+abstract class Container$$counterBasic extends  Container$$sizeofDel {
 
     private int counter;
 
@@ -135,5 +135,14 @@ class Container extends  Container$$sizeofDel {
 
 
 
-    Container (  String name ) { super(name); }
+    Container$$counterBasic (  String name ) { super(name); }
 }
+
+
+
+class Container extends  Container$$counterBasic {
+      // inherited constructors
+
+
+
+    Container (  String name ) { super(name); }}

@@ -1,4 +1,4 @@
-layer original;
+layer conf1;
 
 SoUrCe RooT rootDel "../rootDel/Node.jak";
 
@@ -33,29 +33,14 @@ abstract class Node$$rootDel {
     }
 }
 
-SoUrCe  debugBasic "../debugBasic/Node.jak";
+SoUrCe  sizeOfBasic "../sizeOfBasic/Node.jak";
 
-abstract class Node$$debugBasic extends  Node$$rootDel {
-    void nodeConstructor( String d1, int d2, int d3 ) {
-        Super( String, int, int ).nodeConstructor( d1, d2, d3 );
-        if ( Container.debug ) {
-            System.out.println( "new node (" + d1 + comma + d2 + comma + d3 + ")" );
-        }
-    }
-}
+abstract class Node$$sizeOfBasic extends  Node$$rootDel {}
 
-SoUrCe  counterBasic "../counterBasic/Node.jak";
+SoUrCe  sizeofDel "../sizeofDel/Node.jak";
 
-class Node extends  Node$$debugBasic {
+abstract class Node$$sizeofDel extends  Node$$sizeOfBasic {}
 
-    int creation_time;
+SoUrCe  concrete "../concrete/Node.jak";
 
-    void nodeConstructor( String d1, int d2, int d3 ) {
-        Super( String, int, int ).nodeConstructor( d1, d2, d3 );
-        creation_time = 0;
-    }
-
-    public String extra() {
-        return super.extra() + creation_time;
-    }
-}
+class Node extends  Node$$sizeofDel {}
