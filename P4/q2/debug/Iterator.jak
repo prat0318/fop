@@ -1,0 +1,10 @@
+refines class Iterator {
+
+    Node getNext() {
+        Node current = super.getNext();
+        if (Container.debug) {
+            System.out.println("get next returns " + current);
+        }
+        return current;
+    }
+}

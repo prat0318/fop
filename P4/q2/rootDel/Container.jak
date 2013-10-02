@@ -1,0 +1,19 @@
+//created on: Thu Sep 26 19:16:05 CDT 2013
+
+refines class Container {
+
+    void delete( Node n ) {
+        if ( n == null ) {
+            return;
+        }
+        if ( n.left != null ) {
+            n.left.right = n.right;
+            n.left = null;
+        }
+        if ( n.right != null ) {
+            n.right.left = n.left;
+            n.right = null;
+        }
+    }
+
+}

@@ -1,0 +1,10 @@
+//created on: Thu Sep 26 19:20:34 CDT 2013
+
+refines class Container {
+
+    void delete(Node n) {
+        Super(Node).delete(n);
+        sizeOf--;
+    }
+
+}

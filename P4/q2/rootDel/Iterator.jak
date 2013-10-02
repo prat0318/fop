@@ -1,0 +1,9 @@
+ refines class Iterator {
+
+    void delete() {
+        Node next = current.right;
+        c.delete(current);
+        current = next;
+        init = true;
+    }
+}

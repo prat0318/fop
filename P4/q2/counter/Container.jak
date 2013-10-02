@@ -1,0 +1,16 @@
+//created on: Thu Sep 26 19:20:34 CDT 2013
+
+refines class Container {
+
+    private int counter;
+
+    void containerCosntructor(String name) {
+        Super(String).containerConstructor(name);
+        counter = 0;
+    }
+
+    void insert(Node n) {
+        Super(Node).insert(n);
+        n.creation_time = ++counter;
+    }
+}

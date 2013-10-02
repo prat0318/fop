@@ -1,0 +1,6 @@
+//created on: Thu Sep 26 19:20:34 CDT 2013
+
+refines class Container {
+
+    public static boolean debug = false;  // set to true for debugging
+}
