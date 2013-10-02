@@ -1,85 +1,81 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package original;
 
-
-
-abstract class Iterator$$root {
+/**
+ *
+ * @author dsb
+ */
+abstract class Iterator0 {
 
     Container c;
     Node current;
     boolean init;
 
-    Iterator$$root( Container c ) {
+    Iterator0(Container c) {
         this.c = c;
         current = c.getHead();
         init = true;
     }
 
     Node getNext() {
-        if ( init ) {
+        if (init) {
             init = false;
-        }
-        else {
+        } else {
             current = current.right;
         }
         return current;
     }
 
     boolean hasNext() {
-        if ( init && current != null ) {
+        if (init && current != null) {
             return true;
         }
-        return ( current != null && current.right != null );
+        return (current != null && current.right != null);
     }
 
     void delete() {
         Node next = current.right;
-        c.delete( current );
+        c.delete(current);
         current = next;
         init = true;
     }
 }
 
+abstract class IteratorDebug extends Iterator0 {
 
-
-abstract class Iterator$$debug extends  Iterator$$root {
+    IteratorDebug(Container c) {
+        super(c);
+    }
 
     Node getNext() {
         Node current = super.getNext();
-        if ( Container.debug ) {
-            System.out.println( "get next returns " + current );
+        if (Container.debug) {
+            System.out.println("get next returns " + current);
         }
         return current;
     }
-      // inherited constructors
-
-
-
-    Iterator$$debug (  Container c ) { super(c); }
 }
 
+abstract class IteratorSizeOf extends IteratorDebug {
 
+    IteratorSizeOf(Container c) {
+        super(c);
+    }
+}
 
-abstract class Iterator$$sizeOf extends  Iterator$$debug {
-      // inherited constructors
+abstract class IteratorCntr extends IteratorSizeOf {
 
+    IteratorCntr(Container c) {
+        super(c);
+    }
+}
 
+class Iterator extends IteratorCntr {
 
-    Iterator$$sizeOf (  Container c ) { super(c); }}
-
-
-
-abstract class Iterator$$counter extends  Iterator$$sizeOf {
-      // inherited constructors
-
-
-
-    Iterator$$counter (  Container c ) { super(c); }}
-
-
-
-class Iterator extends  Iterator$$counter {
-      // inherited constructors
-
-
-
-    Iterator (  Container c ) { super(c); }}
+    Iterator(Container c) {
+        super(c);
+    }
+}
