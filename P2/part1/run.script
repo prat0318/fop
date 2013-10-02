@@ -1,0 +1,13 @@
+swipl -f constraints.pl -s databases/eatinghabits_db.pl -g "writeln('1. Executing constraints file against the eatinghabits database:\n'),list_invalid_constraints." -t halt --quiet
+
+swipl -f constraints.pl -s databases/eatinghabits_db_with_errors.pl -g "writeln('\n----\n2. Executing constraints file against the eatinghabits database having errors:\n'),list_invalid_constraints." -t halt --quiet
+
+swipl -f constraints.pl -s databases/fsm10.pl -g "writeln('\n----\n3. Executing constraints file against the fsm10 database:\n'),list_invalid_constraints." -t halt --quiet
+
+swipl -f constraints.pl -s databases/fsm20.pl -g "writeln('\n----\n4. Executing constraints file against the fsm20 database:\n'),list_invalid_constraints." -t halt --quiet
+
+swipl -f constraints.pl -s databases/fsm30.pl -g "writeln('\n----\n5. Executing constraints file against the fsm30 database:\n'),list_invalid_constraints." -t halt --quiet
+
+swipl -f constraints.pl -s databases/progAss1_part3_db.pl -g "writeln('\n----\n6. Executing constraints file against the Program Assignment1\'s database:\n'),list_invalid_constraints." -t halt --quiet
+
+swipl -f constraints.pl -s databases/progAss1_part3_db_with_errors.pl -g "writeln('\n----\n7. Executing constraints file against the Program Assignment1\'s database with errors:\n'),list_invalid_constraints." -t halt --quiet

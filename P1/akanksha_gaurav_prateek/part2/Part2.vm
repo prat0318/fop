@@ -1,0 +1,47 @@
+## ASSIGNMENT 1 Part2##
+## Team Members: Akanksha Bansal, Gaurav Nanda, Prateek Aggarwal. ##
+
+#set($MARKER="//----")
+## Code to generate the fsm2 class .
+
+${MARKER}fsm2.java
+public class fsm2 implements common{
+#set($enumString="#foreach($node in $nodeS) ${node.name} ,#end }")
+##foreach($node in $nodeS) $enumString=${enumString}.add(${node.name}) , #end })
+##${enumString}.replace(", }", "}"
+
+    public enum states {${enumString.replace(", }", "}")} 
+   
+    states current = states.start; 
+
+    public String getName() { return current.toString(); }
+
+##Functions for each node 
+#foreach($node in $nodeS)
+    public void goto${node.name}(){
+        switch(current) {
+#foreach($transition in $transitionS)
+#if (${node.nodeid} == ${transition.endsAt})
+#set($nodeName="")
+#foreach($node in $nodeS)
+#if (${transition.startsAt}==${node.nodeid})
+#set($nodeName=${node.name})
+#end
+#end
+        case ${nodeName} : current = states.${node.name} ; break; 
+#end 
+#end
+        default: /* no change */ 
+        } 
+    } 
+#end
+}
+
+## Generate the common interface.
+${MARKER}common.java
+public interface common {
+#foreach($node in $nodeS)
+    public void goto${node.name}();
+#end
+    public String getName();
+}

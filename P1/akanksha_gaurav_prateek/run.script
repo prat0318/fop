@@ -1,0 +1,71 @@
+#NOTE : RUNS ON UNIX/LINUX ENVIRONMENT
+
+echo "Generating Java source code for Part1.vm ..."
+
+cd part1
+java -classpath ..:../MDELiteReduced/MDELite2.3.jar CoreMDELite.vm2t.Main ../data.pl Part1.vm
+
+echo "Part-1 source code generation complete. Source code in ./part1/" 
+echo ""
+
+echo "Generating Java source code for Part2.vm ..."
+
+cd ../part2
+java -classpath ..:../MDELiteReduced/MDELite2.3.jar CoreMDELite.vm2t.Main ../data.pl Part2.vm
+
+echo "Part-2 source code generation complete. Source code in ./part2/" 
+echo ""
+
+cd ..
+\rm -rf app.class
+\rm -rf ./part1/classes
+\rm -rf ./part2/classes
+
+echo "Compiling all the java source code."
+
+mkdir ./part1/classes && javac -d ./part1/classes/ ./part1/*.java
+mkdir ./part2/classes && javac -d ./part2/classes/ ./part2/*.java
+javac -classpath ./part1/classes:./part2/classes app.java
+
+echo "Source code compilation completed."
+echo ""
+
+echo "Testing Part-1 and Part-2 by executing app.java... "
+
+java -classpath .:./part1/classes:./part2/classes app
+
+echo ""
+echo "Now running the Part-3 for the custom created FSM."
+
+echo ""
+
+echo "Generating Java source code for Part3.pl against Part1.vm ..."
+
+cd part3
+java -classpath .:../MDELiteReduced/MDELite2.3.jar CoreMDELite.vm2t.Main part3.pl ../part1/Part1.vm
+
+echo "Part-3 source code generation completed for Part1.vm."
+echo ""
+
+echo "Generating Java source code for Part3.pl against Part2.vm ..."
+
+java -classpath .:../MDELiteReduced/MDELite2.3.jar CoreMDELite.vm2t.Main part3.pl ../part2/Part2.vm
+
+echo "Part-3 source code generation completed for Part2.vm."
+echo ""
+
+echo "Compiling java source code for Part-3."
+
+cd ..
+\rm -rf ./part3/classes
+\rm -rf app_part3.class
+mkdir ./part3/classes && javac -d ./part3/classes ./part3/*.java
+javac -classpath ./part3/classes app_part3.java
+
+echo "Source code compilation completed."
+echo ""
+
+echo "Executing Part-3 Tester (app_part3.java)... Expect two 'stop' response statements."
+java -classpath .:./part3/classes app_part3
+echo "Part-3 Tester execution complete."
+echo ""
