@@ -16,7 +16,6 @@ public class Main {
     static Container c;
 
     public static void main(String[] args) {
-        Container.debug = (args != null);   // any command-line arguments, turn on debugging
 
         c = new Container("mylist");
         c.insert(new Node("don  ", 19, 53));
