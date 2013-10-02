@@ -1,6 +1,6 @@
-layer conf1;
+package original;
 
-SoUrCe RooT root "../root/Iterator.jak";
+
 
 abstract class Iterator$$root {
 
@@ -33,7 +33,7 @@ abstract class Iterator$$root {
 
 }
 
-SoUrCe  rootDel "../rootDel/Iterator.jak";
+
 
 abstract class Iterator$$rootDel extends  Iterator$$root {
 
@@ -43,16 +43,36 @@ abstract class Iterator$$rootDel extends  Iterator$$root {
         current = next;
         init = true;
     }
+      // inherited constructors
+
+
+
+    Iterator$$rootDel (  Container c ) { super(c); }
 }
 
-SoUrCe  sizeOfBasic "../sizeOfBasic/Iterator.jak";
 
-abstract class Iterator$$sizeOfBasic extends  Iterator$$rootDel {}
 
-SoUrCe  sizeofDel "../sizeofDel/Iterator.jak";
+abstract class Iterator$$sizeOfBasic extends  Iterator$$rootDel {
+      // inherited constructors
 
-abstract class Iterator$$sizeofDel extends  Iterator$$sizeOfBasic {}
 
-SoUrCe  concrete "../concrete/Iterator.jak";
 
-class Iterator extends  Iterator$$sizeofDel {}
+    Iterator$$sizeOfBasic (  Container c ) { super(c); }}
+
+
+
+abstract class Iterator$$sizeofDel extends  Iterator$$sizeOfBasic {
+      // inherited constructors
+
+
+
+    Iterator$$sizeofDel (  Container c ) { super(c); }}
+
+
+
+class Iterator extends  Iterator$$sizeofDel {
+      // inherited constructors
+
+
+
+    Iterator (  Container c ) { super(c); }}

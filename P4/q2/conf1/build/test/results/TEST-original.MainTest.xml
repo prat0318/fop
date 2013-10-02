@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="prat0318" name="original.MainTest" tests="2" time="0.172" timestamp="2013-10-02T09:07:30">
+<testsuite errors="0" failures="0" hostname="prat0318" name="original.MainTest" tests="2" time="0.243" timestamp="2013-10-02T09:34:58">
   <properties>
     <property name="netbeans.autoupdate.country" value="US" />
     <property name="nb.wait.for.caches" value="true" />
@@ -43,7 +43,7 @@
     <property name="copylibs.rebase" value="true" />
     <property name="manifest.available+main.class" value="true" />
     <property name="libs.swing-layout.maven-pom" value="" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner original.MainTest filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/prat0318/Documents/courses/FOP/fop/P4/q2/conf1/build/test/results/TEST-original.MainTest.xml crashfile=/home/prat0318/Documents/courses/FOP/fop/P4/q2/conf1/build/junitvmwatcher196316293424431646.properties propsfile=/home/prat0318/Documents/courses/FOP/fop/P4/q2/conf1/build/junit2877111167005425499.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner original.MainTest filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/home/prat0318/Documents/courses/FOP/fop/P4/q2/conf1/build/test/results/TEST-original.MainTest.xml crashfile=/home/prat0318/Documents/courses/FOP/fop/P4/q2/conf1/build/junitvmwatcher3096686177291860925.properties propsfile=/home/prat0318/Documents/courses/FOP/fop/P4/q2/conf1/build/junit2440141232710733793.properties" />
     <property name="build.classes.dir" value="build/classes" />
     <property name="netbeans.accept_license_class" value="org.netbeans.license.AcceptLicense" />
     <property name="jnlp.descriptor" value="application" />

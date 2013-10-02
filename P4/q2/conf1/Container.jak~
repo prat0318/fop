@@ -1,14 +1,14 @@
 layer conf1;
 
-SoUrCe RooT root "../root/Container.jak"; //created on: Thu Sep 26 19:16:05 CDT 2013
+SoUrCe RooT root "../root/Container.jak";//created on: Thu Sep 26 19:16:05 CDT 2013
 
 abstract class Container$$root {
 
     private String name;
     private Node head;
 
-    Container$$root( String name ) {
-        containerConstructor( name );
+    Container$$root(String name) {
+        containerConstructor(name);
     }
 
     void containerConstructor( String containerName ) {
@@ -48,9 +48,9 @@ abstract class Container$$root {
     }
 }
 
-SoUrCe  rootDel "../rootDel/Container.jak"; //created on: Thu Sep 26 19:16:05 CDT 2013
+SoUrCe  rootDel "../rootDel/Container.jak";//created on: Thu Sep 26 19:16:05 CDT 2013
 
-abstract class Container$$rootDel extends  Container$$root {
+ abstract class Container$$rootDel extends  Container$$root  {
 
     void delete( Node n ) {
         if ( n == null ) {
@@ -68,19 +68,19 @@ abstract class Container$$rootDel extends  Container$$root {
 
 }
 
-SoUrCe  sizeOfBasic "../sizeOfBasic/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
+SoUrCe  sizeOfBasic "../sizeOfBasic/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
 
-abstract class Container$$sizeOfBasic extends  Container$$rootDel {
+ abstract class Container$$sizeOfBasic extends  Container$$rootDel  {
 
     public int sizeOf;
 
-    void containerConstructor( String name ) {
-        Super( name ).containerConstructor( name );
+    void containerConstructor (String name) {
+        Super(name).containerConstructor(name);
         sizeOf = 0;
     }
 
-    void insert( Node n ) {
-        Super( Node ).insert( n );
+    void insert(Node n) {
+        Super(Node).insert(n);
         sizeOf++;
     }
 
@@ -90,17 +90,17 @@ abstract class Container$$sizeOfBasic extends  Container$$rootDel {
     }
 }
 
-SoUrCe  sizeofDel "../sizeofDel/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
+SoUrCe  sizeofDel "../sizeofDel/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
 
-abstract class Container$$sizeofDel extends  Container$$sizeOfBasic {
+ abstract class Container$$sizeofDel extends  Container$$sizeOfBasic  {
 
-    void delete( Node n ) {
-        Super( Node ).delete( n );
+    void delete(Node n) {
+        Super(Node).delete(n);
         sizeOf--;
     }
 
 }
 
-SoUrCe  concrete "../concrete/Container.jak";
+SoUrCe  concrete "../concrete/Container.jak"; class Container extends  Container$$sizeofDel  {
 
-class Container extends  Container$$sizeofDel {}
+}
