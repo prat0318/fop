@@ -68,35 +68,26 @@ SoUrCe  rootDel "../rootDel/Container.jak";//created on: Thu Sep 26 19:16:05 CDT
 
 }
 
-SoUrCe  sizeOfBasic "../sizeOfBasic/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
+SoUrCe  debugBasic "../debugBasic/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
 
- abstract class Container$$sizeOfBasic extends  Container$$rootDel  {
+ abstract class Container$$debugBasic extends  Container$$rootDel  {
 
-    public int sizeOf;
+    public static boolean debug = false;  // set to true for debugging
+}
 
-    void containerConstructor (String name) {
-        Super(name).containerConstructor(name);
-        sizeOf = 0;
+SoUrCe  counterBasic "../counterBasic/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
+
+ class Container extends  Container$$debugBasic  {
+
+    private int counter;
+
+    void containerCosntructor(String name) {
+        Super(String).containerConstructor(name);
+        counter = 0;
     }
 
     void insert(Node n) {
         Super(Node).insert(n);
-        sizeOf++;
+        n.creation_time = ++counter;
     }
-
-    @Override
-    String PrintHook() {
-        return Super().PrintHook() + "has " + sizeOf + " elements";
-    }
-}
-
-SoUrCe  sizeofDel "../sizeofDel/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
-
- class Container extends  Container$$sizeOfBasic  {
-
-    void delete(Node n) {
-        Super(Node).delete(n);
-        sizeOf--;
-    }
-
 }

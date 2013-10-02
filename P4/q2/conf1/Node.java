@@ -35,18 +35,37 @@ abstract class Node$$rootDel {
 
 
 
-abstract class Node$$sizeOfBasic extends  Node$$rootDel {
+abstract class Node$$debugBasic extends  Node$$rootDel {
+    void nodeConstructor( String d1, int d2, int d3 ) {
+        super.nodeConstructor( d1, d2, d3 );
+        if ( Container.debug ) {
+            System.out.println( "new node (" + d1 + comma + d2 + comma + d3 + ")" );
+        }
+    }
       // inherited constructors
 
 
 
-    Node$$sizeOfBasic (  String d1, int d2, int d3 ) { super(d1, d2, d3); }}
+    Node$$debugBasic (  String d1, int d2, int d3 ) { super(d1, d2, d3); }
+}
 
 
 
-class Node extends  Node$$sizeOfBasic {
+class Node extends  Node$$debugBasic {
+
+    int creation_time;
+
+    void nodeConstructor( String d1, int d2, int d3 ) {
+        super.nodeConstructor( d1, d2, d3 );
+        creation_time = 0;
+    }
+
+    public String extra() {
+        return super.extra() + creation_time;
+    }
       // inherited constructors
 
 
 
-    Node (  String d1, int d2, int d3 ) { super(d1, d2, d3); }}
+    Node (  String d1, int d2, int d3 ) { super(d1, d2, d3); }
+}

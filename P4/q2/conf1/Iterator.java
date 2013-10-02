@@ -1,6 +1,6 @@
-layer original;
+package original;
 
-SoUrCe RooT root "../root/Iterator.jak";
+
 
 abstract class Iterator$$root {
 
@@ -33,7 +33,7 @@ abstract class Iterator$$root {
 
 }
 
-SoUrCe  rootDel "../rootDel/Iterator.jak";
+
 
 abstract class Iterator$$rootDel extends  Iterator$$root {
 
@@ -43,12 +43,36 @@ abstract class Iterator$$rootDel extends  Iterator$$root {
         current = next;
         init = true;
     }
+      // inherited constructors
+
+
+
+    Iterator$$rootDel (  Container c ) { super(c); }
 }
 
-SoUrCe  sizeOfBasic "../sizeOfBasic/Iterator.jak";
 
-abstract class Iterator$$sizeOfBasic extends  Iterator$$rootDel {}
 
-SoUrCe  sizeofDel "../sizeofDel/Iterator.jak";
+abstract class Iterator$$debugBasic extends  Iterator$$rootDel {
 
-class Iterator extends  Iterator$$sizeOfBasic {}
+    Node getNext() {
+        Node current = super.getNext();
+        if ( Container.debug ) {
+            System.out.println( "get next returns " + current );
+        }
+        return current;
+    }
+      // inherited constructors
+
+
+
+    Iterator$$debugBasic (  Container c ) { super(c); }
+}
+
+
+
+class Iterator extends  Iterator$$debugBasic {
+      // inherited constructors
+
+
+
+    Iterator (  Container c ) { super(c); }}

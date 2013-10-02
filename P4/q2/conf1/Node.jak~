@@ -31,10 +31,25 @@ SoUrCe RooT rootDel "../rootDel/Node.jak";abstract class Node$$rootDel {
     }
 }
 
-SoUrCe  sizeOfBasic "../sizeOfBasic/Node.jak"; abstract class Node$$sizeOfBasic extends  Node$$rootDel  {
-
+SoUrCe  debugBasic "../debugBasic/Node.jak"; abstract class Node$$debugBasic extends  Node$$rootDel  {
+    void nodeConstructor(String d1, int d2, int d3) {
+        Super(String, int, int).nodeConstructor(d1, d2, d3);
+        if (Container.debug) {
+            System.out.println("new node (" + d1 + comma + d2 + comma + d3 + ")");
+        }
+    }
 }
 
-SoUrCe  sizeofDel "../sizeofDel/Node.jak"; class Node extends  Node$$sizeOfBasic  {
+SoUrCe  counterBasic "../counterBasic/Node.jak"; class Node extends  Node$$debugBasic  {
 
+    int creation_time;
+
+    void nodeConstructor(String d1, int d2, int d3) {
+        Super(String, int, int).nodeConstructor(d1, d2, d3);
+        creation_time = 0;
+    }
+
+    public String extra() {
+        return super.extra() + creation_time;
+    }
 }
