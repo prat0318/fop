@@ -1,0 +1,55 @@
+layer original;
+
+SoUrCe RooT root "../root/Iterator.jak";
+
+abstract class Iterator$$root {
+
+    Container c;
+    Node current;
+    boolean init;
+
+    Iterator$$root( Container c ) {
+        this.c = c;
+        current = c.getHead();
+        init = true;
+    }
+
+    Node getNext() {
+        if ( init ) {
+            init = false;
+        }
+        else {
+            current = current.right;
+        }
+        return current;
+    }
+
+    boolean hasNext() {
+        if ( init && current != null ) {
+            return true;
+        }
+        return ( current != null && current.right != null );
+    }
+
+}
+
+SoUrCe  debugBasic "../debugBasic/Iterator.jak";
+
+abstract class Iterator$$debugBasic extends  Iterator$$root {
+
+    Node getNext() {
+        Node current = super.getNext();
+        if ( Container.debug ) {
+            System.out.println( "get next returns " + current );
+        }
+        return current;
+    }
+}
+
+SoUrCe  sizeOfBasic "../sizeOfBasic/Iterator.jak";
+
+abstract class Iterator$$sizeOfBasic extends  Iterator$$debugBasic {}
+
+SoUrCe  counterBasic "../counterBasic/Iterator.jak";
+
+class Iterator extends  Iterator$$sizeOfBasic {}
