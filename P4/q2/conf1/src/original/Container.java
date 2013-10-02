@@ -1,14 +1,14 @@
-layer conf1;
+package original;
 
-SoUrCe RooT root "../root/Container.jak";//created on: Thu Sep 26 19:16:05 CDT 2013
+ //created on: Thu Sep 26 19:16:05 CDT 2013
 
 abstract class Container$$root {
 
     private String name;
     private Node head;
 
-    Container$$root(String name) {
-        containerConstructor(name);
+    Container$$root( String name ) {
+        containerConstructor( name );
     }
 
     void containerConstructor( String containerName ) {
@@ -35,7 +35,7 @@ abstract class Container$$root {
 
     void print() {
         System.out.println( name +  PrintHook() );
-        Iterator i = new Iterator( ( Container ) this );
+        Iterator i = new Iterator( ( Container ) ((Container) this) );
         while ( i.hasNext() ) {
             Node n = i.getNext();
             System.out.println( "   " + n );
@@ -48,9 +48,9 @@ abstract class Container$$root {
     }
 }
 
-SoUrCe  rootDel "../rootDel/Container.jak";//created on: Thu Sep 26 19:16:05 CDT 2013
+ //created on: Thu Sep 26 19:16:05 CDT 2013
 
- abstract class Container$$rootDel extends  Container$$root  {
+abstract class Container$$rootDel extends  Container$$root {
 
     void delete( Node n ) {
         if ( n == null ) {
@@ -65,38 +65,53 @@ SoUrCe  rootDel "../rootDel/Container.jak";//created on: Thu Sep 26 19:16:05 CDT
             n.right = null;
         }
     }
+      // inherited constructors
+
+
+
+    Container$$rootDel (  String name ) { super(name); }
 
 }
 
-SoUrCe  sizeOfBasic "../sizeOfBasic/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
+ //created on: Thu Sep 26 19:20:34 CDT 2013
 
- abstract class Container$$sizeOfBasic extends  Container$$rootDel  {
+abstract class Container$$sizeOfBasic extends  Container$$rootDel {
 
     public int sizeOf;
 
-    void containerConstructor (String name) {
-        Super(name).containerConstructor(name);
+    void containerConstructor( String name ) {
+        super.containerConstructor( name );
         sizeOf = 0;
     }
 
-    void insert(Node n) {
-        Super(Node).insert(n);
+    void insert( Node n ) {
+        super.insert( n );
         sizeOf++;
     }
 
     @Override
     String PrintHook() {
-        return Super().PrintHook() + "has " + sizeOf + " elements";
+        return super.PrintHook() + "has " + sizeOf + " elements";
     }
+      // inherited constructors
+
+
+
+    Container$$sizeOfBasic (  String name ) { super(name); }
 }
 
-SoUrCe  sizeofDel "../sizeofDel/Container.jak";//created on: Thu Sep 26 19:20:34 CDT 2013
+ //created on: Thu Sep 26 19:20:34 CDT 2013
 
- class Container extends  Container$$sizeOfBasic  {
+class Container extends  Container$$sizeOfBasic {
 
-    void delete(Node n) {
-        Super(Node).delete(n);
+    void delete( Node n ) {
+        super.delete( n );
         sizeOf--;
     }
+      // inherited constructors
+
+
+
+    Container (  String name ) { super(name); }
 
 }

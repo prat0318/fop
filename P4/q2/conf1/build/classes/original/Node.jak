@@ -1,16 +1,18 @@
 layer conf1;
 
-SoUrCe RooT rootDel "../rootDel/Node.jak";abstract class Node$$rootDel {
+SoUrCe RooT rootDel "../rootDel/Node.jak";
+
+abstract class Node$$rootDel {
 
     String data1;
     int data2, data3;
     Node left, right;
 
     Node$$rootDel( String d1, int d2, int d3 ) {
-        nodeConstructor(d1,d2,d3);
+        nodeConstructor( d1,d2,d3 );
     }
 
-    void nodeConstructor(String d1, int d2, int d3) {
+    void nodeConstructor( String d1, int d2, int d3 ) {
         this.data1 = d1;
         this.data2 = d2;
         this.data3 = d3;
@@ -31,10 +33,10 @@ SoUrCe RooT rootDel "../rootDel/Node.jak";abstract class Node$$rootDel {
     }
 }
 
-SoUrCe  sizeOfBasic "../sizeOfBasic/Node.jak"; abstract class Node$$sizeOfBasic extends  Node$$rootDel  {
+SoUrCe  sizeOfBasic "../sizeOfBasic/Node.jak";
 
-}
+abstract class Node$$sizeOfBasic extends  Node$$rootDel {}
 
-SoUrCe  sizeofDel "../sizeofDel/Node.jak"; class Node extends  Node$$sizeOfBasic  {
+SoUrCe  sizeofDel "../sizeofDel/Node.jak";
 
-}
+class Node extends  Node$$sizeOfBasic {}

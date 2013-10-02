@@ -1,4 +1,4 @@
-layer original;
+layer conf1;
 
 SoUrCe RooT root "../root/Container.jak"; //created on: Thu Sep 26 19:16:05 CDT 2013
 
@@ -68,26 +68,35 @@ abstract class Container$$rootDel extends  Container$$root {
 
 }
 
-SoUrCe  debugBasic "../debugBasic/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
+SoUrCe  sizeOfBasic "../sizeOfBasic/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
 
-abstract class Container$$debugBasic extends  Container$$rootDel {
+abstract class Container$$sizeOfBasic extends  Container$$rootDel {
 
-    public static boolean debug = false; // set to true for debugging
-}
+    public int sizeOf;
 
-SoUrCe  counterBasic "../counterBasic/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
-
-class Container extends  Container$$debugBasic {
-
-    private int counter;
-
-    void containerCosntructor( String name ) {
-        Super( String ).containerConstructor( name );
-        counter = 0;
+    void containerConstructor( String name ) {
+        Super( name ).containerConstructor( name );
+        sizeOf = 0;
     }
 
     void insert( Node n ) {
         Super( Node ).insert( n );
-        n.creation_time = ++counter;
+        sizeOf++;
     }
+
+    @Override
+    String PrintHook() {
+        return Super().PrintHook() + "has " + sizeOf + " elements";
+    }
+}
+
+SoUrCe  sizeofDel "../sizeofDel/Container.jak"; //created on: Thu Sep 26 19:20:34 CDT 2013
+
+class Container extends  Container$$sizeOfBasic {
+
+    void delete( Node n ) {
+        Super( Node ).delete( n );
+        sizeOf--;
+    }
+
 }
