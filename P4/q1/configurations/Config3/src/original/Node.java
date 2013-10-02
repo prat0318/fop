@@ -51,7 +51,16 @@ abstract class Node$$debug extends  Node$$root {
 
 
 
-class Node extends  Node$$debug {
+abstract class Node$$sizeOf extends  Node$$debug {
+      // inherited constructors
+
+
+
+    Node$$sizeOf (  String d1, int d2, int d3 ) { super(d1, d2, d3); }}
+
+
+
+class Node extends  Node$$sizeOf {
       // inherited constructors
 
 

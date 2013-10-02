@@ -50,7 +50,16 @@ abstract class Iterator$$sizeOf extends  Iterator$$root {
 
 
 
-class Iterator extends  Iterator$$sizeOf {
+abstract class Iterator$$counter extends  Iterator$$sizeOf {
+      // inherited constructors
+
+
+
+    Iterator$$counter (  Container c ) { super(c); }}
+
+
+
+class Iterator extends  Iterator$$counter {
       // inherited constructors
 
 

@@ -96,7 +96,7 @@ abstract class Container$$sizeOf extends  Container$$root {
 
  //created on: Thu Sep 26 19:20:34 CDT 2013
 
-class Container extends  Container$$sizeOf {
+abstract class Container$$counter extends  Container$$sizeOf {
 
     private int counter;
 
@@ -113,5 +113,14 @@ class Container extends  Container$$sizeOf {
 
 
 
-    Container (  String name ) { super(name); }
+    Container$$counter (  String name ) { super(name); }
 }
+
+ //created on: Thu Sep 26 19:20:34 CDT 2013
+
+class Container extends  Container$$counter {
+      // inherited constructors
+
+
+
+    Container (  String name ) { super(name); }}

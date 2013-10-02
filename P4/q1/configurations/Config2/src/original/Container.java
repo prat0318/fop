@@ -76,7 +76,7 @@ abstract class Container$$debug extends  Container$$root {
 
  //created on: Thu Sep 26 19:20:34 CDT 2013
 
-class Container extends  Container$$debug {
+abstract class Container$$counter extends  Container$$debug {
 
     private int counter;
 
@@ -93,5 +93,14 @@ class Container extends  Container$$debug {
 
 
 
-    Container (  String name ) { super(name); }
+    Container$$counter (  String name ) { super(name); }
 }
+
+ //created on: Thu Sep 26 19:20:34 CDT 2013
+
+class Container extends  Container$$counter {
+      // inherited constructors
+
+
+
+    Container (  String name ) { super(name); }}

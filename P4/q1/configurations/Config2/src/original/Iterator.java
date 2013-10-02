@@ -59,7 +59,16 @@ abstract class Iterator$$debug extends  Iterator$$root {
 
 
 
-class Iterator extends  Iterator$$debug {
+abstract class Iterator$$counter extends  Iterator$$debug {
+      // inherited constructors
+
+
+
+    Iterator$$counter (  Container c ) { super(c); }}
+
+
+
+class Iterator extends  Iterator$$counter {
       // inherited constructors
 
 

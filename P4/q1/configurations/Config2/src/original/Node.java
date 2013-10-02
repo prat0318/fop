@@ -51,7 +51,7 @@ abstract class Node$$debug extends  Node$$root {
 
 
 
-class Node extends  Node$$debug {
+abstract class Node$$counter extends  Node$$debug {
 
     int creation_time;
 
@@ -67,5 +67,14 @@ class Node extends  Node$$debug {
 
 
 
-    Node (  String d1, int d2, int d3 ) { super(d1, d2, d3); }
+    Node$$counter (  String d1, int d2, int d3 ) { super(d1, d2, d3); }
 }
+
+
+
+class Node extends  Node$$counter {
+      // inherited constructors
+
+
+
+    Node (  String d1, int d2, int d3 ) { super(d1, d2, d3); }}
