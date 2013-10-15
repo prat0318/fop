@@ -1,0 +1,86 @@
+##################
+# MDELite README
+# Don Batory
+# Eric Latimer
+
+##################
+# Requirements
+#
+
+Java
+SWI-Prolog
+
+##################
+# installation
+#
+
+By now, you have unzipped MDELite and are reading this note.
+
+You need to specify the location of your system's swi-prolog binary.  
+To do so, open the included config.properties and edit property
+SWI_PROLOG_LOCATION.  Set it equal to the location of your swi-prolog 
+executable.  Do NOT use swipl-win.exe -- if you do, you'll invoke 
+the SWI/Windows GUI upon each prolog file execution, which will cause 
+an annoying flickering.  Use swipl.exe instead.  
+
+Optional:
+There is a second constant in config.properties.  Most like you can leave
+unchanged.  However if you want to experiment with a secondary position
+generator, set POSITION_PACKAGE to "positioner" (without the quotes)
+
+##################
+# Warning
+#
+
+We have had problems on Windows platforms where paths to MDELite
+jar files have spaces (e.g., "C:\Program Files").  Place MDELite
+in a directory whose path includes no spaces.
+
+##################
+# Run Instructions
+#
+
+Let M denote the version of MDELite, e.g. M=MDElite2.3
+By $M we denote the substitution of the value of M in the following scripts.
+
+The included jar file has 3 functions: 
+    CoreMDELite.SwiplInstall: checks to see if you have configuration.properties
+             correct, as it can invoke swipl with known library files
+    MDELite.Convert: convert an instance of a UML model into another
+    MDELite.Conform: test conformance of an instance of a UML model
+
+Let <type>,<convert2Type> := umlf | yuml | violet 
+
+To convert a file <filename> in one format <type> into another <convert2type>, 
+run the following command:
+
+    java -jar "$M" Convert <type> <convert2Type> <filename (not including dot extension)>
+
+Example:  to convert design.yuml into design.violet, run:
+
+   java -jar "$M" Convert yuml violet design
+
+To test the conformance of a file <filename> to a given format or metamodel (<type>),
+run the following command:
+
+   java -jar "$M" conform <type>  <filename(not including dot extension)>
+
+Example: to test whether design.yuml satisfies the Prolog constraints in yuml.conform.pl:
+
+    java -jar "$M" conform yuml  design
+
+------------------------------
+
+Finally, if MDELite.jar is in your classpath, you can invoke the above commands via:
+
+   java MDELite.Main 
+
+instead of 
+
+   java -jar "$M"
+
+Further, you could call the convert and conform applications directly:
+
+   java MDELite.Convert ...
+   java MDELite.Conform ...
+

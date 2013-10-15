@@ -1,0 +1,4 @@
+echo testDataParse Directory:
+rm -f *~
+ls
+echo

@@ -1,0 +1,90 @@
+## translates yuml.pl database to .yuml
+##
+##
+#set($debug=false)
+#set($MARKER="//----")
+${MARKER}vm2toutput.txt
+##
+### generate classes
+##
+#if ($debug)
+//classes
+#end
+#foreach($c in $yumlClassS)
+##--debug $c
+#set($n=$c.name.replace("'","").replace("<","").replace(">","").replace(","," "))
+#set($fields=$c.fields.replace("'","").replace("<","").replace(">","").replace(","," "))
+#set($methods=$c.methods.replace("'","").replace("<","").replace(">","").replace(","," "))
+#set($members=$fields+$methods)
+#if ($members=="")
+##
+## this is an optimization -- don't display simple classes if they 
+## appear in any association
+#set($print = true)
+#foreach($a in $yumlAssociationS)
+#if ($c.name==$a.name1)
+#set($print=false)
+#end
+#if ($c.name==$a.name2)
+#set($print=false)
+#end
+#end
+#if ($print==true)
+[$n]
+#end
+## end of optimization previously it was just [$n]
+#else
+[$n|$fields|$methods]
+#end
+#end
+## generate interfaces
+##
+#if ($debug)
+// interfaces
+#end
+#foreach($i in $yumlInterfaceS)
+##--debug $i
+#set($iname=$i.name.replace("'","").replace("<","").replace(">","").replace(","," "))
+#set($methods=$i.methods.replace("'","").replace("<","").replace(">","").replace(","," "))
+#if ($methods=="")
+[Interface;$iname]
+#else
+[Interface;$iname||$methods]
+#end
+#end
+##
+## generate associations, compositions, and aggregations
+##
+#if ($debug)
+// associations, compositions, and aggregations
+#end
+#foreach($a in $yumlAssociationS)
+##-- debug $a
+#set($arrow1=$a.end1.replace("'",''))
+#set($arrow2=$a.end2.replace("'",''))
+####set($cid1name=$a.name1.replace("'","").replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D").replace(",","%2C"))
+#set($cid1name=$a.name1.replace("'","").replace("<","").replace(">","").replace(","," "))
+#set($cid2name=$a.name2.replace("'","").replace("<","").replace(">","").replace(","," "))
+#set($role1=$a.role1.replace("'","").replace("<","").replace(">","").replace(","," "))
+#set($role2=$a.role2.replace("'","").replace("<","").replace(">","").replace(","," "))
+## now compute dashed lines.  A dashed line is used iff
+## cid1name is of a class and cid2name is of an interface or vice versa
+#set($isInterface1=false)
+#set($isInterface2=false)
+#foreach($i in $yumlInterfaceS)
+#if ($i.name.equals($a.name1))
+#set($isInterface1=true)
+#set($cid1name= "Interface;"+$cid1name)
+#end
+#if ($i.name.equals($a.name2))
+#set($isInterface2=true)
+#set($cid2name= "Interface;"+$cid2name)
+#end
+#end
+#set($dashed=($isInterface2 != $isInterface1))
+#if ($dashed)
+[$cid1name]${arrow1}${role1}-.-${role2}${arrow2}[$cid2name]
+#else
+[$cid1name]${arrow1}${role1}-${role2}${arrow2}[$cid2name]
+#end
+#end

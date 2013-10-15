@@ -1,0 +1,2 @@
+circular class hierarchy: Customer
+circular class hierarchy: User

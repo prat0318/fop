@@ -1,0 +1,113 @@
+## generate classes
+##
+#foreach($c in $classS)
+#set($n=$c.name.replace("'",""))
+#set($empty=$c.fields.replace("'","") + $c.methods.replace("'",""))
+## now compute the name of the superclass, if any
+#set($supername="")
+#if(${c.superid} != "null")
+## this generates simple classes with inheritance
+#foreach($k in $classS)
+#if(${c.superid}==${k.id})
+#set($supername=$k.name.replace("'",""))
+#end
+#end
+#end
+## now compute strings to print
+#set($fields=$c.fields.replace("'",""))
+#set($methods=$c.methods.replace("'",""))
+## debuggingline $n  and -->$supername<--
+#if($supername!="")
+#set($sup="[$supername]^-")
+#else
+#set($sup="")
+#end
+#if($empty=="")
+$sup[$n]
+#else
+$sup[$n|$fields|$methods]
+#end
+#end
+
+## generate associations, compositions, and aggregations
+##
+#foreach($a in $associationS)
+#if (${a.arrow1}=="arrow")
+#set($arrow1="<")
+#end
+#if (${a.arrow1}=="agg")
+#set($arrow1="<>")
+#end
+#if (${a.arrow1}=="comp")
+#set($arrow1="++")
+#end
+#if (${a.arrow1}=="none")
+#set($arrow1="")
+#end
+#if (${a.arrow2}=="arrow")
+#set($arrow2=">")
+#end
+#if (${a.arrow2}=="agg")
+#set($arrow2="<>")
+#end
+#if (${a.arrow2}=="comp")
+#set($arrow2="++")
+#end
+#if (${a.arrow2}=="none")
+#set($arrow2="")
+#end
+#foreach($c in $classS)
+#if(${a.cid1}==${c.id})
+#set($cid1name=$c.name.replace("'",""))
+#end
+#if(${a.cid2}==${c.id})
+#set($cid2name=$c.name.replace("'",""))
+#end
+#end
+#set($role1=$a.role1.replace("'",""))
+#set($role2=$a.role2.replace("'",""))
+[$cid1name]$role1${arrow1}-${arrow2}${role2}[$cid2name]
+#end
+
+
+## generate interfaces
+##
+#foreach($i in $interfaceS)
+#set($iname=$i.name.replace("'",""))
+[<interface> $iname]
+#end
+
+## generation of interfaceExtends statements
+##
+#foreach($ix in $interfaceExtendsS)
+#foreach($i in $interfaceS)
+#if(${i.id}==${ix.id})
+#set($isubname=$i.name.replace("'",""))
+#end
+#end
+#foreach($i in $interfaceS)
+#if(${i.id}==${ix.idx})
+#set($isupname=$i.name.replace("'",""))
+#end
+#end
+[<interface> $isupname]^-[<interface> $isubname]
+#end
+
+## generation of classImplements statements
+##
+#foreach($ci in $classImplementsS)
+#foreach($c in $classS)
+#if (${c.id}==${ci.cid})
+#set ($classname=$c.name.replace("'",""))
+#end
+#end
+#foreach($i in $interfaceS)
+#if (${i.id}==${ci.iid})
+#set ($intname=$i.name.replace("'",""))
+#end
+#end
+[<interface> $intname]^-.-[$classname]
+#end
+
+
+

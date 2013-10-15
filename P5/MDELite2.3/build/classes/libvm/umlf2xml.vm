@@ -1,0 +1,85 @@
+#set($MARKER="//----")
+${MARKER}vm2toutput.txt
+#set($Integer = 0)
+#set($cnt=0)
+#foreach($c in $umlfSimpleClassS)
+#set($cnt=$cnt+1)
+#end
+#foreach($c in $umlfInterfaceS)
+#set($cnt=$cnt+1)
+#end
+#foreach($c in $umlfClassS)
+#set($cnt=$cnt+1)
+#end
+<Diagram seq="$cnt">
+<Elements>
+##
+##	do simple classes first
+## 
+#foreach($c in $umlfSimpleClassS)
+## debug $c
+#set($n=$c.name.replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D").replace(",","%2C"))
+#set($x=$Integer.parseInt(${c.x})+3)
+#set($y=$Integer.parseInt(${c.y})+3)
+  <SimpleClass ys="1" xs="1" x="${c.x}"  y="${c.y}" id="${c.id}" font="_sans" fontSize="12">
+    <Label y="$y" x="$x">$n</Label>
+  </SimpleClass>
+#end
+##
+##	do classes first
+## 
+#foreach($c in $umlfClassS)
+#set($n=$c.name.replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D").replace(",","%2C"))
+#set($members=$c.members.replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D").replace(",","%2C"))
+#set($x=$Integer.parseInt(${c.x})+3)
+#set($y=$Integer.parseInt(${c.y})+22)
+##debug ${c.y}  $y
+  <Class ys="1" xs="1" x="${c.x}"  y="${c.y}" id="${c.id}" font="_sans" fontSize="12">
+    <Label x="$x" y="$y" >$members</Label>
+    <Detail>$n</Detail>
+  </Class>
+#end
+##
+##	now interfaces next
+## 
+#foreach($i in $umlfInterfaceS)
+#set($x=$Integer.parseInt(${i.x})+3)
+#set($y=$Integer.parseInt(${i.y})+50)
+#set($members=$i.members.replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D").replace(",","%2C"))
+#set($n=$i.name.replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D").replace(",","%2C"))
+  <Interface xs="1" ys="1" x="${i.x}" y="${i.y}" id="${i.id}" font="_sans" fontSize="12">
+    <Label y="$y" x="$x">$members</Label>
+    <Detail>%3C%3C%20Interface%20%3E%3E%0D$n</Detail>
+  </Interface>
+#end 
+</Elements>
+<Associations>
+##
+## do true associations first
+##
+#foreach($a in $umlfAssociationS)
+## (from,source) -> (to,target), where source and target are arrow indicators
+  <Association source="${a.source}" from="${a.from}" dashed="${a.dashed}" anchor="${a.anchor}" target="${a.target}"  to="${a.to}" type="${a.type}"/>
+#end
+##
+##	now do generalizations for classes
+##
+#foreach($c in $classS)
+#if(${c.superid}!="null")
+  <Association from="${c.id}" source="none"  to="${c.superid}"  target="gen"  dashed="false" anchor="true" type="standard"/>
+#end
+#end
+##
+##	do implements for classes
+##
+#foreach($c in $classImplementsS)
+  <Association from="${c.cid}" source="none" to="${c.iid}" target="gen"  dashed="true" anchor="true"   type="standard"/>
+#end
+##
+##	and finally, do interfaceExtends
+##
+#foreach($c in $interfaceExtendsS)
+  <Association from="${c.id}"  source="none" to="${c.idx}"  target="gen"  dashed="true" anchor="true"  type="standard"/>
+#end
+</Associations>
+</Diagram>
