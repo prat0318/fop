@@ -1,5 +1,0 @@
-cd src/
-
-javac -classpath .:../NeededJarFiles/:../dist/lib/. MDELite/stateParsers/main/*.java MDELite/stateParsers/importer/*java MDELite/stateParsers/writer/*java
-
-java MDELite.stateParsers.main.Main ../DogFsm.state.violet

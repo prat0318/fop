@@ -97,7 +97,7 @@ public class DBWriter {
         String parentId = "null"; // formatTextVariable(node.getParentId());
         if("".equals(name) || name == null)
             name = id;
-        out.write("node_violet(" + id + "," + name + "," +
+        out.write("node_violet(" + id + "," + formatTextVariable(name) + "," +
                  node.getNodeType() + "," + node.getXPos() + "," + node.getYPos() + ").\n");
     }
 
