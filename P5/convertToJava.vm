@@ -25,7 +25,7 @@ public class ${startNode.name} implements state {
 #set($if_written="False")	
 ## Iterate over all the transitions to check whether startNode->endNode exists.
 #foreach($transition in $transitionS)
-#if (${transition.startsAt} == ${startNode.nodeid} && ${transition.endsAt} == ${endNode.nodeid})
+#if (${transition.startsAt} == ${startNode.id} && ${transition.endsAt} == ${endNode.id})
 		#set($if_written="True")
         return new ${endNode.name}();
 #end
@@ -50,7 +50,7 @@ public class fsm1 implements common{
 public state currentState;
 
 public fsm1() {
-    currentState = new start();
+    currentState = new circularinitialstatenode0();
 }
 
 #foreach($node in $node_violetS)

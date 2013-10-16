@@ -1,4 +1,4 @@
-public class app_part3 {
+public class appDog {
 
     public static void main(String[] args) {
          dog_test(new fsm1());
@@ -7,12 +7,12 @@ public class app_part3 {
     public static void dog_test(common FSM) {
 	FSM.gotocircularinitialstatenode0();
 	FSM.gotodogAwake();
-	FSM.gotodogBow-Bow();
+	FSM.gotodogBowBow();
 	FSM.gotodogHungry();
-	FSM.gotodogBow-Bow();
+	FSM.gotodogBowBow();
 	FSM.gotodogHappy(); //do nothing
 	FSM.gotodogHungry();
-	FSM.gotodogBow-Bow();
+	FSM.gotodogBowBow();
 	FSM.gotodonPats();
 	FSM.gotodogHappy();
 	FSM.gotodogHungry(); //do nothing
