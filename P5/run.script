@@ -1,22 +1,23 @@
-filenames=( "DogFsm.state.violet" "Sample.state.violet" )
+filenames=( "xxx.state.violet" "semiclique.state.violet" "eatingHabits.state.violet" "loop.state.violet" "fsm20.state.violet" "dogFsm.state.violet" )
 
 for filename in ${filenames[@]} 
 do
-    echo "Compiling ${filename} to create the prolog file."
-    java -classpath MDELite2.3.jar MDELite.stateParsers.main.Main ${filename}
+    echo "===="
+    echo "- Compiling \"${filename}\" to create the prolog file."
+    java -classpath MDELite2.3.jar MDELite.stateParsers.main.Main inputs/${filename}
 
     # Creating a temporary file, to avoid problems in swipl.
     ext=".pl"
-    to_name=$filename$ext
-    cp $to_name a.pl
+    to_name=outputs/$filename$ext
+    cp inputs/${filename}$ext outputs
+    cp $to_name outputs/a.pl
 
     # Create Meta Model.
-    echo "Creating metamodel for ${filename}"
-    cat ${to_name} m2m.pl > merge.pl
+    echo "- Doing model to model transformation for ${filename}."
+    cat ${to_name} m2m.pl > outputs/merge.pl
 
-    echo "Checking for constraints violations.\n"
-    swipl -f constraints.pl -s merge.pl -g "list_invalid_constraints." -t halt --quiet
+    echo "\n- Checking for constraints violations."
+    swipl -f constraints.pl -s outputs/merge.pl -g "list_invalid_constraints." -t halt --quiet
 
-    echo "\n"
 done
 
