@@ -51,7 +51,7 @@
    <object class="com.horstmann.violet.StateNode" id="StateNode0">
     <void property="name">
      <void property="text">
-      <string>Dog Awake</string>
+      <string>dogAwake</string>
      </void>
     </void>
    </object>
@@ -80,7 +80,7 @@
    <object class="com.horstmann.violet.StateNode" id="StateNode1">
     <void property="name">
      <void property="text">
-      <string>Dog Hungry</string>
+      <string>dogHungry</string>
      </void>
     </void>
    </object>
@@ -109,8 +109,7 @@
    <object class="com.horstmann.violet.StateNode" id="StateNode2">
     <void property="name">
      <void property="text">
-      <string>Dog 
-Bow-Bow</string>
+      <string>dogBowBow</string>
      </void>
     </void>
    </object>
@@ -139,7 +138,7 @@ Bow-Bow</string>
    <object class="com.horstmann.violet.StateNode" id="StateNode3">
     <void property="name">
      <void property="text">
-      <string>Don Pats</string>
+      <string>donPats</string>
      </void>
     </void>
    </object>
@@ -168,7 +167,7 @@ Bow-Bow</string>
    <object class="com.horstmann.violet.StateNode" id="StateNode4">
     <void property="name">
      <void property="text">
-      <string>Dog Happy</string>
+      <string>dogHappy</string>
      </void>
     </void>
    </object>
