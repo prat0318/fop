@@ -4,7 +4,7 @@ node_violet(circularinitialstatenode0,circularinitialstatenode0,start,172,262).
 node_violet(circularfinalstatenode0,circularfinalstatenode0,stop,873,270).
 node_violet(statenode0,dogAwake,state,264,247).
 node_violet(statenode1,dogHungry,state,446,145).
-node_violet(statenode2,dogBow-Bow,state,447,301).
+node_violet(statenode2,dogBowBow,state,447,301).
 node_violet(statenode3,donPats,state,615,246).
 node_violet(statenode4,dogHappy,state,755,243).
 
