@@ -1,4 +1,4 @@
-public class appDog {
+public class testdogFsm_state_violet {
 
     public static void main(String[] args) {
          dog_test(new fsm1());
