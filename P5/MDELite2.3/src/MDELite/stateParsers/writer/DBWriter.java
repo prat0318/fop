@@ -43,7 +43,7 @@ public class DBWriter {
             //Output header data
 
             //Ouput the classes
-            out.write("\ntable(violetState,[id,\"name\",\"fields\",\"methods\",superid,x,y]).\n");
+            out.write("\ntable(node,[id,name,nodeType,x,y]).\n");
             if (stateNodes.size() > 0) {
                 for (StateNode node : stateNodes) {
                     formatAndWriteNodeFacts(node, out);
@@ -63,22 +63,13 @@ public class DBWriter {
 //            }
 
             //Output the associations
-            out.write("\ntable(violetAssociation,[cid1,\"role1\",arrow1,type1,cid2,\"role2\",arrow2,type2,lineStyle]).\n");
+            out.write("\ntable(transition,[transid,startsAt,endsAt]).\n");
             if (stateEdges.size() > 0) {
                 for (StateEdge edge : stateEdges) {
                     formatAndWriteEdgeFacts(edge, out);
                 }
             } else {
                 out.write(":- dynamic violetAssociation/9.\n");
-            }
-
-            out.write("\ntable(violetInterfaceExtends,[id,idx]).\n");
-            if (!printedVioletInterfaceExtends) {
-                out.write(":- dynamic violetInterfaceExtends/2.\n");
-            }
-            out.write("\ntable(violetClassImplements,[cid,iid]).\n");
-            if (!printedVioletClassImplements) {
-                out.write(":- dynamic violetClassImplements/2.\n");
             }
 
             out.close();
@@ -102,20 +93,21 @@ public class DBWriter {
 
     private static void formatAndWriteNodeFacts(StateNode node, BufferedWriter out) throws IOException {
         String id = node.getId();
-        String name = formatTextVariable(node.getName());
+        String name = node.getName();
         String parentId = "null"; // formatTextVariable(node.getParentId());
-
-        out.write("violetStates(" + id + "," + name + "," +
+        if("".equals(name) || name == null)
+            name = id;
+        out.write("node(" + id + "," + name + "," +
                  node.getNodeType() + "," + node.getXPos() + "," + node.getYPos() + ").\n");
     }
 
     private void formatAndWriteEdgeFacts(StateEdge edge, BufferedWriter out) throws IOException {
         String fromId = edge.getStartsAt();
         String toId = edge.getEndsAt();
-        String label = formatTextVariable(edge.getLabel());
+        String label = edge.getLabel();
         
         //Always need to write an association, regardless of edge type, for Violet purposes
-        out.write("violetTransitions(" + fromId + "," + toId + "," + label + ").\n");
+        out.write("transition(" + label + "," + fromId + "," + toId +").\n");
     }
 
     private static String formatId(String input) {
