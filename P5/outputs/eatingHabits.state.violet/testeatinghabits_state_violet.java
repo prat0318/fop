@@ -1,4 +1,4 @@
-public class testeatinghabits_state_violet {
+public class testeatingHabits_state_violet {
 
     public static void main(String[] args) {
        paces(new fsm1() );
