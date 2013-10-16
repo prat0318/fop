@@ -1,3 +1,5 @@
+#!/bin/sh
+
 filenames=( "xxx.state.violet" "semiclique.state.violet" "eatingHabits.state.violet" "loop.state.violet" "fsm20.state.violet" "dogFsm.state.violet" )
 
 for filename in ${filenames[@]} 
@@ -19,5 +21,18 @@ do
     echo "\n- Checking for constraints violations."
     swipl -f constraints.pl -s outputs/merge.pl -g "list_invalid_constraints." -t halt --quiet
 
+    cd outputs/$filename
+    mod=${filename//[.]/_}
+    echo "Generating the .java from vm2t..."
+    java -classpath ../../MDELite2.3.jar:../../MDELite2.3/dist/MDELite2.3.jar:. CoreMDELite.vm2t.Main ../a.pl ../../convertToJava.vm
+   
+   echo "Compiling the .java classes generated..."    
+   javac *.java
+
+   echo "Verifying the FSM for $filename ...to reach terminal state "
+   echo "FSM TEST PASSED IF NEXT LINE SHOWS circularfinalstatenode0..."
+   java test$mod   
+
+   cd ../..
 done
 
