@@ -1,0 +1,73 @@
+## ASSIGNMENT 1 Part1##
+## Team Members: Akanksha Bansal, Gaurav Nanda, Prateek Aggarwal. ##
+
+#set($MARKER="//----")
+
+## Code to generate the interface state.
+${MARKER}state.java
+public interface state {
+#foreach ($node in $node_violetS)
+    public state goto${node.name}();
+#end
+    public String getName();
+}
+
+## Code to generate the implementations of class state.
+
+## Start Node represents the class for which code is to be produced.
+#foreach($startNode in $node_violetS)  
+${MARKER}${startNode.name}.java
+public class ${startNode.name} implements state {
+
+## All possible end nodes are checked for any transition.
+#foreach($endNode in $node_violetS) 
+    public state goto${endNode.name}() {
+#set($if_written="False")	
+## Iterate over all the transitions to check whether startNode->endNode exists.
+#foreach($transition in $transitionS)
+#if (${transition.startsAt} == ${startNode.nodeid} && ${transition.endsAt} == ${endNode.nodeid})
+		#set($if_written="True")
+        return new ${endNode.name}();
+#end
+#end
+#if ($if_written == "False")
+        return this;
+#end
+    }
+
+#end
+    public String getName() {
+        return "${startNode.name}";
+    }
+	
+}
+#end
+
+## Then we would generate the FSM class, which is going to use all the states. 
+## This class would act as an interface for the outer world.
+${MARKER}fsm1.java
+public class fsm1 implements common{
+public state currentState;
+
+public fsm1() {
+    currentState = new start();
+}
+
+#foreach($node in $node_violetS)
+public void goto${node.name}() {
+    currentState = currentState.goto${node.name}();
+}
+#end
+public String getName() {
+    return currentState.getName();
+}
+}
+
+## Generate the common interface.
+${MARKER}common.java
+public interface common {
+#foreach($node in $node_violetS)
+    public void goto${node.name}();
+#end
+    public String getName();
+}
