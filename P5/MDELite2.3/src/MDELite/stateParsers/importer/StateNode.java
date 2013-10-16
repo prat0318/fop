@@ -11,9 +11,9 @@ public class StateNode {
     protected int xPos;
     protected int yPos;
 
-    public StateNode(String id, String nodeType) {
+    public StateNode(String id, String className) {
         this.id = id;
-        this.nodeType = nodeType;
+        this.nodeType = mapClassToNodeType(className);
     }
 
     public void setXPos(double xPos) {
@@ -57,5 +57,14 @@ public class StateNode {
 
     public String getNodeType() {
         return nodeType;
+    }
+
+    private String mapClassToNodeType(String className) {
+        if("com.horstmann.violet.product.diagram.state.CircularFinalStateNode".equals(className))
+            return "stop";
+        else if("com.horstmann.violet.CircularStateNode".equals(className))
+            return "start";
+        else
+            return "state";                
     }
 }

@@ -4,14 +4,12 @@ public class StateEdge {
 
     private String startsAt;
     private String endsAt;
-    private String lable;
+    private String label;
     
-public StateEdge() {
-        
-    }
+    public StateEdge(){}
 
     public void setStartLabel(String startLabel) {
-        this.lable = startLabel;
+        this.label = startLabel;
     }
 
     public void setStartsAt(String startsAtClass) {
@@ -23,7 +21,7 @@ public StateEdge() {
     }
 
     public String getLabel() {
-        return lable;
+        return label;
     }
 
     public String getStartsAt() {
@@ -36,10 +34,14 @@ public StateEdge() {
 
     public String toString() {
         String str = "";
-        str +=  ", StartLabel: " + lable
+        str +=  ", StartLabel: " + label
                 + ", From: " + startsAt
                 + ", To: " + endsAt;
 
         return str;
+    }
+
+    void setLabel(String label) {
+        this.label = label;
     }
 }

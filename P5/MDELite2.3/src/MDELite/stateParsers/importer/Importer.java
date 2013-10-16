@@ -198,15 +198,20 @@ public class Importer {
 
                     //Capture to and from classes on this connection
                     boolean seenFromClass = false;
+                    String start = "", stop = "";
                     for (int k = 0; k < addNodeObjs.getLength(); k++) {
                         Element nextObj = (Element) addNodeObjs.item(k);
                         String nextObjIdref = nextObj.getAttribute("idref");
                         if (!nextObjIdref.equals("")) {
                             if (!seenFromClass) {
-                                stateTransitions.get(curAddingEdgeNum).setStartsAt(nextObjIdref.toLowerCase());
+                                start = nextObjIdref.toLowerCase();
+                                seenFromClass = true;
                             } else {
                                 //System.out.println(nextObjIdref);
-                                stateTransitions.get(curAddingEdgeNum).setEndsAt(nextObjIdref.toLowerCase());
+                                stop = nextObjIdref.toLowerCase();
+                                stateTransitions.get(curAddingEdgeNum).setStartsAt(start);
+                                stateTransitions.get(curAddingEdgeNum).setEndsAt(stop);
+                                stateTransitions.get(curAddingEdgeNum).setLabel(start+"->"+stop);
                             }
                         }
                     }
