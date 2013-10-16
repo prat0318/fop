@@ -1,6 +1,22 @@
-filename="DogFsm.state.violet"
-java -classpath MDELite2.3.jar MDELite.stateParsers.main.Main $filename 
-ext=".pl"
-to_name=$filename$ext
-cp $to_name a.pl
+filenames=( "DogFsm.state.violet" "Sample.state.violet" )
+
+for filename in ${filenames[@]} 
+do
+    echo "Compiling ${filename} to create the prolog file."
+    java -classpath MDELite2.3.jar MDELite.stateParsers.main.Main ${filename}
+
+    # Creating a temporary file, to avoid problems in swipl.
+    ext=".pl"
+    to_name=$filename$ext
+    cp $to_name a.pl
+
+    # Create Meta Model.
+    echo "Creating metamodel for ${filename}"
+    cat ${to_name} m2m.pl > merge.pl
+
+    echo "Checking for constraints violations.\n"
+    swipl -f constraints.pl -s merge.pl -g "list_invalid_constraints." -t halt --quiet
+
+    echo "\n"
+done
 
