@@ -16,7 +16,7 @@ public class Main {
         if (args.length != 1) {
             System.out.println("Usage: voiletXML-file");
         }
-        inputFile = "xxx.state.violet";
+        inputFile = args[0];
         //inputFile = VIOLET_XML_DIR+"/agg.class.violet";    
 
         //Import XML data into Java objects
@@ -40,13 +40,13 @@ public class Main {
         //validator.Validator.main(new String[]{inputFile, convertedFile});
     }
 
-    private static String generateVioletXML() {
-        //simp.class.violet.txt violetXml.vm -o simp2.class.violet
-        String convertedFile = "vm2toutput.txt";
-        //String args[]={inputFile+"DB","violetXml.vm", "-o", convertedFile};
-        String args[] = {inputFile + DBWriter.DB_FILE_APPENSION, "libvm/violetXml.vm"};
-        CoreMDELite.vm2t.Main.main(args);
-
-        return convertedFile;
-    }
+//    private static String generateVioletXML() {
+//        //simp.class.violet.txt violetXml.vm -o simp2.class.violet
+//        String convertedFile = "vm2toutput.txt";
+//        //String args[]={inputFile+"DB","violetXml.vm", "-o", convertedFile};
+//        String args[] = {inputFile + DBWriter.DB_FILE_APPENSION, "libvm/violetXml.vm"};
+//        CoreMDELite.vm2t.Main.main(args);
+//
+//        return convertedFile;
+//    }
 }

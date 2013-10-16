@@ -43,7 +43,7 @@ public class DBWriter {
             //Output header data
 
             //Ouput the classes
-            out.write("\ntable(node,[id,name,nodeType,x,y]).\n");
+            out.write("\ntable(node_violet,[id,name,nodeType,x,y]).\n");
             if (stateNodes.size() > 0) {
                 for (StateNode node : stateNodes) {
                     formatAndWriteNodeFacts(node, out);
@@ -97,7 +97,7 @@ public class DBWriter {
         String parentId = "null"; // formatTextVariable(node.getParentId());
         if("".equals(name) || name == null)
             name = id;
-        out.write("node(" + id + "," + name + "," +
+        out.write("node_violet(" + id + "," + name + "," +
                  node.getNodeType() + "," + node.getXPos() + "," + node.getYPos() + ").\n");
     }
 

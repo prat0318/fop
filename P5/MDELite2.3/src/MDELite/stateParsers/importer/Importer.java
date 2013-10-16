@@ -211,7 +211,7 @@ public class Importer {
                                 stop = nextObjIdref.toLowerCase();
                                 stateTransitions.get(curAddingEdgeNum).setStartsAt(start);
                                 stateTransitions.get(curAddingEdgeNum).setEndsAt(stop);
-                                stateTransitions.get(curAddingEdgeNum).setLabel(start+"->"+stop);
+                                stateTransitions.get(curAddingEdgeNum).setLabel(start+"_"+stop);
                             }
                         }
                     }
