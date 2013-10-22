@@ -1,0 +1,98 @@
+#set($MARKER="//----")
+${MARKER}vm2toutput.txt
+#set($Integer = 0)
+#set($x=0)
+#set($y=0)
+<Diagram seq="4">
+<Elements>
+##
+##	do classes first
+## 
+#foreach($c in $classS)
+#foreach($p in $positionS)
+#if (${c.id}==${p.id})
+#set($x=$Integer.parseInt(${p.x})+3)
+#set($y=$Integer.parseInt(${p.y})+3)
+#end 
+#end 
+#set($fields=$c.fields.replace("'",""))
+#set($methods=$c.methods.replace("'",""))
+#set($member1=$fields+$methods)
+#set($members=$member1.replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D"))
+#set($n=$c.name.trim().replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D"))
+#if ($members == "")
+  <SimpleClass ys="1" xs="1" x="${x}"  y="${y}" id="${c.id}" font="_sans" fontSize="12">
+    <Label y="${y}" x="${x}">$n</Label>
+  </SimpleClass>
+#else
+  <Class ys="1" xs="1" x="${x}"  y="${y}" id="${c.id}" font="_sans" fontSize="12">
+#set($xx=$x+3)
+#set($yy=$y+23)
+    <Label y="${yy}" x="${xx}">$members</Label>
+    <Detail>$n</Detail>
+  </Class>
+#end 
+#end
+##
+##	now interfaces next
+## 
+#foreach($c in $interfaceS)
+#foreach($p in $positionS)
+#if (${c.id}==${p.id})
+#set($x=$Integer.parseInt(${p.x})+3)
+#set($y=$Integer.parseInt(${p.y})+3)
+#end 
+#end 
+#set($members=$c.methods.replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D"))
+#set($n=$c.name.trim().replace("'","").replace("(","%28").replace(")","%29").replace("<","%3C").replace(">","%3E").replace(" ","%20").replace(";","%0D"))
+  <Interface xs="1" ys="1" x="${x}" y="${y}" id="${c.id}" font="_sans" fontSize="12">
+#set($xx=$x+3)
+#set($yy=$y+23)
+    <Label y="${yy}" x="${xx}">$members</Label>
+    <Detail>$n</Detail>
+  </Interface>
+#end 
+</Elements>
+<Associations>
+##
+## do true associations first
+##
+#foreach($a in $associationS)
+#if(${a.arrow1}=="comp")
+#set($a1="composition") 
+#elseif(${a.arrow1}=="agg")
+#set($a1="aggregation") 
+#else
+#set($a1="none")
+#end
+#if(${a.arrow2}=="comp")
+#set($a2="composition") 
+#elseif(${a.arrow2}=="agg")
+#set($a2="aggregation") 
+#else
+#set($a2="none")
+#end
+  <Association to="${a.cid1}"  target="$a1"  dashed="false" anchor="false" source="$a2" from="${a.cid2}" type="standard"/>
+#end
+##
+##	now do generalizations for classes
+##
+#foreach($c in $classS)
+#if(${c.superid}!="null")
+  <Association to="${c.superid}"  target="gen"  dashed="false" anchor="true" source="none" from="${c.id}" type="standard"/>
+#end
+#end
+##
+##	do implements for classes
+##
+#foreach($c in $classImplementsS)
+  <Association to="${c.iid}"  target="gen"  dashed="true" anchor="true" source="none" from="${c.cid}" type="standard"/>
+#end
+##
+##	and finally, do interfaceExtends
+##
+#foreach($c in $interfaceExtendsS)
+  <Association to="${c.idx}"  target="gen"  dashed="true" anchor="true" source="none" from="${c.id}" type="standard"/>
+#end
+</Associations>
+</Diagram>

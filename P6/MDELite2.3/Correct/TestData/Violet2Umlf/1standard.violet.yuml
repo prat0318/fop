@@ -1,0 +1,3 @@
+[Parent||doP()]
+[Child|celem;ccelem|doC()]
+[Parent]^-[Child]

@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>MDELiteStartersGuide</title></head>
+<body>
+<h1 style="text-align: center; font-family: Arial;">MDELite
+Starters Guide (Version 2.3.0)</h1>
+<div style="text-align: center;"><span style="font-family: Arial;">Don Batory, Eric Latimer, <br>
+Robert Berg, Eric Huneke, Amin Shali, Joyce Ho<br>
+</span><br>
+<span style="font-family: Arial; font-weight: bold;">July
+2013</span></div>
+<hr style="width: 100%; height: 2px;">
+<h2 style="font-family: Arial;">1. Installation</h2>
+<span style="font-family: Arial;">Unzip the MDELite*.zip
+file into a directory. &nbsp;You should see:</span><br>
+<div style="text-align: center;"><img title="MDELite directory structure" style="width: 668px; height: 173px;" alt="" src="directory.jpg"><br>
+</div>
+<span style="font-weight: bold;"></span><br>
+<div style="margin-left: 40px;"><span style="font-family: Arial; background-color: rgb(255, 204, 204);">Warning:
+We have had problems on Windows platforms where paths to MDELite jar
+files have spaces (e.g., "C:\Program Files").&nbsp; Place MDELite
+in a
+directory whose path includes no spaces.</span><br>
+</div>
+<br>
+<span style="font-family: Arial;">The README file should
+direct you here. &nbsp;The contents of the other members are:</span><br style="font-family: Arial;">
+<ul style="font-family: Arial;">
+<li><span style="font-weight: bold;">MDELite2.3</span>
+-- the current MDELite jar file</li>
+<li><span style="font-weight: bold;">libvm</span>
+-- VM2T Prolog-to-text scripts</li>
+<li><span style="font-weight: bold;">libpl</span>
+-- a set of Prolog table definitions, conformance files, and
+model-to-model transformations</li>
+<li><span style="font-weight: bold;">lib </span>--
+a set of jar files that are referenced by MDELite jar</li>
+<li><a href="#2._Examples_Directory"><span style="font-weight: bold;">Examples</span> </a>--
+some example files</li>
+<li><span style="font-weight: bold;">config.properties</span>
+-- a simple configuration file.</li>
+</ul>
+<span style="font-family: Arial;">Your task is to:</span>
+<ol>
+<li><span style="font-family: Arial;">List all jar
+files (MDELite*.jar, and lib/*) on your classpath. &nbsp;</span></li>
+<li><span style="font-family: Arial;">Install Java
+(or better yet NetBeans).</span></li>
+<li><span style="font-family: Arial;">Install </span><a style="font-family: Arial;" href="http://www.swi-prolog.org/Download.html">SWI Prolog</a><span style="font-family: Arial;">.</span></li>
+<li><span style="font-family: Arial;"><span style="font-weight: bold;">Next,
+edit the config.properties file and assign variable SWI_PROLOG_LOCATION
+the name of the bin directory in your </span>SWI Prolog
+installation.</span></li>
+<li><span style="font-family: Arial;">Verify that
+you completed the last steps correctly by running:</span></li>
+</ol>
+<div style="margin-left: 40px;">
+<pre>&gt; java CoreMDELite.SwiplInstalled</pre>
+</div>
+<span style="font-family: Arial;">A
+correct execution will print 2 lines: &nbsp;the absolute path to
+the
+directory which contains the MDELite*.jar file, and the next line a
+friendly "MDELite Ready to Use!". &nbsp;If you don't get this
+output,
+then you have not correctly updated your classpath.</span><br>
+<br>
+<span style="font-family: Arial;">The current version of
+MDELite supports </span><a style="font-family: Arial;" href="http://yuml.me/">yUML</a><span style="font-family: Arial;"> (which you can access on-line)
+and </span><a style="font-family: Arial;" href="http://alexdp.free.fr/violetumleditor/page.php">Violet</a><span style="font-family: Arial;">
+whose Java executable you can download. &nbsp;MDELite was
+originally
+developed in Summer 2012 and supported UML Factory, a Chrome
+application/plug-in. &nbsp;UML Factory is no longer available,
+although
+it and its transformations have not yet been removed from the MDELite
+code base. &nbsp;(UML Factory will be replaced with some other
+tool(s)
+in the future). &nbsp;For now, you can translate yUML class
+diagrams
+into Violet class diagrams, and vice versa. &nbsp;I'm sure that
+there
+are bugs. &nbsp;What you can do is to report them to me (</span><a style="font-family: Arial;" href="mailto:batory@cs.utexas.edu">batory@cs.utexas.edu</a><span style="font-family: Arial;">) and I'll try to fix them, but
+no promises!.</span><br>
+<hr style="width: 100%; height: 2px;">
+<h2><a name="2._Examples_Directory"></a><span style="font-family: Arial;">2.&nbsp;Examples Directory</span></h2>
+<span style="font-family: Arial;">MDELite currently offers
+two programs:</span><br>
+<ul>
+<li>
+<pre>java MDELite.Conform &lt;type&gt; &lt;filename without .type extension&gt;</pre>
+</li>
+<li>
+<pre>java MDELite.Convert &lt;type&gt; &lt;convert2type&gt; &lt;filename without .type extension&gt;</pre>
+</li>
+</ul>
+<span style="font-family: Arial;">In the <span style="font-weight: bold;">Examples</span> directory,
+you'll find the following files:</span><br style="font-family: Arial;">
+<ul>
+<li style="font-family: Arial;">bad.class.violet -- a
+Violet file that defines a nonsensical class diagram</li>
+<li style="font-family: Arial;">good.class.violet -- a
+Violet file that defines a well-formed class diagram</li>
+<li style="font-family: Arial;">good.yuml -- a yUML file
+that defines a well-formed class diagram</li>
+<li><span style="font-family: Arial;">bad.yuml --
+a yUML file that defines a nonsensical class diagram</span></li>
+</ul>
+<span style="font-family: Arial;"><br>
+bad.yuml is a correctly specified yuml class diagram, which makes no
+semantic sense as it is a circular inheritance hierarchy.<br>
+</span>
+<div style="text-align: center;"><span style="font-family: Arial;"><img style="width: 83px; height: 96px;" alt="" src="circular.png"></span><br>
+<div style="text-align: left;"><span style="font-family: Arial;">To verify that it is a
+nonsensical diagram, run:<br>
+</span><span style="font-family: Arial;"></span>
+<pre style="margin-left: 40px;">&gt; cd MDELite*/Examples<br>&gt; java MDELite.Conform yuml bad</pre>
+<span style="font-family: Arial;">You'll get as output:<br>
+</span><span style="font-family: Arial;"></span>
+<pre style="margin-left: 40px;">Exception in thread "main" java.lang.RuntimeException: Conformance Failure<br>look at script.txt and conformance errors in conform.txt</pre>
+</div>
+<span style="font-family: Arial;"></span></div>
+<span style="font-family: Arial;">When
+MDELite executes, it leaves a trail of files to document its execution
+history, such as execution failures. &nbsp;These breadcrumb files
+appear in the directory in which you run MDELite.&nbsp; The
+thrown exception announces a conformance failure. &nbsp;The SWI
+Prolog
+command that was executed is in '<span style="font-weight: bold;">script.txt</span>',
+whose content is:<br>
+</span><span style="font-family: Arial;"></span>
+<pre style="margin-left: 40px;">:-['tmpconform.sdb.pl'],tell('conform.txt'),run,told,halt.<br></pre>
+<span style="font-family: Arial;">meaning
+that Prolog file "tmpconform.sdb.pl" was read in by <span style="font-weight: bold;">swipl </span>(the SWI
+Prolog executable), its output
+was redirected to file '<span style="font-weight: bold;">conform.txt</span>',
+the conformance tests were
+executed (by 'run'), and the Prolog execution was halted. &nbsp;The
+contents of&nbsp;</span><span style="font-family: Arial;">'<span style="font-weight: bold;">conform.txt</span>'</span><span style="font-family: Arial;"> tells us the error:</span><br>
+<pre style="margin-left: 40px;">circular class hierarchy: abc</pre>
+<span style="font-family: Arial;">Namely: class abc
+participates in a circular class hierarchy. The Prolog program
+('<span style="font-weight: bold;">tmpconform.sdb.pl</span>')
+is a concatenation of the file of prolog facts
+that define the yUML diagram, the file of prolog rules that define the
+metamodel constraints on what constitutes a reasonable class
+definition. &nbsp;By double-clicking&nbsp;</span><span style="font-family: Arial;">'<span style="font-weight: bold;">tmpconform.sdb.pl</span>'</span><span style="font-family: Arial;">, you can
+load this into SWI prolog, and you can run the test simply by typing
+"run." &nbsp; So, when something goes wrong, there will be enough
+breadcrumbs for you to determine the failure. <br>
+<br>
+A similar class diagram was draw using Violet. &nbsp;And you can
+verify that this diagram is nonsensical by running:<br>
+</span><span style="font-family: Arial;"></span>
+<pre style="margin-left: 40px;">&gt; java MDELite.Conform violet bad.class</pre>
+<span style="font-family: Arial;">The
+<span style="font-weight: bold;">Examples</span>
+directory gives you a couple of correct examples, namely
+good.yuml and good.class.violet. &nbsp;(See if they conform).</span><br style="font-family: Arial;">
+<br style="font-family: Arial;">
+<span style="font-family: Arial;">You can also translate a
+good yUML(Violet) file into its corresponding Violet (yUML) file by:</span><br>
+<pre style="margin-left: 40px;">&gt; java MDELite.Convert yuml violet good<br>&gt; java MDELite.Convert violet yuml good.class<br></pre>
+<span style="font-family: Arial;">One
+more example. &nbsp;You can also convert a Violet document into
+itself.
+&nbsp;In doing so, you'll see that the transformation loses
+information. &nbsp;Use the Violet tool to view the
+good.class.violet
+file. You'll see the image:</span><br style="font-family: Arial;">
+<div style="text-align: center;"><img style="width: 395px; height: 375px;" alt="" src="originalViolet.png"><br>
+<div style="text-align: left;"><span style="font-family: Arial;">You can translate this file into
+prolog and then back again into a Violet XML file by running:</span><br>
+<pre style="margin-left: 40px;">&gt; java MDELite.Convert violet violet good.class<br></pre>
+<span style="font-family: Arial;">and
+the file good.classeqv.violet is produced. (The 'eqv' was added to the
+name so as not to override the original file). &nbsp;Its image is
+below:</span><br>
+<div style="text-align: center;"><img style="width: 395px; height: 375px;" alt="" src="translatedViolet.png"><br>
+<div style="text-align: left;"><span style="font-family: Arial;">Notice that it is drawn a bit
+differently as some of the graphics
+information was lost during translation to/from Prolog. &nbsp;Both
+diagrams are not syntactically equal, but they
+are&nbsp;semantically
+equivalent models.</span></div>
+</div>
+</div>
+</div>
+<hr style="width: 100%; height: 2px;"><h2 style="font-family: Arial;">You're On Your Own</h2>
+<span style="font-family: Arial;">You're now ready to use
+MDELite by:</span><br style="font-family: Arial;">
+<ul style="font-family: Arial;">
+<li>creating
+your own Violet diagrams (using the Violet tool) or writing your own
+yUML specs (see the yUML web page for documentation). &nbsp;Please
+note
+that MDELite uses a sub-language of yUML class diagrams, whose grammar
+is given below:</li>
+</ul>
+<ul>
+<ul>
+<li>
+<table style="text-align: left; width: 733px; height: 432px;" border="1" cellpadding="2" cellspacing="2">
+<tbody>
+<tr>
+<td><span style="font-family: Courier New;">//
+The Yuml grammar for class diagrams is essentially the following</span><br style="font-family: Courier New;">
+<span style="font-family: Courier New;">//
+(but note, Yuml is a bit more general)</span><br style="font-family: Courier New;">
+<br style="font-family: Courier New;">
+<span style="font-family: Courier New;">YumlSpec
+: Line+ ;&nbsp;&nbsp;&nbsp; // one or more lines</span><br style="font-family: Courier New;">
+<br style="font-family: Courier New;">
+<span style="font-family: Courier New;">Line:
+Box | Connection ;</span><br style="font-family: Courier New;">
+<br style="font-family: Courier New;">
+<span style="font-family: Courier New;">Box :
+'[' Class ']' ;&nbsp; </span><br style="font-family: Courier New;">
+<br style="font-family: Courier New;">
+<span style="font-family: Courier New;">Connection
+: Box [End1] [Role1] '-' [Role2] [End2] Box ;</span><br style="font-family: Courier New;">
+<br style="font-family: Courier New;">
+<span style="font-family: Courier New;">End1 :
+'&lt;&gt;' | '++' | '^' | '&lt;' ;</span><br style="font-family: Courier New;">
+<span style="font-family: Courier New;">End2 :
+'&lt;&gt;' | '++' | '^' | '&gt;' ;</span><br style="font-family: Courier New;">
+<br style="font-family: Courier New;">
+<span style="font-family: Courier New;">Role1
+:&nbsp; String ;&nbsp;&nbsp; // String that has no ']' chars</span><br style="font-family: Courier New;">
+<br style="font-family: Courier New;">
+<span style="font-family: Courier New;">Class
+:
+String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// name only</span><br style="font-family: Courier New;">
+<span style="font-family: Courier New;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| String '|'
+String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// name and methods only</span><br style="font-family: Courier New;">
+<span style="font-family: Courier New;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+| String '|' String '|' String&nbsp;&nbsp; // name, field, and
+methods</span><br style="font-family: Courier New;">
+<span style="font-family: Courier New;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+;</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</ul>
+<ul>
+<li style="font-family: Arial;">Ensuring that your
+diagrams (specifications) conform to existing MDELite class diagram
+constraints</li>
+<li><span style="font-family: Arial;">Translating
+your diagrams from one representation into another.</span></li>
+</ul>
+<br>
+<br>
+</body></html>
