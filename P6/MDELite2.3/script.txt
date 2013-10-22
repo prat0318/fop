@@ -1,1 +1,2 @@
 :-['tmpconform.sdb.pl'],tell('conform.txt'),run,told,halt.
+:-halt.

@@ -96,7 +96,9 @@ public abstract class GProlog extends MDELiteObject {
         try {
             PrintStream ps;
             ps = new PrintStream(scriptFile);
+            //System.out.println(scriptFile);
             ps.print(":-['" + fullName + "'],tell('conform.txt'),run,told,halt.");
+            ps.print("\n:-halt.");
             ps.flush();
             ps.close();
         } catch (Exception e) {
