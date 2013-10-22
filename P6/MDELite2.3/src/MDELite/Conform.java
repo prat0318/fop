@@ -12,7 +12,7 @@ public class Conform extends Common {
 
     public static void marquee() {
         System.out.println("Usage: Conform <type> <filename(not including dot extension)>");
-        System.out.println("       <type> := umlf | yuml | violet ");
+        System.out.println("       <type> := umlf | yuml | violet | state");
         System.exit(1);
     }
 
@@ -33,6 +33,12 @@ public class Conform extends Common {
             case 3: // violet
                 Violet v = new Violet(args[1]);
                 Violetpl l = v.toVioletpl();
+                return;
+            case 4:
+                return;
+            case 5:
+                State s = new State(args[1]);
+                Statepl sl = s.toStatepl();
                 return;
         }
         System.err.println("unrecognizable type " + type);
