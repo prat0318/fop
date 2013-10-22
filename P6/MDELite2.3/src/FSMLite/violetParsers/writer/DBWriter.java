@@ -39,7 +39,7 @@ public class DBWriter {
 
             //Output special pl settings
             out.write(":- style_check(-discontiguous).\n");
-
+            out.write(":- style_check(-singleton).\n");
             //Output header data
 
             //Ouput the classes
