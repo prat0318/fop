@@ -15,6 +15,7 @@ public class Common {
             case 1: return ".umlf";
             case 2: return ".yuml";
             case 3: return ".violet";
+            case 4: return  ".state";
             default: System.err.println("unrecognizable type "+t+" input to Common.typeString()");
                 System.exit(1);
                 return null; // pacify whiny compiler
@@ -33,6 +34,9 @@ public class Common {
         }
         if (t.equals("yumlpl")) {
             return 4;
+        }
+        if (t.equals("state")) {
+            return 5;
         }
         System.err.println("unrecognizable type "+t+" to Common.getType()");
         System.exit(1);
