@@ -4,7 +4,7 @@
  */
 package MDELiteTests;
 
-import MDELite.SDB;
+import CoreMDELite.SDB;
 import MDELite.UMLF;
 import MDELite.UMLFpl;
 import org.junit.AfterClass;

@@ -4,6 +4,7 @@
  */
 package MDELite;
 
+import CoreMDELite.SDB;
 import CoreMDELite.MDELiteObject;
 
 /**

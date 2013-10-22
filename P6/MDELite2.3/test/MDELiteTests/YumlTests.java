@@ -5,7 +5,7 @@
 package MDELiteTests;
 
 import MDELite.Yumlpl;
-import MDELite.SDB;
+import CoreMDELite.SDB;
 import MDELite.Yuml;
 import org.junit.Test;
 

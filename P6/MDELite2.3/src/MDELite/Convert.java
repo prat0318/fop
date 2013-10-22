@@ -4,6 +4,8 @@
  */
 package MDELite;
 
+import CoreMDELite.SDB;
+
 /**
  *
  * @author dsb

@@ -1,7 +1,7 @@
-package MDELite;
+package FSMLite;
 
+import FSMLite.Violetpl;
 import CoreMDELite.MDELiteObject;
-import MDELite.Violetpl;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +10,7 @@ import MDELite.Violetpl;
  * Time: 8:08 PM
  * To change this template use File | Settings | File Templates.
  */
-public class State extends MDELiteObject {
+public class Violet extends MDELiteObject {
 
     @Override
     public String fileType() {
@@ -22,15 +22,15 @@ public class State extends MDELiteObject {
         return ".state.violet";
     }
 
-    public State(String filename) {
+    public Violet(String filename) {
         super(filename);
     }
 
     /* the following are transformations */
-    public Statepl toStatepl() {
-        Statepl result = new Statepl(filename);
+    public Violetpl toVioletpl() {
+        Violetpl result = new Violetpl(filename);
         String[] args = {filename+fileType()};
-        MDELite.stateParsers.main.Main.main(args);
+        FSMLite.violetParsers.main.Main.main(args);
         result.conform();
         return result;
     }

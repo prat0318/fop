@@ -1,8 +1,8 @@
-package MDELite;
+package FSMLite;
 
 import CoreMDELite.GProlog;
 import CoreMDELite.HomePath;
-
+import CoreMDELite.SDB;
 /**
  * Created with IntelliJ IDEA.
  * User: bansal
@@ -10,7 +10,7 @@ import CoreMDELite.HomePath;
  * Time: 8:10 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Statepl extends GProlog {
+public class Violetpl extends GProlog {
 
     @Override
     public String fileType() {
@@ -22,15 +22,15 @@ public class Statepl extends GProlog {
         return ".state.violet";
     }
 
-    public Statepl(String filename) {
+    public Violetpl(String filename) {
         super(filename);
     }
 
-    public Statepl(String filename, String[] array) {
+    public Violetpl(String filename, String[] array) {
         super(filename, array);
     }
 
-    // the following are transformation
+   //  the following are transformation
     public SDB toSDB() {
         return toSDB("");
     }
@@ -46,7 +46,7 @@ public class Statepl extends GProlog {
 
     public Violet toViolet(String extra) {
         Violet result = new Violet(filename + extra);
-        invokeVm2t(result, HomePath.homePath + "libvm/violetXml.vm");
+        invokeVm2t(result, HomePath.homePath + "libvm/convertToJava.vm");
         return result;
     }
 

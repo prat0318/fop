@@ -2,10 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package MDELite;
+package CoreMDELite;
 
 import CoreMDELite.HomePath;
 import CoreMDELite.GProlog;
+import MDELite.Dot;
+import MDELite.UMLFpl;
+import MDELite.Violetpl;
+import MDELite.Yumlpl;
 
 /**
  *
@@ -127,6 +131,17 @@ public class SDB extends GProlog {
         tmp.delete();
         return result;
     }    
+    
+    public FSMLite.Violetpl toFSMVioletpl(String extra) {
+        String[] list = {HomePath.homePath + "libpl/discontiguous.pl",
+            this.fullName, HomePath.homePath + "libpl/violet.schema.pl", HomePath.homePath + "libpl/sdb2violet.pl", HomePath.homePath + "libpl/print.pl", HomePath.homePath + "libpl/violet.run.pl"};
+        FSMLite.Violetpl tmp = new FSMLite.Violetpl("tmp", list);
+        FSMLite.Violetpl result = new FSMLite.Violetpl(filename + extra);
+        tmp.executeProlog(result);
+        result.conform();  // make sure that the db conforms to umlfpl schema
+        tmp.delete();
+        return result;
+    } 
     
     @Override
     public void conform(){

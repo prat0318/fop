@@ -4,7 +4,7 @@
  */
 package MDELiteTests;
 
-import MDELite.SDB;
+import CoreMDELite.SDB;
 import MDELite.Yumlpl;
 import MDELite.UMLF;
 import MDELite.Yuml;

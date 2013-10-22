@@ -4,7 +4,7 @@
  */
 package MDELiteTests;
 
-import MDELite.SDB;
+import CoreMDELite.SDB;
 import MDELite.Violet;
 import MDELite.Violetpl;
 import org.junit.AfterClass;
