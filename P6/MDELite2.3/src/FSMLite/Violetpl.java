@@ -46,6 +46,7 @@ public class Violetpl extends GProlog {
 
     public Violet toViolet(String extra) {
         Violet result = new Violet(filename + extra);
+        System.out.println("Invoking Vm2t to create JAVA files.");
         invokeVm2t(result, HomePath.homePath + "libvm/convertToJava.vm");
         return result;
     }

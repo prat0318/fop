@@ -11,17 +11,8 @@ public void gotocircularinitialstatenode0() {
 public void gotocircularfinalstatenode0() {
     currentState = currentState.gotocircularfinalstatenode0();
 }
-public void gotoReady() {
-    currentState = currentState.gotoReady();
-}
-public void gotoDrink() {
-    currentState = currentState.gotoDrink();
-}
-public void gotoEat() {
-    currentState = currentState.gotoEat();
-}
-public void gotoPig() {
-    currentState = currentState.gotoPig();
+public void gotoloop() {
+    currentState = currentState.gotoloop();
 }
 public String getName() {
     return currentState.getName();

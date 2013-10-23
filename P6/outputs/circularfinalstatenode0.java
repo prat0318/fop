@@ -8,19 +8,7 @@ public class circularfinalstatenode0 implements state {
         return this;
     }
 
-    public state gotoReady() {
-        return this;
-    }
-
-    public state gotoDrink() {
-        return this;
-    }
-
-    public state gotoEat() {
-        return this;
-    }
-
-    public state gotoPig() {
+    public state gotoloop() {
         return this;
     }
 

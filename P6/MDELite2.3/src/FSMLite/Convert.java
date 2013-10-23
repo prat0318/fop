@@ -28,6 +28,7 @@ public class Convert extends Common {
                 Violet v = new Violet(f);
                 Violetpl p = v.toVioletpl();
                 p.toViolet();
+                System.out.println("Execution complete.");
     }
     
 }

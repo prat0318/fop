@@ -30,7 +30,9 @@ public class Violet extends MDELiteObject {
     public Violetpl toVioletpl() {
         Violetpl result = new Violetpl(filename);
         String[] args = {filename+fileType()};
+        System.out.println("Parsing the violet file and creating prolog file...");
         FSMLite.violetParsers.main.Main.main(args);
+        System.out.println("Checking whether the prolog file conforms with the rules..");
         result.conform();
         return result;
     }

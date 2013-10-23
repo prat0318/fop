@@ -1,0 +1,30 @@
+cp inputs/*.violet outputs/
+cd outputs
+
+echo "\nRunning for dogFSM violet file..\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert dogFSM
+
+echo "\nRunning for fsm20 violet file..\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert fsm20
+
+echo "\nRunning for sample violet file..\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert sample
+
+echo "\nRunning for xxx..\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert xxx
+
+echo "\nRunning for eatingHabits..\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert eatingHabits
+
+echo "\nRunning for loop..\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert loop
+
+echo "\nRunning for semiclique..\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert semiclique

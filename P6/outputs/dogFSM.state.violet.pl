@@ -1,4 +1,5 @@
 :- style_check(-discontiguous).
+:- style_check(-singleton).
 
 table(node_violet,[id,name,nodeType,x,y]).
 node_violet(circularinitialstatenode0,circularinitialstatenode0,start,172,262).

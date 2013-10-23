@@ -8,20 +8,8 @@ public class circularinitialstatenode0 implements state {
         return this;
     }
 
-    public state gotoReady() {
-        return new Ready();
-    }
-
-    public state gotoDrink() {
-        return this;
-    }
-
-    public state gotoEat() {
-        return this;
-    }
-
-    public state gotoPig() {
-        return this;
+    public state gotoloop() {
+        return new loop();
     }
 
     public String getName() {
