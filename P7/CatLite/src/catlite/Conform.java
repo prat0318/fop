@@ -9,5 +9,8 @@ package catlite;
  * @author prat0318
  */
 public class Conform {
-    
+    public static void main(String args[]) {
+        Violet v = new Violet(args[1]);
+        Violetpl l = v.toVioletpl();
+    }
 }
