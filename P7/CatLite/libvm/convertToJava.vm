@@ -4,70 +4,44 @@
 #set($MARKER="//----")
 
 ## Code to generate the interface state.
-${MARKER}state.java
-public interface state {
-#foreach ($node in $node_violetS)
-    public state goto${node.name}();
-#end
-    public String getName();
-}
+${MARKER}Convert.java
+import CoreMDELite.HomePath;
+import CoreMDELite.SDB;
 
-## Code to generate the implementations of class state.
+public class Convert {
 
 ## Start Node represents the class for which code is to be produced.
 #foreach($startNode in $node_violetS)  
-${MARKER}${startNode.name}.java
-public class ${startNode.name} implements state {
-
-## All possible end nodes are checked for any transition.
 #foreach($endNode in $node_violetS) 
-    public state goto${endNode.name}() {
-#set($if_written="False")	
-## Iterate over all the transitions to check whether startNode->endNode exists.
 #foreach($transition in $transitionS)
-#if (${transition.startsAt} == ${startNode.id} && ${transition.endsAt} == ${endNode.id})
-		#set($if_written="True")
-        return new ${endNode.name}();
+#if (${transition.startsAt} == ${startNode.id} && ${transition.endsAt} == ${endNode.id} && ${transition.type} =="T2M" )
+    //T2M
+    public static void ${transition.name}(String filename){
+        System.out.println("Parsing the violet file and creating prolog file...");
+        ${transition.addFile}
+        //FSMLite.violetParsers.main.Main.main(args);
+        System.out.println("Checking whether the prolog file conforms with the rules..");
+        String[] list = {HomePath.homePath + "libpl/discontiguous.pl",
+                filename, HomePath.homePath + "libpl/conform.pl", HomePath.homePath + "libpl/state.conform.pl"};
+        SDB tmpconform = new SDB("tmpconform", list);
+        tmpconform.executeProlog();
+        tmpconform.delete();
+    }
 #end
-#end
-#if ($if_written == "False")
-        return this;
-#end
+
+    //M2M
+
+    //M2T
+#if (${transition.startsAt} == ${startNode.id} && ${transition.endsAt} == ${endNode.id} && ${transition.type} =="T2M" )
+    public static void ${transition.name}(String filename) {
+        Violet result = new Violet(filename );
+        System.out.println("Invoking Vm2t to create JAVA files.");
+        invokeVm2t(result, HomePath.homePath + "libvm/convertToJava.vm");
+        return result;
     }
 
 #end
-    public String getName() {
-        return "${startNode.name}";
-    }
-	
-}
+
 #end
-
-## Then we would generate the FSM class, which is going to use all the states. 
-## This class would act as an interface for the outer world.
-${MARKER}fsm1.java
-public class fsm1 implements common{
-public state currentState;
-
-public fsm1() {
-    currentState = new circularinitialstatenode0();
-}
-
-#foreach($node in $node_violetS)
-public void goto${node.name}() {
-    currentState = currentState.goto${node.name}();
-}
 #end
-public String getName() {
-    return currentState.getName();
-}
-}
-
-## Generate the common interface.
-${MARKER}common.java
-public interface common {
-#foreach($node in $node_violetS)
-    public void goto${node.name}();
 #end
-    public String getName();
-}
