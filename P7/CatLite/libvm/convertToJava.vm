@@ -24,12 +24,8 @@ public class Convert {
 #if("${Q}$textModel${Q}" == $transition.conversionType)
     //M2M
     public static void ${transition.function.replaceAll("\"","")}(String filename){
-        System.out.println("Checking whether the prolog file conforms with the rules..");
-        String[] list = {HomePath.homePath + "libpl/discontiguous.pl",
-                filename, HomePath.homePath + "libpl/conform.pl", HomePath.homePath + "libpl/${transition.addFile.replaceAll("\"","")}"};
-        SDB tmpconform = new SDB("tmpconform", list);
-        tmpconform.executeProlog();
-        tmpconform.delete();
+        Violet result = new Violet(filename);
+        result.toSecond();
     }
 #end
 
@@ -73,13 +69,15 @@ public class Violet extends GProlog {
         return ".state.violet";
     }
     
-
+    @Override
+    public void conform() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 #foreach($transition in $transitionS)
 #set($textModel = "M2M")
 #if("${Q}$textModel${Q}" == $transition.conversionType)
 
-    @Override
     public void ${transition.function.replaceAll("\"","")}(){
         ${transition.function.replaceAll("\"","")}(HomePath.homePath + "libpl/conform.pl");
     }
