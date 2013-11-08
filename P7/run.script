@@ -28,7 +28,7 @@ java -classpath ../../MDELite2.3/build/classes:../../MDELite2.3/NeededJarFiles/v
 javac *.java
 java testdogFsm_state_violet
 
-echo "IF we reach final state above, then the testcase passed!."
+echo "\033[33;32mIF we reach final state above, then the testcase passed!.\033[0m"
 #COMMENTING BELOW CODE AS CHANGES ARE TO BE DONE TO IT#
 : <<'END'
 echo "\n\033[33;32mRunning for fsm20 violet file..\033[0m\n"
