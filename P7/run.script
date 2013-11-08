@@ -15,45 +15,69 @@ mv tmp1 ../P6/MDELite2.3/src/FSMLite/Violet.java
 
 cd ../P6/
 
-cp inputs/dogFsm.state.violet outputs/dogFsm.state.violet/
+cp inputs/*state.violet outputs/
 cd outputs
 
 echo "\n Going to compile Convert.java and Violet.java"
 javac -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar -d ../MDELite2.3/build/classes ../MDELite2.3/src/FSMLite/*.java 
-
-echo "\n\033[33;32mRunning for dogFSM violet file..\033[0m\n"
-cd dogFsm.state.violet
-java -classpath ../../MDELite2.3/build/classes:../../MDELite2.3/NeededJarFiles/velocity.jar:../../MDELite2.3/NeededJarFiles/commons-collections.jar:../../MDELite2.3/NeededJarFiles/commons-lang.jar:../../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Main dogFsm.state.violet
-
+echo "Cleaning earlier example java files..."
+rm *.java
+echo "\n\033[33;32mCalling the Main (which calls generated Convert) for dogFSM violet file..\033[0m\n"
+#cd dogFsm.state.violet
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Main dogFsm.state.violet
+cp ../MDELite2.3/inputs/testdogFsm_state_violet.java .
 javac *.java
+echo "Running the test suite for dogFSM..."
 java testdogFsm_state_violet
-
 echo "\033[33;32mIF we reach final state above, then the testcase passed!.\033[0m"
-#COMMENTING BELOW CODE AS CHANGES ARE TO BE DONE TO IT#
-: <<'END'
-echo "\n\033[33;32mRunning for fsm20 violet file..\033[0m\n"
 
-java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert fsm20
 
-echo "\n\033[33;32mRunning for sample violet file..\033[0m\n"
+echo "Cleaning earlier example java files..."
+rm *.java
+echo "\n\033[33;32mCalling the Main (which calls generated Convert) for fsm20 violet file..\033[0m\n"
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Main fsm20.state.violet
+cp ../MDELite2.3/inputs/testfsm20_state_violet.java .
+javac *.java
+echo "Running the test suite for fsm20..."
+java testfsm20_state_violet
+echo "\033[33;32mIF we reach final state above, then the testcase passed!.\033[0m"
 
-java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert sample
 
-echo "\n\033[33;32mRunning for xxx..\033[0m\n"
 
-java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert xxx
+echo "Cleaning earlier example java files..."
+rm *.java
+echo "\n\033[33;32mCalling the Main (which calls generated Convert) for sample violet file..\033[0m\n"
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Main sample.state.violet
+cp ../MDELite2.3/inputs/testsample_state_violet.java .
+javac *.java
+echo "Running the test suite for sample..."
+java testsample_state_violet
+echo "\033[33;32mIF we reach final state above, then the testcase passed!.\033[0m"
 
-echo "\n\033[33;32mRunning for eatingHabits..\033[0m\n"
+echo "Cleaning earlier example java files..."
+rm *.java
+echo "\n\033[33;32mCalling the Main (which calls generated Convert) for xxx violet file..\033[0m\n"
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Main xxx.state.violet
+cp ../MDELite2.3/inputs/testxxx_state_violet.java .
+javac *.java
+echo "Running the test suite for xxx..."
+java testxxx_state_violet
+echo "\033[33;32mIF we reach final state above, then the testcase passed!.\033[0m"
 
-java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert eatingHabits
+echo "Cleaning earlier example java files..."
+rm *.java
+echo "\n\033[33;32mCalling the Main (which calls generated Convert) for eatingHabits violet file..\033[0m\n"
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Main eatingHabits.state.violet
+cp ../MDELite2.3/inputs/testeatinghabits_state_violet.java .
+javac *.java
+echo "Running the test suite for eatingHabits..."
+java testeatinghabits_state_violet
+echo "\033[33;32mIF we reach final state above, then the testcase passed!.\033[0m"
 
-echo "\n\033[33;32mRunning for loop..\033[0m\n"
 
-java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert loop
+echo "Cleaning earlier example java files..."
+rm *.java
+echo "\n\033[33;32mCalling the Main (which calls generated Convert) for semi-clique violet file..\033[0m\n"
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Main semiclique.state.violet
 
-echo "\n\033[33;32mRunning for semiclique..\033[0m\n"
-
-java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert semiclique
 echo "SemiClique does not follow FSM Constraints, as shown by the \033[33;31mERROR\033[0m above..."
-END
-
