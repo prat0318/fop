@@ -33,6 +33,17 @@ public class Violet extends GProlog {
         tmpconform.executeProlog();
         tmpconform.delete();
     }
+    
+     public Violet toJava(String extra) {
+        Violet result = new Violet(filename + extra);
+        invokeVm2t(result, HomePath.homePath + "libvm/convertToJava.vm");
+        return result;
+    }
+
+    public Violet toJava() {
+        return toJava("");
+    }
+    
 
     @Override
     public String fileType() {
@@ -43,5 +54,6 @@ public class Violet extends GProlog {
     public String partialFileType() {
         return ".state.violet";
     }
+    
     
 }
