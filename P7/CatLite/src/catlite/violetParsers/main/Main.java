@@ -1,7 +1,7 @@
-package FSMLite.violetParsers.main;
+package catlite.violetParsers.main;
 
-import FSMLite.violetParsers.writer.DBWriter;
-import FSMLite.violetParsers.importer.Importer;
+import catlite.violetParsers.writer.DBWriter;
+import catlite.violetParsers.importer.Importer;
 import java.io.File;
 
 public class Main {

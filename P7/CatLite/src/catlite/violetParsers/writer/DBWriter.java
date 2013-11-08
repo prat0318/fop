@@ -1,8 +1,8 @@
-package FSMLite.violetParsers.writer;
+package catlite.violetParsers.writer;
 
-import FSMLite.violetParsers.importer.StateViolet;
-import FSMLite.violetParsers.importer.StateNode;
-import FSMLite.violetParsers.importer.StateEdge;
+import catlite.violetParsers.importer.StateViolet;
+import catlite.violetParsers.importer.StateNode;
+import catlite.violetParsers.importer.StateEdge;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

@@ -1,4 +1,4 @@
-package FSMLite.violetParsers.importer;
+package catlite.violetParsers.importer;
 
 public class StateEdge {
 

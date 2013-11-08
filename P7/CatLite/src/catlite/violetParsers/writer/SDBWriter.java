@@ -1,4 +1,4 @@
-package FSMLite.violetParsers.writer;
+package catlite.violetParsers.writer;
 
 import java.io.BufferedWriter;
 import java.io.File;

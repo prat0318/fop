@@ -13,7 +13,7 @@ public class Convert {
         Violet result = new Violet(filename);
 //        String[] args = {filename+fileType()};
         System.out.println("Parsing the violet file and creating prolog file...");
-        FSMLite.violetParsers.main.Main.main(args);
+        catlite.violetParsers.main.Main.main(new String[]{filename});
         System.out.println("Checking whether the prolog file conforms with the rules..");
         result.conform();
         return result;

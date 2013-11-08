@@ -1,6 +1,6 @@
-package FSMLite.violetParsers.importer;
+package catlite.violetParsers.importer;
 
-import FSMLite.violetParsers.importer.*;
+import catlite.violetParsers.importer.*;
 import java.util.ArrayList;
 
 public class StateNode {

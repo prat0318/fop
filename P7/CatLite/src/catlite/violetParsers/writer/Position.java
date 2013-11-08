@@ -1,4 +1,4 @@
-package FSMLite.violetParsers.writer;
+package catlite.violetParsers.writer;
 
 public class Position {
 
