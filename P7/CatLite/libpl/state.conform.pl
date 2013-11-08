@@ -15,49 +15,19 @@ primary_key_null :- transition(null,_,_),writeln('* A primary key in the transit
 primary_key_not_unique :- node(X,_,_),aggregate_all(count, node(X,_,_), COUNT), COUNT \= 1,write('* Primary key is not unique in the node table. We are repeating: '),writeln(X).
 primary_key_not_unique :- transition(X,_,_),aggregate_all(count, transition(X,_,_), COUNT), COUNT \= 1,write('* Primary key is not unique in the transition table. We are repeating: '), writeln(X).
 
-% Constraint - 3.
-% A node must always be of either start, state or stop type.
-node_type_not_identified :- node(X,_,Type),not(member(Type,[start,state,stop])),write('* Node: "'),write(X),writeln('"s type is not one among [start, state, stop].').
-
 % Constraint - 4.
 % Each startsAt and endsAt is a valid node Id.
 transition_type_not_identified :- transition(X,Node1,_),not(node(Node1,_,_)),write('* Transition:- '),write(X),write(' does not start from a valid node.'), write(Node1), writeln('.').
 transition_type_not_identified :- transition(X,_,Node2),not(node(Node2,_,_)),write('* Transition:- '),write(X),write(' does not end at a valid node: '), write(Node2), writeln('.').
 
-% Constraint - 5.
-% You cannot go to any other state from the 'stop' node. However, a transition from stop to stop is allowed.
-transition_starting_from_stop :- transition(T,X,Y),not(node(Y,_,stop)),node(X,_,stop),write('* Transition:- '),write(T),writeln(' is starting from a node of type stop.').
-
-% Constraint - 6.
-% There should be atleast one start and stop node.
-not_enough_endnodes :- not(node(_,_,start)), writeln('* There is no start node.').
-not_enough_endnodes :- not(node(_,_,stop)), writeln('* There is no stop node.').
-
-% Constraint - 7.
-% There should be atMax one start and stop node. I have created these two rules, just for better error reporting. Ideally Constraint 6 and 7 can be clubbed together.
-multiple_start_nodes :- aggregate_all(count, node(_,_,start), COUNT), COUNT > 1, writeln('* We have multiple start nodes.').
-multiple_end_nodes :- aggregate_all(count, node(_,_,stop), COUNT), COUNT > 1, writeln('* We have multiple end nodes.').
-
-% Constraint - 8.
-% We should check that each node in the graph should be reachable from start and stop node both.
-check_reachable(CN, Processed, X) :- transition(_,CN,Next), (Next==X -> true; member(Next, Processed) -> false ; append(Processed, [Next], NewList), check_reachable(Next, NewList ,X)).
-
-not_reachable_from_start(Start) :- node(X,_,T), not(member(T,[start,stop])), not(check_reachable(Start, [Start], X)), write('* Node: '), write(X), writeln(' is not reachable from the start.').
-not_reachable_from_stop(Stop) :- node(X,_,T), not(member(T,[start,stop])), not(check_reachable(X, [X], Stop)), write('* Node: '), write(X), writeln(' is not reachable from the stop.').
-
-not_reachable_node :- aggregate_all(count, node(_,_,start), COUNT), COUNT == 1, node(X,_,start), not_reachable_from_start(X).
-not_reachable_node :- aggregate_all(count, node(_,_,stop), COUNT), COUNT == 1, node(X,_,stop), not_reachable_from_stop(X).
-
 % Final constraint to check verify all the constraints.
-run :- not(primary_key_null), not(primary_key_not_unique), not(node_type_not_identified), not(transition_type_not_identified), not(transition_starting_from_stop), not(not_enough_endnodes), not(multiple_start_nodes), not(multiple_end_nodes).
+run :- not(primary_key_null), not(primary_key_not_unique), not(node_type_not_identified), not(transition_type_not_identified), , not(not_enough_endnodes), not(multiple_end_nodes).
 
 list_invalid_constraints :- primary_key_null, nb_setval(invalid_constraint, true), false.
 list_invalid_constraints :- primary_key_not_unique, nb_setval(invalid_constraint, true), false.
 list_invalid_constraints :- node_type_not_identified, nb_setval(invalid_constraint, true), false.
 list_invalid_constraints :- transition_type_not_identified, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- transition_starting_from_stop, nb_setval(invalid_constraint, true), false.
 list_invalid_constraints :- not_enough_endnodes, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- multiple_start_nodes, nb_setval(invalid_constraint, true), false.
 list_invalid_constraints :- multiple_end_nodes, nb_setval(invalid_constraint, true), false.
 list_invalid_constraints :- not_reachable_node, nb_setval(invalid_constraint, true), false.
 list_invalid_constraints :- catch(nb_getval(invalid_constraint, X), E, false).
