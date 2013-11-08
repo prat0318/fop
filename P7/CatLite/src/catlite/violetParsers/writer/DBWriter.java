@@ -99,7 +99,7 @@ public class DBWriter {
         
         StringBuilder catLabelStringBuilder = new StringBuilder();
         for(String tmp: catLabel) {
-            catLabelStringBuilder.append(tmp);
+            catLabelStringBuilder.append("\"" + tmp + "\"");
             catLabelStringBuilder.append(",");
         }
         String catLabelString = catLabelStringBuilder.substring(0, 
