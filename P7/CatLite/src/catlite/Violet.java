@@ -28,7 +28,7 @@ public class Violet extends GProlog {
 
     public void conform(String conformFile) {
         String[] list = {HomePath.homePath+"libpl/discontiguous.pl",
-                fullName,conformFile,HomePath.homePath + "libpl/state.conform.pl"};
+                fullName ,conformFile,HomePath.homePath + "libpl/state.conform.pl"};
         SDB tmpconform = new SDB("tmpconform", list);
         tmpconform.executeProlog();
         tmpconform.delete();
@@ -36,14 +36,12 @@ public class Violet extends GProlog {
 
     @Override
     public String fileType() {
-        return ".state.violet.pl";
+        return ".pl";
     }
 
     @Override
     public String partialFileType() {
         return ".state.violet";
     }
-
-
     
 }
