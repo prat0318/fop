@@ -9,14 +9,17 @@ public class Main {
     public static String VIOLET_XML_DIR = "TestData/testDataViolet";
     static String inputFile;
 
-    /**
-     * Main
-     */
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Usage: voiletXML-file");
         }
-        inputFile = args[0];
+        main(args[0]);
+    }
+    /**
+     * Main
+     */
+    public static void main(String args) {
+         inputFile = args;
         //inputFile = VIOLET_XML_DIR+"/agg.class.violet";    
 
         //Import XML data into Java objects

@@ -131,7 +131,7 @@
   <void method="connect">
    <object class="com.horstmann.violet.StateTransitionEdge">
     <void property="label">
-     <string>toSDB M2M conform.pl</string>
+     <string>toSDB M2M state.conform.pl</string>
     </void>
    </object>
    <object idref="StateNode1"/>
