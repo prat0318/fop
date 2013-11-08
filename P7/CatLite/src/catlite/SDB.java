@@ -67,7 +67,7 @@ public class SDB extends GProlog {
         String[] list = {HomePath.homePath + "libpl/discontiguous.pl",
             this.fullName, HomePath.homePath + "libpl/violet.schema.pl", HomePath.homePath + "libpl/sdb2violet.pl", HomePath.homePath + "libpl/print.pl", HomePath.homePath + "libpl/violet.run.pl"};
         Violet tmp = new Violet("tmp", list);
-        Violet result = new Violetpl(filename + extra);
+        Violet result = new Violet(filename + extra);
         tmp.executeProlog(result);
         result.conform();  // make sure that the db conforms to umlfpl schema
         tmp.delete();

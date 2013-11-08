@@ -14,9 +14,13 @@ import CoreMDELite.HomePath;
 public class Violet extends GProlog {
 
     Violet(String filename){
-       
+       super(filename);
     }
 
+    Violet(String filename, String[] array) {
+        super(filename, array);
+    }
+    
     @Override
     public void conform(){
         conform(HomePath.homePath + "libpl/conform.pl");

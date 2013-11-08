@@ -1,4 +1,4 @@
-v/*
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -11,6 +11,5 @@ package catlite;
 public class Conform {
     public static void main(String args[]) {
         Violet v = new Violet(args[1]);
-        Violetpl l = v.toVioletpl();
     }
 }
