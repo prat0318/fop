@@ -9,24 +9,24 @@ import CoreMDELite.HomePath;
 import CoreMDELite.GProlog;
 
 public class Convert {
-
+#set($Q = '"')
 #foreach($transition in $transitionS)
 #set($textModel = "T2M")
-#if($textModel == $transition.conversionType)
+#if("${Q}$textModel${Q}" == $transition.conversionType)
     //T2M
-    public static void ${transition.function}(String filename){
+    public static void ${transition.function.replaceAll("\"","")}(String filename){
         System.out.println("Parsing the violet file and creating prolog file...");
-        ${transition.addFile}(args);
+        ${transition.addFile.replaceAll("\"","")}(args);
     }
 #end
 
 #set($textModel = "M2M")
-#if($textModel == $transition.conversionType)
+#if("${Q}$textModel${Q}" == $transition.conversionType)
     //M2M
-    public static void ${transition.function}(String filename){
+    public static void ${transition.function.replaceAll("\"","")}(String filename){
         System.out.println("Checking whether the prolog file conforms with the rules..");
         String[] list = {HomePath.homePath + "libpl/discontiguous.pl",
-                filename, HomePath.homePath + "libpl/conform.pl", HomePath.homePath + "libpl/${transition.addFile}"};
+                filename, HomePath.homePath + "libpl/conform.pl", HomePath.homePath + "libpl/${transition.addFile.replaceAll("\"","")}"};
         SDB tmpconform = new SDB("tmpconform", list);
         tmpconform.executeProlog();
         tmpconform.delete();
@@ -34,15 +34,16 @@ public class Convert {
 #end
 
 #set($textModel = "M2T")
-#if($textModel == $transition.conversionType)
+#if("${Q}$textModel${Q}" == $transition.conversionType)
     //M2T
-    static public Violet ${transition.function}(String filename) {
+    static public Violet ${transition.function.replaceAll("\"","")}(String filename) {
         Violet result = new Violet(filename);
-        result.${transition.function}();
+        result.${transition.function.replaceAll("\"","")}();
         return result;
     }
 #end
 #end
+}
 
 #set($MARKER="//----")
 
@@ -76,16 +77,16 @@ public class Violet extends GProlog {
 
 #foreach($transition in $transitionS)
 #set($textModel = "M2M")
-#if($textModel == $transition.conversionType)
+#if("${Q}$textModel${Q}" == $transition.conversionType)
 
     @Override
-    public void ${transition.function}(){
-        ${transition.function}(HomePath.homePath + "libpl/conform.pl");
+    public void ${transition.function.replaceAll("\"","")}(){
+        ${transition.function.replaceAll("\"","")}(HomePath.homePath + "libpl/conform.pl");
     }
 
-    public void ${transition.function}(String conformFile) {
+    public void ${transition.function.replaceAll("\"","")}(String conformFile) {
         String[] list = {HomePath.homePath+"libpl/discontiguous.pl",
-                fullName ,conformFile,HomePath.homePath + "libpl/${transition.addFile}"};
+                fullName ,conformFile,HomePath.homePath + "libpl/${transition.addFile.replaceAll("\"","")}"};
         SDB tmpconform = new SDB("tmpconform", list);
         tmpconform.executeProlog();
         tmpconform.delete();
@@ -93,15 +94,15 @@ public class Violet extends GProlog {
 #end
     
 #set($textModel = "M2T")
-#if($textModel == $transition.conversionType)
-     public Violet ${transition.function}(String extra) {
+#if("${Q}$textModel${Q}" == $transition.conversionType)
+     public Violet ${transition.function.replaceAll("\"","")}(String extra) {
         Violet result = new Violet(filename + extra);
-        invokeVm2t(result, HomePath.homePath + "libvm/${transition.addFile}");
+        invokeVm2t(result, HomePath.homePath + "libvm/${transition.addFile.replaceAll("\"","")}");
         return result;
     }
 
-    public Violet ${transition.function}() {
-        return ${transition.function}("");
+    public Violet ${transition.function.replaceAll("\"","")}() {
+        return ${transition.function.replaceAll("\"","")}("");
     }
 #end    
 #end
