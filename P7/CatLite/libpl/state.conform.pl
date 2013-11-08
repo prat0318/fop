@@ -7,28 +7,18 @@ node(Id,Name,NodeType) :- node_violet(Id,Name,NodeType,_,_).
 
 % Constraint - 1.
 % A node Id and a transition Id should never be null.
-primary_key_null :- node(null,_,_),writeln('* A primary key in the node table is null.').
-primary_key_null :- transition(null,_,_),writeln('* A primary key in the transition table is null.').
+primary_key_null :- node(null,_,_,_,_),writeln('* A primary key in the node table is null.').
+primary_key_null :- transition(null,_,_,_,_,_),writeln('* A primary key in the transition table is null.').
 
 % Constraint - 2.
 % A nodeId and transitionId should always be unique.
-primary_key_not_unique :- node(X,_,_),aggregate_all(count, node(X,_,_), COUNT), COUNT \= 1,write('* Primary key is not unique in the node table. We are repeating: '),writeln(X).
-primary_key_not_unique :- transition(X,_,_),aggregate_all(count, transition(X,_,_), COUNT), COUNT \= 1,write('* Primary key is not unique in the transition table. We are repeating: '), writeln(X).
+primary_key_not_unique :- node(X,_,_,_,_),aggregate_all(count, node(X,_,_,_,_), COUNT), COUNT \= 1,write('* Primary key is not unique in the node table. We are repeating: '),writeln(X).
+primary_key_not_unique :- transition(X,_,_,_,_,_),aggregate_all(count, transition(X,_,_,_,_,_), COUNT), COUNT \= 1,write('* Primary key is not unique in the transition table. We are repeating: '), writeln(X).
 
 % Constraint - 4.
 % Each startsAt and endsAt is a valid node Id.
-transition_type_not_identified :- transition(X,Node1,_),not(node(Node1,_,_)),write('* Transition:- '),write(X),write(' does not start from a valid node.'), write(Node1), writeln('.').
-transition_type_not_identified :- transition(X,_,Node2),not(node(Node2,_,_)),write('* Transition:- '),write(X),write(' does not end at a valid node: '), write(Node2), writeln('.').
+transition_type_not_identified :- transition(X,Node1,_,_,_,_),not(node(Node1,_,_,_,_)),write('* Transition:- '),write(X),write(' does not start from a valid node.'), write(Node1), writeln('.').
+transition_type_not_identified :- transition(X,_,Node2,_,_,_),not(node(Node2,_,_,_,_)),write('* Transition:- '),write(X),write(' does not end at a valid node: '), write(Node2), writeln('.').
 
 % Final constraint to check verify all the constraints.
 run :- not(primary_key_null), not(primary_key_not_unique), not(node_type_not_identified), not(transition_type_not_identified), , not(not_enough_endnodes), not(multiple_end_nodes).
-
-list_invalid_constraints :- primary_key_null, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- primary_key_not_unique, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- node_type_not_identified, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- transition_type_not_identified, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- not_enough_endnodes, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- multiple_end_nodes, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- not_reachable_node, nb_setval(invalid_constraint, true), false.
-list_invalid_constraints :- catch(nb_getval(invalid_constraint, X), E, false).
-list_invalid_constraints :- writeln('No invalid constraints found.').
