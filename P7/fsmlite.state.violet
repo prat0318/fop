@@ -122,7 +122,7 @@
   <void method="connect">
    <object class="com.horstmann.violet.StateTransitionEdge">
     <void property="label">
-     <string>toPL T2M FSMLite.violetParsers.importer</string>
+     <string>toPL T2M Main.main</string>
     </void>
    </object>
    <object idref="StateNode0"/>

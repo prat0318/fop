@@ -2,7 +2,7 @@
 
 echo "\033[33;32mMAKE SURE TO SET YOUR SWIPL LOCATION IN MDELite2.3/config.properties\033[0m..."
 
-java -classpath ./CatLite/build/classes/:./Catlite/dist/commons-collections.jar:./Catlite/dist/commons-lang.jar:./Catlite/dist/kwebs.jar:./Catlite/dist/velocity.jar catlite.Convert fsmlite.state.violet
+java -classpath ./CatLite/build/classes/:./CatLite/dist/lib/commons-collections.jar:./CatLite/dist/lib/commons-lang.jar:./CatLite/dist/lib/kwebs.jar:./CatLite/dist/lib/velocity.jar catlite.Convert fsmlite.state.violet
 
 echo 'package FSMLite;import FSMLite.violetParsers.main.Main;' > tmp
 echo 'package FSMLite;' > tmp1
@@ -15,16 +15,22 @@ mv tmp1 ../P6/MDELite2.3/src/FSMLite/Violet.java
 
 cd ../P6/
 
-cp inputs/*.violet outputs/
+cp inputs/dogFsm.state.violet outputs/dogFsm.state.violet/
 cd outputs
 
 echo "\n Going to compile Convert.java and Violet.java"
 javac -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar -d ../MDELite2.3/build/classes ../MDELite2.3/src/FSMLite/*.java 
 
 echo "\n\033[33;32mRunning for dogFSM violet file..\033[0m\n"
+cd dogFsm.state.violet
+java -classpath ../../MDELite2.3/build/classes:../../MDELite2.3/NeededJarFiles/velocity.jar:../../MDELite2.3/NeededJarFiles/commons-collections.jar:../../MDELite2.3/NeededJarFiles/commons-lang.jar:../../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Main dogFsm.state.violet
 
-java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert dogFsm
+javac *.java
+java testdogFsm_state_violet
 
+echo "IF we reach final state above, then the testcase passed!."
+#COMMENTING BELOW CODE AS CHANGES ARE TO BE DONE TO IT#
+: <<'END'
 echo "\n\033[33;32mRunning for fsm20 violet file..\033[0m\n"
 
 java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert fsm20
@@ -49,3 +55,5 @@ echo "\n\033[33;32mRunning for semiclique..\033[0m\n"
 
 java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert semiclique
 echo "SemiClique does not follow FSM Constraints, as shown by the \033[33;31mERROR\033[0m above..."
+END
+
