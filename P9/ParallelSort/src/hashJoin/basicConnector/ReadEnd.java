@@ -3,10 +3,10 @@
  * and open the template in the editor.
  */
 
-package basicConnector;
+package hashJoin.basicConnector;
 
-import gammaSupport.Relation;
-import gammaSupport.Tuple;
+import hashJoin.gammaSupport.Relation;
+import hashJoin.gammaSupport.Tuple;
 import java.io.BufferedReader;
 
 /**

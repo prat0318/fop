@@ -31,7 +31,7 @@ public class HashSplit extends Thread {
                 }
                 int hash = myhash(input);
                 out[hash].println(input);
-                // System.out.println( hash + " " + input );
+                 System.out.println( hash + " " + input );
                 out[hash].flush();
             }
             for (int i = 0; i<4; i++) { out[i].flush(); out[i].close(); }

@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package gammaSupport;
+package hashJoin.gammaSupport;
 
-import basicConnector.Connector;
+import hashJoin.basicConnector.Connector;
 import java.util.HashSet;
 
 // this class contains a list of threads

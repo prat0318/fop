@@ -3,9 +3,9 @@
  * and open the template in the editor.
  */
 
-package gammaSupport;
+package hashJoin.gammaSupport;
 
-import basicConnector.Connector;
+import hashJoin.basicConnector.Connector;
 
 /**
  *

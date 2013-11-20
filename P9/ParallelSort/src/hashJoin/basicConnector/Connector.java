@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package basicConnector;
+package hashJoin.basicConnector;
 
-import gammaSupport.Relation;
-import gammaSupport.ReportError;
+import hashJoin.gammaSupport.Relation;
+import hashJoin.gammaSupport.ReportError;
 import java.io.*;
 import java.util.LinkedList;
 
