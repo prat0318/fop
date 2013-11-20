@@ -9,8 +9,8 @@ package hashJoin.gammaSupport;
  * @author Don
  */
 public class BMap implements GammaConstants {
-    static char FWALSE = 'f';
-    static char TWUE = 't';
+    static char FALSE = 'f';
+    static char TRUE = 't';
     boolean[][] map;
 
     // constructors and factory methods
@@ -25,7 +25,7 @@ public class BMap implements GammaConstants {
 
         for (int i = 0; i < splitLen; i++) {
             for (int j = 0; j < mapSize; j++) {
-                bm.map[i][j] = (b.charAt(index(i, j)) == TWUE);
+                bm.map[i][j] = (b.charAt(index(i, j)) == TRUE);
             }
         }
         return bm;
@@ -81,7 +81,7 @@ public class BMap implements GammaConstants {
                 }
             } else {  // zero out row
                 for (j = 0; j < mapSize; j++) {
-                    ss[index(i, j)] = FWALSE;
+                    ss[index(i, j)] = FALSE;
                 }
             }
         }
@@ -117,7 +117,7 @@ public class BMap implements GammaConstants {
 
         for (int i = 0; i < splitLen; i++) {
             for (int j = 0; j < mapSize; j++) {
-                array[index(i, j)] = map[i][j] ? TWUE : FWALSE;
+                array[index(i, j)] = map[i][j] ? TRUE : FALSE;
             }
         }
 
