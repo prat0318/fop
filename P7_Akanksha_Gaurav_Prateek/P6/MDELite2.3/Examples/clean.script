@@ -1,0 +1,3 @@
+echo Examples Directory
+rm -f *.pl *.txt *~ *class.yuml  *eqv.violet *.dot  *eqv.yuml
+ls

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0_10" class="java.beans.XMLDecoder">
+ <object class="com.horstmann.violet.ClassDiagramGraph">
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode">
+    <void property="name">
+     <void property="text">
+      <string>Eric</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double0">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double0"/>
+      <double>432</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double0"/>
+      <double>184</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>432</double>
+     <double>184</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.InterfaceNode">
+    <void property="name">
+     <void property="text">
+      <string>«interface» Don</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double1">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double1"/>
+      <double>1004</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double1"/>
+      <double>301</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1004</double>
+     <double>301</double>
+    </void>
+   </object>
+  </void>
+ </object>
+</java>

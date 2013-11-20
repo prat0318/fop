@@ -1,0 +1,4 @@
+rm -f *.pl *.violet.violet *~ *FromSDBV* *V.violet
+echo testDataViolet Directory:
+ls *
+echo

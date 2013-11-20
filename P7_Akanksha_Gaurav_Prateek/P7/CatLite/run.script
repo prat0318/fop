@@ -1,0 +1,6 @@
+
+sed -i '1i package FSMLite;import FSMLite.violetParsers.main.Main;' Convert.java
+sed -i '1i package FSMLite;' Violet.java
+
+mv Convert.java ../../P6/MDELite2.3/src/FSMLite/
+mv Violet.java ../../P6/MDELite2.3/src/FSMLite/

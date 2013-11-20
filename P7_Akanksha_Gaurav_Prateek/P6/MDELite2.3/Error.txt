@@ -1,0 +1,2 @@
+Warning: /Users/gnanda/fop/fop-shared/P6/MDELite2.3/script.txt:1:
+	Goal (directive) failed: user: ([tmpconform.sdb.pl],tell(conform.txt),run,told,halt)

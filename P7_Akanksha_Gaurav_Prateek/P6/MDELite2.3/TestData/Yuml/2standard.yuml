@@ -1,0 +1,6 @@
+[Location]<>->[Point]
+[Company]++-1>[Location]
+[Wages]^-[Salaried]
+[Wages]^-[Contractor]
+[<<Interface>>;ITask]^-[NightlyBillingTask]
+[<<Interface>>;Session]

@@ -1,0 +1,23 @@
+<Diagram seq="4">
+<Elements>
+  <SimpleClass ys="1" xs="1" x="138"  y="221" id="cdl_3" font="_sans" fontSize="12">
+    <Label y="224" x="141">c1</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="488"  y="206" id="cdl_4" font="_sans" fontSize="12">
+    <Label y="209" x="491">c2</Label>
+  </SimpleClass>
+  <Interface xs="1" ys="1" x="112" y="56" id="cdf_1" font="_sans" fontSize="12">
+    <Label y="106" x="115">+a%28%29%0D+b%28%29</Label>
+    <Detail>%3C%3C%20Interface%20%3E%3E%0Di1</Detail>
+  </Interface>
+  <Interface xs="1" ys="1" x="495" y="55" id="cdf_2" font="_sans" fontSize="12">
+    <Label y="105" x="498">+c%28x%2Cy%29</Label>
+    <Detail>%3C%3C%20Interface%20%3E%3E%0Di2</Detail>
+  </Interface>
+</Elements>
+<Associations>
+  <Association source="none" from="cdl_3" dashed="true" anchor="true" target="gen"  to="cdf_1" type="standard"/>
+  <Association source="none" from="cdl_4" dashed="true" anchor="true" target="gen"  to="cdf_2" type="standard"/>
+  <Association source="none" from="cdf_2" dashed="true" anchor="true" target="gen"  to="cdf_1" type="standard"/>
+</Associations>
+</Diagram>

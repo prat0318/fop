@@ -1,0 +1,4 @@
+rm -f *.pl  *g.umlf.xml *~ *.dot *.yuml
+echo testDataUMLF directory:
+ls *
+echo

@@ -1,0 +1,35 @@
+#set($MARKER="//----")
+${MARKER}vm2toutput.txt
+digraph {
+   // classes 
+#foreach( $c in $classS )
+   ${c.id};
+#end 
+
+   // interfaces 
+#foreach( $i in $interfaceS )
+   ${i.id};
+#end
+
+   // class Implements
+#foreach( $c in $classImplementS )
+   ${c.cid}->${c.iid}
+#end
+
+   // interface Extends
+#foreach( $i in $interfaceExtendsS )
+   ${i.id}->${i.idx}
+#end
+
+  // class Extends
+#foreach( $c in $classS )
+#if (${c.superid}!="null")
+   ${c.id}->${c.superid};
+#end 
+#end 
+
+   // associations 
+#foreach( $a in $associationS)
+   ${a.cid1}->${a.cid2};
+#end
+}

@@ -1,0 +1,31 @@
+#set($MARKER="//----")
+${MARKER}vm2toutput.txt
+#set($Integer = 0)
+<Diagram seq="4">
+<Elements>
+#foreach($sc in $simpleClassS)
+  <SimpleClass xs="1" x="${sc.x}" ys="1" y="${sc.y}" id="${sc.id}" font="_sans" fontSize="12">
+#set($x = $Integer.parseInt(${sc.x}) + 3)
+#set($y=$Integer.parseInt(${sc.y})+3)
+#set($n=$sc.name.replace("'"," ").trim())
+    <Label y="$y" x="$x">$n</Label>
+  </SimpleClass>
+#end
+
+#foreach($c in $classS)
+  <Class xs="1" x="${c.x}" ys="1" y="${c.y}" id="${c.id}" font="_sans" fontSize="12">
+#set($x=$Integer.parseInt(${c.x})+3)
+#set($y=$Integer.parseInt(${c.y})+23)
+#set($m=$c.methods.replace("'"," ").trim())
+#set($n=$c.name.replace("'"," ").trim())
+    <Label y="$y" x="$x">$m</Label>
+    <Detail>$n</Detail>
+  </Class>
+#end
+</Elements>
+<Associations>
+#foreach($a in $associationS)
+  <Association anchor="${a.anchor}" target="${a.target}" to="${a.to}" source="${a.source}" from="${a.from}" type="${a.type}" dashed="${a.dashed}" />
+#end
+</Associations>
+</Diagram>

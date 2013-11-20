@@ -1,0 +1,25 @@
+<Diagram seq="5">
+<Elements>
+  <SimpleClass ys="1" xs="1" x="560"  y="350" id="cdl_5" font="_sans" fontSize="12">
+    <Label y="353" x="563">c5</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="350"  y="350" id="cdl_1" font="_sans" fontSize="12">
+    <Label y="353" x="353">c1</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="350"  y="140" id="cdl_2" font="_sans" fontSize="12">
+    <Label y="143" x="353">c2</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="140"  y="350" id="cdl_3" font="_sans" fontSize="12">
+    <Label y="353" x="143">c3</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="350"  y="560" id="cdl_4" font="_sans" fontSize="12">
+    <Label y="563" x="353">c4</Label>
+  </SimpleClass>
+</Elements>
+<Associations>
+  <Association source="aggregation" from="cdl_3" dashed="false" anchor="false" target="none"  to="cdl_1" type="standard"/>
+  <Association source="composition" from="cdl_4" dashed="false" anchor="false" target="none"  to="cdl_1" type="standard"/>
+  <Association source="none" from="cdl_2" dashed="false" anchor="false" target="none"  to="cdl_1" type="standard"/>
+  <Association source="none" from="cdl_5" dashed="false" anchor="true" target="gen"  to="cdl_1" type="standard"/>
+</Associations>
+</Diagram>

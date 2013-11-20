@@ -1,0 +1,26 @@
+<Diagram seq="5">
+<Elements>
+  <SimpleClass ys="1" xs="1" x="350"  y="560" id="c1" font="_sans" fontSize="12">
+    <Label y="563" x="353">Customer</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="350"  y="140" id="c4" font="_sans" fontSize="12">
+    <Label y="143" x="353">Root</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="350"  y="350" id="c2" font="_sans" fontSize="12">
+    <Label y="353" x="353">Order</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="140"  y="350" id="c3" font="_sans" fontSize="12">
+    <Label y="353" x="143">LineItem</Label>
+  </SimpleClass>
+  <Class ys="1" xs="1" x="140"  y="560" id="c0" font="_sans" fontSize="12">
+    <Label x="143" y="582" >+Forename+%0DSurname%0D+HashedPassword%0D-Salt%0D+Login%28%29%0D+Logout%28%29</Label>
+    <Detail>User</Detail>
+  </Class>
+</Elements>
+<Associations>
+  <Association source="aggregation" from="c1" dashed="false" anchor="false" target="none"  to="c2" type="standard"/>
+  <Association source="composition" from="c2" dashed="false" anchor="false" target="none"  to="c3" type="standard"/>
+  <Association source="none" from="c4" dashed="false" anchor="false" target="none"  to="c2" type="standard"/>
+  <Association source="none" from="c1" dashed="false" anchor="true" target="gen"  to="c0" type="standard"/>
+</Associations>
+</Diagram>

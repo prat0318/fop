@@ -1,0 +1,26 @@
+digraph {
+   // classes 
+   c1;
+   c4;
+   c3;
+   c2;
+   c6;
+   c0;
+   c5;
+
+   // interfaces 
+
+   // class Implements
+
+   // interface Extends
+
+  // class Extends
+
+   // associations 
+   c1->c2;
+   c1->c3;
+   c1->c4;
+   c2->c4;
+   c2->c4;
+   c5->c6;
+}

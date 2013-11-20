@@ -1,0 +1,4 @@
+rm -f *.pl *.dot *.violet *~
+echo Yuml2Violet Directory:
+ls *
+echo

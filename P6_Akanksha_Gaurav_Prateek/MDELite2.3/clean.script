@@ -1,0 +1,7 @@
+echo
+cd testData
+clean.script
+cd ..
+rm -f script.txt sorted*.txt tmp.* *.pl *~ *.pro conform.txt Error.txt
+cd Examples
+clean.script

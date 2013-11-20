@@ -1,0 +1,7 @@
+[Interface;Don]
+[customer]++1-*[contract]
+[customer]++1-paid[receipt]
+[contract]++1-0..1[receipt]
+[contract]1-1++[RentalCar]
+[CarRentalCompany]1 belongs_to-* owns>[RentalCar]
+[CarRentalCompany]*-*[customer]
