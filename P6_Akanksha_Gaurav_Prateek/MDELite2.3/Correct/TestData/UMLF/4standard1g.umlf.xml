@@ -1,0 +1,29 @@
+<Diagram seq="5">
+<Elements>
+  <SimpleClass ys="1" xs="1" x="270"  y="326" id="cdl_4" font="_sans" fontSize="12">
+    <Label y="329" x="273">SimpleQuestion</Label>
+  </SimpleClass>
+  <SimpleClass ys="1" xs="1" x="606"  y="324" id="cdl_5" font="_sans" fontSize="12">
+    <Label y="327" x="609">QuestionSet</Label>
+  </SimpleClass>
+  <Class ys="1" xs="1" x="79"  y="127" id="cds_1" font="_sans" fontSize="12">
+    <Label x="82" y="149" >-name</Label>
+    <Detail>Questionaire</Detail>
+  </Class>
+  <Class ys="1" xs="1" x="424"  y="124" id="cds_2" font="_sans" fontSize="12">
+    <Label x="427" y="146" >-text</Label>
+    <Detail>Question%0D</Detail>
+  </Class>
+  <Class ys="1" xs="1" x="733"  y="123" id="cds_3" font="_sans" fontSize="12">
+    <Label x="736" y="145" >-choicevalue</Label>
+    <Detail>AnswerChoice</Detail>
+  </Class>
+</Elements>
+<Associations>
+  <Association source="composition" from="cds_1" dashed="false" anchor="false" target="none"  to="cds_2" type="standard"/>
+  <Association source="composition" from="cds_2" dashed="false" anchor="false" target="none"  to="cds_3" type="standard"/>
+  <Association source="aggregation" from="cdl_5" dashed="false" anchor="false" target="none"  to="cdl_4" type="standard"/>
+  <Association source="none" from="cdl_4" dashed="false" anchor="true" target="gen"  to="cds_2" type="standard"/>
+  <Association source="none" from="cdl_5" dashed="false" anchor="true" target="gen"  to="cds_2" type="standard"/>
+</Associations>
+</Diagram>

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0_10" class="java.beans.XMLDecoder">
+ <object class="com.horstmann.violet.ClassDiagramGraph">
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="c5">
+    <void property="methods">
+     <void property="text">
+      <string>_NumberWorkSpace()
+preVisitAction(Vertex)
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>NumberWorkSpace</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double0">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double0"/>
+      <double>350</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double0"/>
+      <double>350</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>350</double>
+     <double>350</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="c0">
+    <void property="attributes">
+     <void property="text">
+      <string>AnyCycles
+isDirected
+counter
+BLACK
+GRAY
+WHITE
+</string>
+     </void>
+    </void>
+    <void property="methods">
+     <void property="text">
+      <string>_CycleWorkSpace(boolean)
+checkNeighborAction(Vertex Vertex)
+init_vertex(Vertex)
+postVisitAction(Vertex)
+preVisitAction(Vertex)
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>CycleWorkSpace</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double1">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double1"/>
+      <double>140</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double1"/>
+      <double>140</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>140</double>
+     <double>140</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="c1">
+    <void property="attributes">
+     <void property="text">
+      <string>weight
+</string>
+     </void>
+    </void>
+    <void property="methods">
+     <void property="text">
+      <string>_Edge()
+EdgeConstructor(Vertex Vertex)
+EdgeConstructor(Vertex Vertex int)
+adjustAdorns(Edge)
+display()
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>Edge</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double2">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double2"/>
+      <double>1470</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double2"/>
+      <double>140</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>1470</double>
+     <double>140</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="c3">
+    <void property="methods">
+     <void property="text">
+      <string>_Main()
+_main(String#)
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>Main</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double3">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double3"/>
+      <double>140</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double3"/>
+      <double>980</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>140</double>
+     <double>980</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="c4">
+    <void property="methods">
+     <void property="text">
+      <string>_Neighbor()
+_Neighbor(Vertex Edge)
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>Neighbor</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double4">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double4"/>
+      <double>980</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double4"/>
+      <double>140</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>980</double>
+     <double>140</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="c2">
+    <void property="attributes">
+     <void property="text">
+      <string>inFile
+edges
+vertices
+isDirected
+ch
+</string>
+     </void>
+    </void>
+    <void property="methods">
+     <void property="text">
+      <string>_Graph()
+findsVertex(String)
+CycleCheck()
+readNumber()
+_endProfile()
+_resumeProfile()
+_startProfile()
+_stopProfile()
+GraphSearch(WorkSpace)
+NumberVertices()
+addAnEdge(Vertex Vertex int)
+addEdge(Edge)
+addOnlyEdge(Edge)
+addVertex(Vertex)
+display()
+run(Vertex)
+runBenchmark(String)
+stopBenchmark()
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>Graph</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double5">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double5"/>
+      <double>770</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double5"/>
+      <double>980</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>770</double>
+     <double>980</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="c7">
+    <void property="methods">
+     <void property="text">
+      <string>_WorkSpace()
+checkNeighborAction(Vertex Vertex)
+init_vertex(Vertex)
+nextRegionAction(Vertex)
+postVisitAction(Vertex)
+preVisitAction(Vertex)
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>WorkSpace</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double6">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double6"/>
+      <double>140</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double6"/>
+      <double>350</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>140</double>
+     <double>350</double>
+    </void>
+   </object>
+  </void>
+  <void method="addNode">
+   <object class="com.horstmann.violet.ClassNode" id="c6">
+    <void property="attributes">
+     <void property="text">
+      <string>visited
+VertexColor
+VertexCycle
+VertexNumber
+name
+neighbors
+</string>
+     </void>
+    </void>
+    <void property="methods">
+     <void property="text">
+      <string>_Vertex()
+assignName(String)
+VertexConstructor()
+addNeighbor(Neighbor)
+dftNodeSearch(WorkSpace)
+display()
+init_vertex(WorkSpace)
+</string>
+     </void>
+    </void>
+    <void property="name">
+     <void property="text">
+      <string>Vertex</string>
+     </void>
+    </void>
+   </object>
+   <object class="java.awt.geom.Point2D$Double" id="Point2D$Double7">
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>x</string>
+     <void method="set">
+      <object idref="Point2D$Double7"/>
+      <double>980</double>
+     </void>
+    </void>
+    <void class="java.awt.geom.Point2D$Double" method="getField">
+     <string>y</string>
+     <void method="set">
+      <object idref="Point2D$Double7"/>
+      <double>350</double>
+     </void>
+    </void>
+    <void method="setLocation">
+     <double>980</double>
+     <double>350</double>
+    </void>
+   </object>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="endArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+    <void property="endLabel">
+     <string>start</string>
+    </void>
+   </object>
+   <object idref="c1"/>
+   <object idref="c6"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="endArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+    <void property="endLabel">
+     <string>edge</string>
+    </void>
+   </object>
+   <object idref="c4"/>
+   <object idref="c1"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="endArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="DIAMOND"/>
+    </void>
+    <void property="endLabel">
+     <string>end</string>
+    </void>
+   </object>
+   <object idref="c4"/>
+   <object idref="c6"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="VHV"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="TRIANGLE"/>
+    </void>
+   </object>
+   <object idref="c7"/>
+   <object idref="c5"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="VHV"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="TRIANGLE"/>
+    </void>
+   </object>
+   <object idref="c7"/>
+   <object idref="c0"/>
+  </void>
+  <void method="connect">
+   <object class="com.horstmann.violet.ClassRelationshipEdge">
+    <void property="bentStyle">
+     <object class="com.horstmann.violet.BentStyle" field="VHV"/>
+    </void>
+    <void property="startArrowHead">
+     <object class="com.horstmann.violet.ArrowHead" field="TRIANGLE"/>
+    </void>
+   </object>
+   <object idref="c4"/>
+   <object idref="c1"/>
+  </void>
+ </object>
+</java>

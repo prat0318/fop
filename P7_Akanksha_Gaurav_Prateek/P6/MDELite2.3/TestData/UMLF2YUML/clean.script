@@ -1,0 +1,4 @@
+rm -f *.yuml *.pl *~
+echo testDataUMLF2YUML Directory:
+ls *
+echo

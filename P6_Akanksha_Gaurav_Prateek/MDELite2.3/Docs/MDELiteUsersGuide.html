@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>MDELiteUsersGuide</title></head>
+<body>
+<h1 style="text-align: center; font-family: Arial;">MDELite
+Users Guide (Version 2.3.0)</h1>
+<div style="text-align: center;"><span style="font-family: Arial;">Don Batory<br>
+</span><br>
+<span style="font-family: Arial; font-weight: bold;">July
+2013</span></div>
+<hr style="width: 100%; height: 2px;"><span style="font-family: Arial;"><span style="font-weight: bold;">MDELite </span>is an experimental and hands-on approach to explore concepts of <span style="font-weight: bold;">Model Driven Engineering (MDE)</span>
+using Prolog as the language to define conformance constraints and
+model-to-model transformations. &nbsp;The basic ideas are described in
+the paper (which is included with this documentation):<br></span><ul style="font-family: Arial;"><li><a href="MDELite.pdf">Teaching Model Driven Engineering from a Relational Database Perspective, MODELS 2013</a></li></ul>&nbsp;
+<span style="font-family: Arial;">Read this paper first. After doing so, you can then look at src/MDELite
+which contains the code of the described application. It implements the
+category below:</span><br><div style="text-align: center;"><img style="width: 624px; height: 458px;" alt="" src="Category.jpg"><br><div style="text-align: left; font-family: Arial;">Study
+the code in src/MDELite -- each "bubble" above represents a class.
+&nbsp;Each arrow is a method (drawn from the class that lists the
+method to the class that is output by the method). &nbsp;<br><br>The
+hard part is to generate a set of Prolog tables from a diagram.
+&nbsp;Use yUML or Violet to create a class diagram. &nbsp;And then use
+the Conform program to create its Prolog tables. &nbsp;Example: the
+file in the left-most column below is a yUML specification called <span style="font-weight: bold;">good.yuml</span>. &nbsp;The class diagram in the middle column is what <a href="http://yuml.me/diagram/class/draw">yUML</a> draws given this specification. &nbsp;The Prolog tables that are produced are shown in the right-hand column.<br><br><table style="text-align: left; margin-left: auto; margin-right: auto;" border="1" cellpadding="2" cellspacing="2"><tbody><tr><td style="font-family: Courier New,Courier,monospace;">[M|a|b()]<br>[D|c|d()]<br>[E|f|g()]<br>[Program ]-m++[M]<br>[Program ]-d++[D]<br>[Program ]-e++[E]<br>[M]^-[D]<br>[D]^-[E]</td><td><img style="width: 144px; height: 656px;" alt="" src="good.jpg"></td><td><span style="font-family: Courier New,Courier,monospace;">table(yumlClass,[id,"name","fields","methods"]).</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlClass(c1,'D','c','d()').</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlClass(c2,'E','f','g()').</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlClass(c0,'M','a','b()').</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlClass(c3,'Program ','','').</span><br style="font-family: Courier New,Courier,monospace;"><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">table(yumlInterface,[id,"name","methods"]).</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">:- dynamic yumlInterface/3.</span><br style="font-family: Courier New,Courier,monospace;"><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">table(yumlAssociation,["name1","role1","end1","name2","role2","end2"]).</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlAssociation('Program ','','','M','m','++').</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlAssociation('Program ','','','D','d','++').</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlAssociation('Program ','','','E','e','++').</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlAssociation('M','','^','D','','').</span><br style="font-family: Courier New,Courier,monospace;"><span style="font-family: Courier New,Courier,monospace;">yumlAssociation('D','','^','E','','').</span><br style="font-family: Courier New,Courier,monospace;"></td></tr></tbody></table>To convert <span style="font-weight: bold;">good.yuml</span> into a set of Prolog tables, run:<br><pre style="margin-left: 40px;">&gt; java MDELite.Conform yuml good<br></pre><span style="font-family: Arial;">File <span style="font-weight: bold;">good.yuml.pl</span> is produced</span>, shown above.<br><br>In
+general, filenames in MDELite are typically 3-tuples A.B.C: "A" is the
+user-chosen-name of a diagram. &nbsp;"B" is its "type" (such as yuml or
+violet), and "C" typically is "pl" a Prolog extension. &nbsp;So when
+you list a directory in which you have been running MDELite programs,
+all versions of the same user-chosen-name will be grouped together.<br><br>In
+general, the most difficult programs to write translate non-Prolog
+source to Prolog. &nbsp;In MDELite, there are 3 such methods:<br><ul><li>toUMLFpl (which translates a UMLF xml file to a UMLF Prolog file)</li><li>toYumlpl (which translates a yuml specification to a Yuml Prolog file)</li><li>toVioletpl (which translates a Violet xml file to a Violet Prolog file)</li></ul>Look at their source code to see how they work.<br><hr style="width: 100%; height: 2px;"><h2>PrintAlias</h2>Occasionally,
+it is very useful to map a database to another database, where the
+names of the tables in one database are the same as the names of tables
+in another. &nbsp;Prolog insists on tables with unique names. &nbsp;So
+here's how you handle such issues, which I'll explain with a simple
+example.<br><ul><li>database D1 has tables A and B.</li><li>database D2 also has tables A and B. &nbsp;(These tables may have different attributes than D1.A and D1.B).</li><li>your goal is to translate a D1 instance into a D2 instance.</li></ul>Create
+tables A and B as usual. &nbsp;But for D2.A and D2.B, use different
+names, such as A2 and B2. &nbsp;In this way, your prolog model-to-model
+transformation will reference 4 different tables -- A,B,A2,B2.
+&nbsp;Now the key is when you printout database D2 or tables A2 and B2.
+&nbsp;Before you print any table of D2, execute the following Prolog
+predicates:<br><pre style="margin-left: 40px;">tableAlias(A2,A).<br>tableAlias(B2,B).<br><br></pre><p>This tells the print rules to print "A" instead of "A2" when tuples of A2 are being printed. &nbsp;The same for B.<br></p><hr style="width: 100%; height: 2px;"><h2>Encoding of Prolog Tables</h2>It
+is a matter of engineering to decide what Prolog tables to produce, and
+then write programs that conform to this format. &nbsp;Look in libpl
+for examples. <span style="font-weight: bold;">&nbsp;libpl/yuml.schema.pl</span> defines the "Prolog database" schema of yUML tables (illustrated above). &nbsp;Here's its current contents:<br><pre style="margin-left: 40px;">/* file: yuml.schema.pl */<br><br>dbase(yuml,[yumlClass,yumlInterface,yumlAssociation]).<br><br>table(yumlClass,[id,"name","fields","methods"]).<br>table(yumlInterface,[id,"name","methods"]).<br>table(yumlAssociation,["name1","role1","end1","name2","role2","end2"]).<br><br>tuple(yumlClass,L):-yumlClass(I,N,F,M),L=[I,N,F,M].<br>tuple(yumlInterface,L):-yumlInterface(I,N,M),L=[I,N,M].<br>tuple(yumlAssociation,L):-yumlAssociation(N1,R1,E1,N2,R2,E2),L=[N1,R1,E1,N2,R2,E2].<br></pre>A
+database (dbase) has a name (yuml) and a list of tables (yumlClass,
+yumlInterface, and yumlAssociation). &nbsp;Each table has a name (e.g.
+yumlClass) and a list of attributes. &nbsp;Attributes whose names are
+in "double-quotes" will have single-quoted values. &nbsp;Attributes
+whose names are not in "double-quotes" have unquoted values. &nbsp;See
+the <span style="font-weight: bold;">yuml.good.p</span>l tables above
+for examples. &nbsp;The last 3 rules called "tuples" are derived from
+table declarations. &nbsp;What these rules do is to map tuples of
+tables to a simple form that is easy to print. &nbsp;Eventually, tuple
+declarations will be generated. &nbsp;But for now, they have to be
+explicitly written in schema declarations.<br><br>Besides schema
+declarations (which in effect defines a model without constraints),
+model constraints also need to be specified. &nbsp;In <span style="font-weight: bold;">libpl/yuml.conform.pl</span>
+you will find the current set of constraints (in Prolog, of course)
+that are imposed on instances of yuml tables. &nbsp;Currently 3
+constraints are checked:<br><ul><li>classes and interfaces have unique names (<span style="font-weight: bold;">uniqueNames</span>)</li><li>class hierarchies have no cycles (<span style="font-weight: bold;">circular</span>)</li><li>inheritance hierarchies have no cycles (<span style="font-weight: bold;">icircular</span>)</li></ul>There may be others that are subsequently added. &nbsp;If you look at the file, you will see that the last predicate defined (<span style="font-weight: bold;">run</span>) evaluates all three predicates. &nbsp;Such run predicates are standard convension in MDELite:<br><pre style="margin-left: 40px;">run :- uniqueNames,circular,icircular.<br></pre>Another
+file that is associated with yuml schemas: yuml.run, which simply
+invokes a Prolog rule to print to standard out a yuml database.
+&nbsp;The contents of yuml.run is:<br><pre style="margin-left: 40px;">/* file: yuml.run.pl -- output the tables of a Yuml database */<br><br>run:-printDbase(yuml).</pre>Finally,
+one needs to translate yuml Prolog databases to database of other
+types. &nbsp;The naming convention for such model-to-model
+transformations is a Prolog file <span style="font-weight: bold;">libpl/yuml2X.pl</span>,
+where X is the name of another database. &nbsp;Presently, there is only
+one other database to which yuml databases are translated, namely to
+sdb (standard database). &nbsp;So in file <span style="font-weight: bold;">libpl/yuml2sdb.pl</span>
+you will find the Prolog rules to translate a yuml database into a sdb
+database. &nbsp;That is, for each table in sdb, there is a Prolog rule
+or rules to compute its contents from a yuml table. &nbsp;A complete
+translation will print out the sdb tables (into some file). <br><br>To
+see how this is done, look at the src/MDELite/Yumlpl.java file.
+&nbsp;This file implements the YumlPL class in the above category.
+&nbsp;In particular, look at the code for the toSDB method (whose
+semantics are to translate a yuml database (i.e., Prolog file) to a sdb
+database (Prolog file)):<br><pre style="margin-left: 40px;">    public SDB toSDB(String extra) {<br>        String[] array = {HomePath.homePath + "libpl/discontiguous.pl",<br>             this.fullName, HomePath.homePath + "libpl/yuml2sdb.pl", HomePath.homePath + "libpl/sdb.schema.pl", HomePath.homePath + "libpl/print.pl", HomePath.homePath + "libpl/sdb.run.pl"};<br>        SDB tmp = new SDB("tmp", array);<br>        SDB result = new SDB(filename + extra);<br>        tmp.executeProlog(result);<br>        result.conform();<br>        tmp.delete();<br>        return result;<br>    }<br></pre>Here's
+how this Java method works. &nbsp;(And if you can understand this
+method, you can understand them all). &nbsp;Every file in MDELite
+corresponds to an MDELite object. &nbsp;So a yuml.pl file corresponds
+to a YumlPL object. &nbsp;A method for YumlPL objects is toSDB(x),
+listed above. &nbsp;The "x" parameter is a string concatenated onto the
+name of a generated prolog file. &nbsp;Typically x="", the empty
+string. &nbsp;Here goes for the rest:<br><ol><li>a list of files is
+produced -- these files will be concatenated to produce a tmp.sdb.pl
+file. &nbsp;The first file on the list is libpl/discontiguous.pl, which
+simply declares that Prolog table declarations will not be listed
+sequentially. Look at the good.yuml.pl example above: you will see that
+table declarations are indeed not listed sequentially, but are
+distributed throughout the file.</li><li>the next file on the list is the name of the file to which the YumlPL object is bound (i.e., a textual listing of its database).</li><li>next,
+the rules for translating a YumlPL database to a SDB database are
+listed, folllowed by a declaration of sdb.schema file, and then a
+general utility that prints databases.</li><li>the SDB tmp variable is
+created that represents the file tmp.sdb.pl, which is the concatenation
+of all of the above-listed files.</li><li>here's where it gets a little
+tricky: every MDELite database is both a file and an object. &nbsp;One
+has to be created before the other -- there's no other way around this.
+&nbsp;So the convention in MDELite coding is to create the object
+(above: result) first. Then execute the file that produces the Prolog
+file (result.sdb.pl). &nbsp;That's what the tmp.executeProlog(result)
+does: it executes tmp.sdb.pl and produces a file whose name was given
+in the constructor of the result object. &nbsp;</li><li>OK, so now a
+result.sdb.pl (SDB database) was produced. &nbsp;The next thing is to
+see if it conforms to SDB constraints. &nbsp;That's what the
+result.conform() method invocation does. &nbsp;</li><li>the tmp object/file is deleted, and the result (an SDB database) is produced.</li></ol>Pretty much all MDELite methods are interpreted in the same way.<hr style="width: 100%; height: 2px;"><h2>Outputting non-Prolog Files</h2>Eventually,
+a Prolog file needs to be translated into a non-Prolog file.
+&nbsp;That's where the tool VM2T enters the picture. &nbsp;Read its <a href="VM2T_Manual.pdf">documentation here</a>.<pre style="margin-left: 40px;"></pre></div></div>
+</body></html>

@@ -1,0 +1,32 @@
+echo "\033[33;32mMAKE SURE TO SET YOUR SWIPL LOCATION IN MDELite2.3/config.properties\033[0m..."
+cp inputs/*.violet outputs/
+cd outputs
+
+echo "\n\033[33;32mRunning for dogFSM violet file..\033[0m\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert dogFsm
+
+echo "\n\033[33;32mRunning for fsm20 violet file..\033[0m\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert fsm20
+
+echo "\n\033[33;32mRunning for sample violet file..\033[0m\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert sample
+
+echo "\n\033[33;32mRunning for xxx..\033[0m\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert xxx
+
+echo "\n\033[33;32mRunning for eatingHabits..\033[0m\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert eatingHabits
+
+echo "\n\033[33;32mRunning for loop..\033[0m\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert loop
+
+echo "\n\033[33;32mRunning for semiclique..\033[0m\n"
+
+java -classpath ../MDELite2.3/build/classes:../MDELite2.3/NeededJarFiles/velocity.jar:../MDELite2.3/NeededJarFiles/commons-collections.jar:../MDELite2.3/NeededJarFiles/commons-lang.jar:../MDELite2.3/NeededJarFiles/kwebs.jar FSMLite.Convert semiclique
+echo "SemiClique does not follow FSM Constraints, as shown by the \033[33;31mERROR\033[0m above..."

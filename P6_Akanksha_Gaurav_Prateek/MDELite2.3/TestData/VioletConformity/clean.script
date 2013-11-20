@@ -1,0 +1,4 @@
+rm -f *.pl *~
+echo testDataVioletConformity Directory:
+ls *
+echo

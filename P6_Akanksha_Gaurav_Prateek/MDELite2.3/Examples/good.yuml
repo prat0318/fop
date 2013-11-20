@@ -1,0 +1,8 @@
+[M|a|b()]
+[D|c|d()]
+[E|f|g()]
+[Program ]-m++[M]
+[Program ]-d++[D]
+[Program ]-e++[E]
+[M]^-[D]
+[D]^-[E]

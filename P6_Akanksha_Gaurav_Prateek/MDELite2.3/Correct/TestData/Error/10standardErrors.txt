@@ -1,0 +1,4 @@
+unique names constraint violated: i2
+unique names constraint violated: c2
+circular class hierarchy: c2
+circular interface hierarchy: i2

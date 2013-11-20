@@ -1,0 +1,15 @@
+<Diagram seq="2">
+<Elements>
+  <Class ys="1" xs="1" x="605"  y="213" id="classnode0" font="_sans" fontSize="12">
+    <Label x="608" y="235" >doP%28%29</Label>
+    <Detail>Parent</Detail>
+  </Class>
+  <Class ys="1" xs="1" x="606"  y="483" id="classnode1" font="_sans" fontSize="12">
+    <Label x="609" y="505" >celem%0Dccelem%0DdoC%28%29</Label>
+    <Detail>Child</Detail>
+  </Class>
+</Elements>
+<Associations>
+  <Association source="none" from="classnode0" dashed="false" anchor="false" target="none"  to="classnode1" type="standard"/>
+</Associations>
+</Diagram>

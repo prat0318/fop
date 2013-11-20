@@ -1,0 +1,3 @@
+[Library|name|getName()]
+[Book|title|getTitle()]
+[Book]++*-1[Library]

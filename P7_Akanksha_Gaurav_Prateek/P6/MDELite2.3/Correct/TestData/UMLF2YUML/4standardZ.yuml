@@ -1,0 +1,8 @@
+[Questionaire||-name]
+[Question;||-text]
+[AnswerChoice||-choicevalue]
+[Question;]-++[Questionaire]
+[AnswerChoice]-++[Question;]
+[SimpleQuestion]-<>[QuestionSet]
+[Question;]^-[SimpleQuestion]
+[Question;]^-[QuestionSet]

@@ -1,0 +1,4 @@
+rm -f *.xml *.pl *~
+echo testDataViolet2Umlf Directory:
+ls *
+echo

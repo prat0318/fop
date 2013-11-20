@@ -1,0 +1,5 @@
+[Interface;i1||+a();+b()]
+[Interface;i2||+c(x y)]
+[Interface;i1]^-.-[c1]
+[Interface;i2]^-.-[c2]
+[Interface;i2]-^[Interface;i1]

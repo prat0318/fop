@@ -1,2 +1,2 @@
-Warning: /Users/gnanda/fop/fop-shared/P6/outputs/script.txt:1:
+Warning: /home/prat0318/Documents/courses/FOP/fop/P6/outputs/script.txt:1:
 	Goal (directive) failed: user: ([tmpconform.sdb.pl],tell(conform.txt),run,told,halt)

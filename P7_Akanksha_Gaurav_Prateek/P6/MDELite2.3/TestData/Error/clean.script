@@ -1,0 +1,4 @@
+echo testDataError Directory:
+rm -f *~ *.txt
+ls
+echo

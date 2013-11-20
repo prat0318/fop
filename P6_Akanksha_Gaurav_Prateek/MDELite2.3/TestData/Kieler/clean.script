@@ -1,0 +1,4 @@
+rm -f *.xml *patched* *.dot *noPosition* *standardK* *~
+echo testDataKieler directory:
+ls *
+echo
