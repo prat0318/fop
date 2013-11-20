@@ -7,20 +7,20 @@ package hashJoin;
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
 import hashJoin.gammaSupport.Tuple;
-import java.io.IOException;
+
 import parallelsort.ReportError;
 
 /**
- *
  * @author bansal
  */
 public class PrintTuple extends Thread {
     ReadEnd in;
-    
-    public PrintTuple( Connector in ) {
+
+    public PrintTuple(Connector in) {
         this.in = in.getReadEnd();
     }
-        public void run() {
+
+    public void run() {
         try {
             Tuple input;
             while (true) {

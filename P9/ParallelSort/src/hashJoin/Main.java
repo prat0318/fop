@@ -5,7 +5,6 @@
 package hashJoin;
 
 import hashJoin.basicConnector.Connector;
-import hashJoin.ReadRelation;
 
 /**
  *
