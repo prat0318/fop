@@ -12,9 +12,11 @@ import hashJoin.gammaSupport.ReportError;
 public class HSplit extends Thread {
     ReadEnd in;
     WriteEnd out[];
+    int hashKey=0;
 
-    HSplit(ReadEnd in, WriteEnd out0,
+    HSplit(int hashKey, ReadEnd in, WriteEnd out0,
            WriteEnd out1, WriteEnd out2, WriteEnd out3) {
+        this.hashKey=hashKey;
         this.in = in;
         this.out = new WriteEnd[]{out0, out1, out2, out3};
     }
@@ -29,7 +31,7 @@ public class HSplit extends Thread {
                 }
                 int hash = myhash(input);
                 out[hash].putNextTuple(input);
-                //System.out.println( " Hashed "+hash + " " + input );
+                System.out.println( " Hashed "+hash + " " + input );
             }
             for (int i = 0; i < GammaConstants.splitLen; i++) {
                 out[i].close();
@@ -40,7 +42,7 @@ public class HSplit extends Thread {
     }
 
     int myhash(Tuple s) {
-        return (Math.abs(s.hashCode()) % GammaConstants.splitLen);
+        return (Math.abs(s.get(hashKey).hashCode()) % GammaConstants.splitLen);
     }
 
 
