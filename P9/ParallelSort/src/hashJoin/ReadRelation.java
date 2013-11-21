@@ -4,17 +4,12 @@
  */
 package hashJoin;
 
-import hashJoin.basicConnector.Connector;
-import hashJoin.basicConnector.ReadEnd;
 import hashJoin.basicConnector.WriteEnd;
-import hashJoin.gammaSupport.Relation;
 import hashJoin.gammaSupport.Tuple;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
-import parallelsort.ReportError;
+import hashJoin.gammaSupport.ReportError;
 
 /**
  *
@@ -25,13 +20,13 @@ public class ReadRelation extends Thread {
     BufferedReader in;
     WriteEnd out;
   
-    ReadRelation(String fileName, Connector con){
+    ReadRelation(String fileName, WriteEnd writeEnd){
       try {
             in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
         } catch (Exception e) {
             ReportError.msg(e.getMessage());
         }
-        this.out = con.getWriteEnd();
+        this.out = writeEnd;
       
   }
     
@@ -51,7 +46,7 @@ public class ReadRelation extends Thread {
                 for (int i=0; i<input_arr.length;i++){
                     t.set(i, input_arr[i]);
                 }
-                System.out.println(input);
+                //System.out.println(input);
                 out.putNextTuple(t);
             }
             out.close();
