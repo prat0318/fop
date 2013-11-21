@@ -10,16 +10,15 @@ import hashJoin.basicConnector.Connector;
  *
  * @author bansal
  */
-public class Main {
+public class MainTest {
     public static void main(String[] args) {
-        test1();
+        readRelation_PrintTuple();
     }
 
-    public static void test1() {
+    public static void readRelation_PrintTuple() {
         // read --> sort --> print
-        System.out.println("Starting Test1{)");
+        System.out.println("Starting ReadRelation _ PrintTuple");
         Connector read_A = new Connector("input1");
-        Connector read_B = new Connector("input2");
         ReadRelation r = new ReadRelation("client.txt", read_A);
         PrintTuple p = new PrintTuple(read_A);
         r.start();
