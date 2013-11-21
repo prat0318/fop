@@ -107,4 +107,22 @@ public class MainTest {
             e.printStackTrace();
         }
     }
+    
+    public static void testBFilterAndPrint() {
+        Connector bloomConnector = new Connector("bloomConnector");
+        Connector hsplitConnector = new Connector("hsplitConnector");
+        Connector hJoinConnector = new Connector("hJoinConnector");
+        int fieldNumber = 0;
+        BFilter filter = new BFilter(bloomConnector.getReadEnd(), 
+                hsplitConnector.getReadEnd(), hJoinConnector.getWriteEnd(), fieldNumber);
+        PrintTuple p = new PrintTuple(hJoinConnector.getReadEnd());
+        filter.start();
+        p.start();
+        System.out.println("-----------------");
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
