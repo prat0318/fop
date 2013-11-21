@@ -5,27 +5,30 @@
 package hashJoin;
 
 import hashJoin.basicConnector.Connector;
+import hashJoin.basicConnector.ReadEnd;
+import hashJoin.basicConnector.WriteEnd;
 
 /**
  *
  * @author bansal
  */
 public class MainTest {
-    public static void main(String[] args) {
-        readRelation_PrintTupleTest();
-        readRelation_Hsplit_PrintTuple();
-        readRelation_Hjoin_PrintTupleTest();
-        readRelation_Hsplit_Merge_PrintTuple();
+    public static void main(String[] args) throws Exception {
+        //readRelation_PrintTupleTest();
+//        readRelation_Hsplit_PrintTuple();
+//       readRelation_Hjoin_PrintTupleTest();
+//        readRelation_Hsplit_Merge_PrintTuple();
+        bloomTest();
     }
 
     public static void readRelation_PrintTupleTest() {
+        // read --> sort --> print
         System.out.println("Starting ReadRelation _ PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r = new ReadRelation("client.txt", read_A.getWriteEnd());
         PrintTuple p = new PrintTuple(read_A.getReadEnd());
         r.start();
         p.start();
-        System.out.println("-----------------");
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -34,6 +37,7 @@ public class MainTest {
     }
 
     public static void readRelation_Hsplit_PrintTuple() {
+        // read --> sort --> print
         System.out.println("Starting ReadRelation _ Hsplit _  PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r = new ReadRelation("client.txt", read_A.getWriteEnd());
@@ -57,7 +61,7 @@ public class MainTest {
             Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+    }
     }
 
     public static void readRelation_Hjoin_PrintTupleTest() {
@@ -95,24 +99,6 @@ public class MainTest {
         r.start();
         h.start();
         m.start();
-        p.start();
-        System.out.println("-----------------");
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    public static void testBFilterAndPrint() {
-        Connector bloomConnector = new Connector("bloomConnector");
-        Connector hsplitConnector = new Connector("hsplitConnector");
-        Connector hJoinConnector = new Connector("hJoinConnector");
-        int fieldNumber = 0;
-        BFilter filter = new BFilter(bloomConnector.getReadEnd(), 
-                hsplitConnector.getReadEnd(), hJoinConnector.getWriteEnd(), fieldNumber);
-        PrintTuple p = new PrintTuple(hJoinConnector.getReadEnd());
-        filter.start();
         p.start();
         System.out.println("-----------------");
         try {
