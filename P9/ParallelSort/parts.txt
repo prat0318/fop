@@ -7,5 +7,4 @@ PNO                    PNAME                          QOH                    PRI
 10601                  Sleeping_Beauty                300                    24.99                  20                     
 10701                  When_Harry_Met_Sally           120                    19.99                  30                     
 10800                  Dirty_Harry                    140                    14.99                  30                     
-10900                  Dr._Zhivago                    100                    24.99                  30                     
-
+10900                  Dr._Zhivago                    100                    24.99                  30

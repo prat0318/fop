@@ -8,5 +8,4 @@ PNO                    PNAME                          QOH                    PRI
 10601                  Sleeping Beauty                300                    24.99                  20                     1022                   1                      
 10701                  When Harry Met Sally           120                    19.99                  30                     1022                   1                      
 10800                  Dirty Harry                    140                    14.99                  30                     1023                   1                      
-10900                  Dr. Zhivago                    100                    24.99                  30                     1023                   1                      
-
+10900                  Dr. Zhivago                    100                    24.99                  30                     1023                   1
