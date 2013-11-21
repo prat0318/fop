@@ -12,10 +12,10 @@ import hashJoin.basicConnector.Connector;
  */
 public class MainTest {
     public static void main(String[] args) {
-        readRelation_PrintTuple();
+        readRelation_PrintTupleTest();
     }
 
-    public static void readRelation_PrintTuple() {
+    public static void readRelation_PrintTupleTest() {
         // read --> sort --> print
         System.out.println("Starting ReadRelation _ PrintTuple");
         Connector read_A = new Connector("input1");
@@ -23,7 +23,6 @@ public class MainTest {
         PrintTuple p = new PrintTuple(read_A);
         r.start();
         p.start();
-        System.out.println("-----------------");
     }
     
 }

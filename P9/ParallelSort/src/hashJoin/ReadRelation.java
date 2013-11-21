@@ -38,13 +38,15 @@ public class ReadRelation extends Thread {
         public void run() {
         try {
             String input;
-            int size=0;
+            int linesRead=0;            
             while (true) {
                 input = in.readLine();
+                linesRead++;
+                if(linesRead <= 2) continue;
                 if (input == null) {
                     break;
                 }
-                String[] input_arr=input.split("\t");
+                String[] input_arr=input.split("\\s+");
                 Tuple t = new Tuple(input_arr.length);
                 for (int i=0; i<input_arr.length;i++){
                     t.set(i, input_arr[i]);
