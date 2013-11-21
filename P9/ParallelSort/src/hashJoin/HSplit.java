@@ -31,7 +31,7 @@ public class HSplit extends Thread {
                 }
                 int hash = myhash(input);
                 out[hash].putNextTuple(input);
-                System.out.println( " Hashed "+hash + " " + input );
+                //System.out.println( " Hashed "+hash + " " + input );
             }
             for (int i = 0; i < GammaConstants.splitLen; i++) {
                 out[i].close();

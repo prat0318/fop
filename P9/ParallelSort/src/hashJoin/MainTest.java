@@ -15,16 +15,17 @@ public class MainTest {
         readRelation_PrintTupleTest();
         readRelation_Hsplit_PrintTuple();
         readRelation_Hjoin_PrintTupleTest();
+        readRelation_Hsplit_Merge_PrintTuple();
     }
 
     public static void readRelation_PrintTupleTest() {
-        // read --> sort --> print
         System.out.println("Starting ReadRelation _ PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r = new ReadRelation("client.txt", read_A.getWriteEnd());
         PrintTuple p = new PrintTuple(read_A.getReadEnd());
         r.start();
         p.start();
+        System.out.println("-----------------");
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -33,7 +34,6 @@ public class MainTest {
     }
 
     public static void readRelation_Hsplit_PrintTuple() {
-        // read --> sort --> print
         System.out.println("Starting ReadRelation _ Hsplit _  PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r = new ReadRelation("client.txt", read_A.getWriteEnd());
@@ -53,10 +53,14 @@ public class MainTest {
         p3.start();
         p4.start();
         System.out.println("-----------------");
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void readRelation_Hjoin_PrintTupleTest() {
-        // read --> sort --> print
         System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r1 = new ReadRelation("client.txt", read_A.getWriteEnd());
@@ -69,11 +73,36 @@ public class MainTest {
         r2.start();
         h.start();
         p.start();
+        System.out.println("-----------------");
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
+    }
+    public static void readRelation_Hsplit_Merge_PrintTuple() {
+        System.out.println("Starting ReadRelation _ Hsplit _ Merge _ PrintTuple");
+        Connector read_A = new Connector("input1");
+        ReadRelation r = new ReadRelation("client.txt", read_A.getWriteEnd());
+        Connector hash_1 = new Connector("pipe1");
+        Connector hash_2 = new Connector("pipe2");
+        Connector hash_3 = new Connector("pipe3");
+        Connector hash_4 = new Connector("pipe4");
+        Connector out = new Connector("output");
+        HSplit h = new HSplit(0,read_A.getReadEnd(),hash_1.getWriteEnd(),hash_2.getWriteEnd(),hash_3.getWriteEnd(),hash_4.getWriteEnd());
+        Merge m = new Merge(out.getWriteEnd(),hash_1.getReadEnd(),hash_2.getReadEnd(),hash_3.getReadEnd(),hash_4.getReadEnd() );
+        PrintTuple p = new PrintTuple(out.getReadEnd());
+        r.start();
+        h.start();
+        m.start();
+        p.start();
+        System.out.println("-----------------");
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
