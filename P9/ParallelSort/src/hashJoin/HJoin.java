@@ -36,7 +36,7 @@ public class HJoin extends Thread {
                     break;
                 }
                 input_1.put(input.get(joinKey1), input);
-                System.out.println("Added to input map  " + input);
+                //System.out.println("Added to input map  " + input);
             }
 
             while (true) {
@@ -44,10 +44,10 @@ public class HJoin extends Thread {
                 if (input == null) {
                     break;
                 }
-                System.out.println("parsing input   " + input);
+                //System.out.println("parsing input   " + input);
                 Tuple output = Tuple.join(input_1.get(input.get(joinKey1)), input, joinKey1, joinKey2);
                 out.putNextTuple(output);
-                System.out.println("Added to output End  " + output);
+                //System.out.println("Added to output End  " + output);
             }
 
             out.close();

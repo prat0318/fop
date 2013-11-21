@@ -57,7 +57,7 @@ public class MainTest {
 
     public static void readRelation_Hjoin_PrintTupleTest() {
         // read --> sort --> print
-        System.out.println("Starting ReadRelation _ PrintTuple");
+        System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r1 = new ReadRelation("client.txt", read_A.getWriteEnd());
         Connector read_B = new Connector("input2");
