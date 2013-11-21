@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import parallelsort.Main;
+import hashJoin.MainTest;
 
 /**
  *
@@ -39,12 +39,12 @@ public class Test1 {
     // The methods must be annotated with annotation @Test. For example:
     //
      @Test
-   public void testMain() {
+   public void testJoin() {
         RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
 
         String[] args = null;
-        Main.main(args);
+        MainTest.readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
 
-        RegTest.Utility.validate("out.txt", "correctOut.txt", false); // test passes if files are equal
+        RegTest.Utility.validate("out.txt", "ClientJoinViewing.txt", false); // test passes if files are equal
     }
 }
