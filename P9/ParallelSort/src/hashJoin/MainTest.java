@@ -35,6 +35,22 @@ public class MainTest {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
+    
+    public static void bloomTest() throws Exception {
+        System.out.println("Starting Bloom Test");
+        Connector print_bloom = new Connector("print_bloom");
+        ReadRelation r = new ReadRelation("client.txt", print_bloom.getWriteEnd());
+        Connector bloom_join = new Connector("bloom_join");
+        PrintTuple p1 = new PrintTuple(bloom_join.getReadEnd());
+        Connector bloom_bmap = new Connector("bloom_bmap");
+        ReadEnd readEnd = bloom_bmap.getReadEnd();
+//        PrintTuple p2 = new PrintTuple(bloom_bmap.getReadEnd());
+        Bloom bloom = new Bloom(print_bloom.getReadEnd(), bloom_join.getWriteEnd(), bloom_bmap.getWriteEnd(), 0);
+        r.start();
+        bloom.start();
+        p1.start();       
+        System.out.println(readEnd.getNextString());
+    }
 
     public static void readRelation_Hsplit_PrintTuple() {
         // read --> sort --> print
