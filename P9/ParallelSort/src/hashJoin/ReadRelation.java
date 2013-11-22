@@ -20,7 +20,7 @@ public class ReadRelation extends Thread {
     BufferedReader in;
     WriteEnd out;
   
-    ReadRelation(String fileName, WriteEnd writeEnd){
+    public ReadRelation(String fileName, WriteEnd writeEnd){
       try {
             in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
         } catch (Exception e) {

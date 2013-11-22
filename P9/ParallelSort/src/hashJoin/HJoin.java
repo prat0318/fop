@@ -20,7 +20,7 @@ public class HJoin extends Thread {
     int joinKey1 = 0;
     int joinKey2 = 0;
 
-    HJoin(int joinKey1, ReadEnd in1, int joinKey2, ReadEnd in2, WriteEnd out) {
+    public HJoin(int joinKey1, ReadEnd in1, int joinKey2, ReadEnd in2, WriteEnd out) {
         this.joinKey1 = joinKey1;
         this.joinKey2 = joinKey2;
         this.in1 = in1;
