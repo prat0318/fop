@@ -13,6 +13,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import hashJoin.MainTest;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author bansal
@@ -47,7 +51,6 @@ public class Test1 {
 
         String[] args = null;
         MainTest.readRelation_Hjoin_PrintTupleTest("client.txt", "viewing.txt");
-
         RegTest.Utility.validate("out.txt", "ClientJoinViewing.txt", false); // test passes if files are equal
     }
 
@@ -64,8 +67,7 @@ public class Test1 {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "ClientMapReduceHJoinViewing.txt", false); // test passes if files are equal
     }
-
-
 }

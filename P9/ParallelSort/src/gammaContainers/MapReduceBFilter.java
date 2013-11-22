@@ -64,7 +64,6 @@ public class MapReduceBFilter extends ArrayConnectors {
                 bmerge4.getReadEnd());
         
         // Start all the threads.
-        
         m1.start();
         h1.start();
         bf1.start();

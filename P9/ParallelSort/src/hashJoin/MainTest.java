@@ -9,6 +9,14 @@ import gammaContainers.MapReduceBloom;
 import gammaContainers.MapReduceHJoin;
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
@@ -220,6 +228,27 @@ public class MainTest {
         p.start();
         filter.start();
         bloomSimulator.start();
+    }
+    
+    public static void FileSort(String fileName) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("fileToRead"));
+            ArrayList<String> list = new ArrayList<String>();
+            String line = "";
+            while((line = reader.readLine()) != null) {
+                list.add(line);
+            }
+            reader.close();
+            FileWriter writer = new FileWriter(fileName);
+            for(String val : list){
+                writer.write(val);	
+                writer.write('\n');
+            }
+            writer.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        }
     }
 
 }
