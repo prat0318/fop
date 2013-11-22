@@ -32,7 +32,7 @@ public class MMerge extends Thread {
                 if (input == null) {
                     break;
                 }
-                BMap.or(init, BMap.makeBMap(input));
+                init = BMap.or(init, BMap.makeBMap(input));
             }
             out.putNextString(init.getBloomFilter());
             out.close();

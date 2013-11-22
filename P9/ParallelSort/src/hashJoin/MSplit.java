@@ -10,11 +10,11 @@ import hashJoin.gammaSupport.ReportError;
  * Created with IntelliJ IDEA.
  * User: bansal
  */
-public class SplitM extends Thread {
+public class MSplit extends Thread {
     ReadEnd in;
     WriteEnd out[];
 
-    public SplitM(ReadEnd in, WriteEnd out0,
+    public MSplit(ReadEnd in, WriteEnd out0,
            WriteEnd out1, WriteEnd out2, WriteEnd out3) {
         this.in = in;
         this.out = new WriteEnd[] {out0, out1, out2, out3};

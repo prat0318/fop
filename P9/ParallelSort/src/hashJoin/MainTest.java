@@ -26,7 +26,7 @@ import java.util.TreeMap;
 public class MainTest {
     public static void main(String[] args) throws Exception {
         readRelation_Hsplit_PrintTuple();
-        gammaTest("client.txt","viewing.txt");
+        gammaTest("client.txt","input/viewing.txt");
         readRelation_Hsplit_Merge_PrintTuple();
         mapReduceBloomTest();
         testBloomSimulator();

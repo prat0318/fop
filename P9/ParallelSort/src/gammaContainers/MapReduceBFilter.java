@@ -7,7 +7,7 @@ package gammaContainers;
 import hashJoin.BFilter;
 import hashJoin.HSplit;
 import hashJoin.Merge;
-import hashJoin.SplitM;
+import hashJoin.MSplit;
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
 import hashJoin.basicConnector.WriteEnd;
@@ -36,7 +36,7 @@ public class MapReduceBFilter extends ArrayConnectors {
         Connector mb2 = new Connector("mb2");
         Connector mb3 = new Connector("mb3");
         Connector mb4 = new Connector("mb4");
-        SplitM m1 = new SplitM(this.in_bloom, mb1.getWriteEnd(), mb2.getWriteEnd(), 
+        MSplit m1 = new MSplit(this.in_bloom, mb1.getWriteEnd(), mb2.getWriteEnd(), 
                 mb3.getWriteEnd(), mb4.getWriteEnd());
         
         Connector hb1 = new Connector("hb1");
