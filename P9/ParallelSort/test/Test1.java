@@ -51,6 +51,7 @@ public class Test1 {
 
         String[] args = null;
         MainTest.readRelation_Hjoin_PrintTupleTest("client.txt", "viewing.txt");
+        MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "ClientJoinViewing.txt", false); // test passes if files are equal
     }
 
@@ -69,6 +70,5 @@ public class Test1 {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "ClientMapReduceHJoinViewing.txt", false); // test passes if files are equal
-
     }
 }
