@@ -6,26 +6,26 @@ package hashJoin;
 
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
-import hashJoin.basicConnector.WriteEnd;
 
 /**
  *
  * @author bansal
  */
 public class MainTest {
-    public static void main(String[] args) {
-        readRelation_PrintTupleTest();
+    public static void main(String[] args) throws  Exception{
+        readRelation_PrintTupleTest("client.txt");
         readRelation_Hsplit_PrintTuple();
         readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
         readRelation_Hsplit_Merge_PrintTuple();
         bloomTest();
+        testBFilterAndPrint();
     }
 
-    public static void readRelation_PrintTupleTest() {
+    public static void readRelation_PrintTupleTest(String fileName) {
         // read --> sort --> print
         System.out.println("Starting ReadRelation _ PrintTuple");
         Connector read_A = new Connector("input1");
-        ReadRelation r = new ReadRelation("client.txt", read_A.getWriteEnd());
+        ReadRelation r = new ReadRelation(fileName, read_A.getWriteEnd());
         PrintTuple p = new PrintTuple(read_A.getReadEnd());
         r.start();
         p.start();
