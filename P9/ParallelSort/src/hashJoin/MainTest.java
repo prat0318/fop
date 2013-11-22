@@ -14,7 +14,8 @@ import hashJoin.basicConnector.ReadEnd;
 public class MainTest {
     public static void main(String[] args) throws  Exception{
         readRelation_PrintTupleTest("client.txt");
-        readRelation_Hsplit_PrintTuple();
+        readRelation_PrintTupleTest("viewing.txt");
+        //readRelation_Hsplit_PrintTuple();
         readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
         readRelation_Hsplit_Merge_PrintTuple();
         bloomTest();
@@ -30,6 +31,7 @@ public class MainTest {
         PrintTuple p = new PrintTuple(read_A.getReadEnd());
         r.start();
         p.start();
+        System.out.println("-----------------");
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -54,7 +56,7 @@ public class MainTest {
 
     public static void readRelation_Hsplit_PrintTuple() {
         // read --> sort --> print
-        System.out.println("Starting ReadRelation _ Hsplit _  PrintTuple");
+        //System.out.println("Starting ReadRelation _ Hsplit _  PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r = new ReadRelation("client.txt", read_A.getWriteEnd());
         Connector hash_1 = new Connector("pipe1");
@@ -72,7 +74,7 @@ public class MainTest {
         p2.start();
         p3.start();
         p4.start();
-        System.out.println("-----------------");
+        //System.out.println("-----------------");
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -81,7 +83,7 @@ public class MainTest {
     }
 
     public static void readRelation_Hjoin_PrintTupleTest(String file1, String file2) {
-        System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
+        //System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r1 = new ReadRelation(file1, read_A.getWriteEnd());
         Connector read_B = new Connector("input2");
@@ -93,7 +95,7 @@ public class MainTest {
         r2.start();
         h.start();
         p.start();
-        System.out.println("-----------------");
+        //System.out.println("-----------------");
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {

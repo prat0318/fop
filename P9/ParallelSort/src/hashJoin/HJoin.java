@@ -2,11 +2,12 @@ package hashJoin;
 
 import hashJoin.basicConnector.ReadEnd;
 import hashJoin.basicConnector.WriteEnd;
-import hashJoin.gammaSupport.GammaConstants;
 import hashJoin.gammaSupport.ReportError;
 import hashJoin.gammaSupport.Tuple;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,13 +30,20 @@ public class HJoin extends Thread {
 
     public void run() {
         try {
-            Map<String, Tuple> input_1 = new HashMap<String, Tuple>();
+            Map<String, List<Tuple>> input_1 = new HashMap<String, List<Tuple>>();
             while (true) {
                 Tuple input = in1.getNextTuple();
                 if (input == null) {
                     break;
                 }
-                input_1.put(input.get(joinKey1), input);
+                if(input_1.containsKey(input.get(joinKey1)) ){
+                    List<Tuple> t = input_1.get(input.get(joinKey1));
+                    t.add(input);
+                }else{
+                    List<Tuple> t = new ArrayList<Tuple>();
+                    t.add(input);
+                    input_1.put(input.get(joinKey1),t);
+                }
                 //System.out.println("Added to input map  " + input);
             }
 
@@ -45,8 +53,13 @@ public class HJoin extends Thread {
                     break;
                 }
                 //System.out.println("parsing input   " + input);
-                Tuple output = Tuple.join(input_1.get(input.get(joinKey1)), input, joinKey1, joinKey2);
-                out.putNextTuple(output);
+                if(input_1.containsKey(input.get(joinKey2)) ){
+                    List<Tuple> t = input_1.get(input.get(joinKey2));
+                    for(Tuple i : t){
+                        Tuple output = Tuple.join(i, input, joinKey1, joinKey2);
+                        out.putNextTuple(output);
+                    }
+                }
                 //System.out.println("Added to output End  " + output);
             }
 
