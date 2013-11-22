@@ -50,6 +50,13 @@ public class Relation {
         return fieldNames[i];
     }
 
+    @Override
+    public String toString() {
+        String result = size + Tuple.separator;
+        for (String i : fieldNames) result = result + i + Tuple.separator;
+        return result;
+    }
+
     public static Relation join(Relation r1, Relation r2, int joinkey1, int joinkey2) {
         Relation r = new Relation(r1.getRelationName() + "+" + r2.getRelationName(), r1.getSize() + r2.getSize() -1 );
         for (String f1 : r1.getFieldNames()) {

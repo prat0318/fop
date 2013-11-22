@@ -22,9 +22,20 @@ public class ReadRelation extends Thread {
 
     String dbName;
     BufferedReader in;
-    Connector out;
+    WriteEnd out;
 
-    public ReadRelation(String fileName, String dbName, Connector writeEnd) {
+    public ReadRelation(String fileName, WriteEnd writeEnd) {
+        try {
+            this.dbName = fileName;
+            in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
+        } catch (Exception e) {
+            ReportError.msg(e.getMessage());
+        }
+        this.out = writeEnd;
+
+    }
+
+    public ReadRelation(String fileName, String dbName, WriteEnd writeEnd) {
         try {
             this.dbName = dbName;
             in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
@@ -39,7 +50,6 @@ public class ReadRelation extends Thread {
         try {
             String input;
             int linesRead = 0;
-            WriteEnd writeEnd = out.getWriteEnd();
             while (true) {
                 input = in.readLine();
                 linesRead++;
@@ -53,18 +63,18 @@ public class ReadRelation extends Thread {
                         relation.addField(input_arr[i]);
                     }
                     out.setRelation(relation);
-                } else if (linesRead == 2) {
+                } else if (linesRead == 2) { //For the line with -------------
                     continue;
                 } else {
                     Tuple t = new Tuple(input_arr.length);
                     for (int i = 0; i < input_arr.length; i++) {
                         t.set(i, input_arr[i]);
                     }
-                    writeEnd.putNextTuple(t);
+                    out.putNextTuple(t);
                 }
                 //System.out.println(input);
             }
-            writeEnd.close();
+            out.close();
         } catch (Exception e) {
             ReportError.msg(this.getClass().getName() + e);
         }

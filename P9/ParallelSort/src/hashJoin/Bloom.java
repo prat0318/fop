@@ -39,6 +39,7 @@ public class Bloom extends Thread {
             }
             outputBmap.putNextString(bmap.getBloomFilter());
             //System.out.println("Closing.");
+            outputWriteEnd.setRelation(inputReadEnd.getRelation());
             outputWriteEnd.close();
         } catch (Exception ex) {
             Logger.getLogger(Bloom.class.getName()).log(Level.SEVERE, null, ex);

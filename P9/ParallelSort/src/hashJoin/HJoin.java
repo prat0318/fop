@@ -2,6 +2,7 @@ package hashJoin;
 
 import hashJoin.basicConnector.ReadEnd;
 import hashJoin.basicConnector.WriteEnd;
+import hashJoin.gammaSupport.Relation;
 import hashJoin.gammaSupport.ReportError;
 import hashJoin.gammaSupport.Tuple;
 
@@ -36,13 +37,13 @@ public class HJoin extends Thread {
                 if (input == null) {
                     break;
                 }
-                if(input_1.containsKey(input.get(joinKey1)) ){
+                if (input_1.containsKey(input.get(joinKey1))) {
                     List<Tuple> t = input_1.get(input.get(joinKey1));
                     t.add(input);
-                }else{
+                } else {
                     List<Tuple> t = new ArrayList<Tuple>();
                     t.add(input);
-                    input_1.put(input.get(joinKey1),t);
+                    input_1.put(input.get(joinKey1), t);
                 }
                 //System.out.println("Added to input map  " + input);
             }
@@ -53,16 +54,19 @@ public class HJoin extends Thread {
                     break;
                 }
                 //System.out.println("parsing input   " + input);
-                if(input_1.containsKey(input.get(joinKey2)) ){
+                if (input_1.containsKey(input.get(joinKey2))) {
                     List<Tuple> t = input_1.get(input.get(joinKey2));
-                    for(Tuple i : t){
+                    for (Tuple i : t) {
                         Tuple output = Tuple.join(i, input, joinKey1, joinKey2);
                         out.putNextTuple(output);
                     }
                 }
                 //System.out.println("Added to output End  " + output);
             }
-
+            Relation relation1 = in1.getRelation();
+            Relation relation2 = in2.getRelation();
+            Relation output = Relation.join(relation1,relation2,joinKey1,joinKey2);
+            out.setRelation(output);
             out.close();
         } catch (Exception e) {
             ReportError.msg(this.getClass().getName() + e);

@@ -49,6 +49,7 @@ public class BFilter extends Thread{
                     }
                 }
             }
+            out.setRelation(in_split.getRelation());
             out.close();
         } catch (Exception ex) {
             Logger.getLogger(BFilter.class.getName()).log(Level.SEVERE, null, ex);

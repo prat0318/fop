@@ -33,6 +33,7 @@ public class Merge extends Thread {
                     //System.out.println("Merged Output " + input);
                 }
             }
+            out.setRelation(in[0].getRelation());
             out.close();
         } catch (Exception e) {
             ReportError.msg(this.getClass().getName() + e);

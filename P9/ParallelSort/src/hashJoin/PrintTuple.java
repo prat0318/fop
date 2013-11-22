@@ -30,6 +30,7 @@ public class PrintTuple extends Thread {
                 }
                 System.out.println(input);
             }
+            System.out.println(in.getRelation());
             System.out.flush();
         } catch (Exception e) {
             ReportError.msg(this.getClass().getName() + e);

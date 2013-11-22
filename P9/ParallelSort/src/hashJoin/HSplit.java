@@ -34,6 +34,7 @@ public class HSplit extends Thread {
                 //System.out.println( " Hashed "+hash + " " + input );
             }
             for (int i = 0; i < GammaConstants.splitLen; i++) {
+                out[i].setRelation(in.getRelation());
                 out[i].close();
             }
         } catch (Exception e) {
