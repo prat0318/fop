@@ -70,7 +70,7 @@ public class Test1 {
             e.printStackTrace();
         }
         MainTest.FileSort("out.txt");
-        RegTest.Utility.validate("out.txt", "ClientMapReduceHJoinViewing.txt", false); // test passes if files are equal
+        RegTest.Utility.validate("out.txt", "ClientJoinViewing.txt", false); // test passes if files are equal
     }
 
     @Test
@@ -86,7 +86,8 @@ public class Test1 {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        RegTest.Utility.validate("out.txt", "ClientMapReduceHJoinViewing.txt", false); // test passes if files are equal
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "ClientJoinViewing.txt", false); // test passes if files are equal
     }
 
 

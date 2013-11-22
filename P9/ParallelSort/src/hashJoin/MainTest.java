@@ -127,7 +127,7 @@ public class MainTest {
     }
     
     public static void readRelation_Hjoin_PrintTupleTest(String file1, String file2) {
-        System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
+        //System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r1 = new ReadRelation(file1,file1, read_A.getWriteEnd());
         Connector read_B = new Connector("input2");
