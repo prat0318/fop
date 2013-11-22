@@ -20,6 +20,7 @@ public class MainTest {
         bloomTest();
         testBloomSimulator();
         testBFilterAndPrint();
+        testBloomSimulatorFilter();
     }
 
     public static void readRelation_PrintTupleTest(String fileName) {
@@ -171,4 +172,20 @@ public class MainTest {
         bloomSimulator.start();
         System.out.println(readEnd.getNextString());        
     }
+
+    public static void testBloomSimulatorFilter() throws Exception {
+        Connector bloom_print = new Connector("bloom_print");
+        BloomSimulator bloomSimulator = new BloomSimulator(bloom_print.getWriteEnd(), "client.txt");
+        Connector readBloomFilterRelationConnector = new Connector("print_bloomFilter");
+        ReadRelation r_bloom = new ReadRelation("client.txt", readBloomFilterRelationConnector.getWriteEnd());
+        Connector filter_print = new Connector("filter_print");
+        PrintTuple p = new PrintTuple(filter_print.getReadEnd());
+        BFilter filter = new BFilter(bloom_print.getReadEnd(), 
+                readBloomFilterRelationConnector.getReadEnd(), filter_print.getWriteEnd(), 0);
+        r_bloom.start();
+        p.start();
+        filter.start();
+        bloomSimulator.start();
+    }
+
 }
