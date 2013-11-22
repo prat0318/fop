@@ -4,6 +4,7 @@
  */
 package hashJoin;
 
+import gammaContainers.MapReduceBFilter;
 import gammaContainers.MapReduceHJoin;
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
@@ -16,12 +17,12 @@ public class MainTest {
     public static void main(String[] args) throws  Exception{
 //        readRelation_PrintTupleTest("client.txt");
 //        readRelation_PrintTupleTest("viewing.txt");
-        //readRelation_Hsplit_PrintTuple();
-        readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
+//        readRelation_Hsplit_PrintTuple();
+//        readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
 //        readRelation_Hsplit_Merge_PrintTuple();
 //        bloomTest();
 //        testBloomSimulator();
-//        testBFilterAndPrint();
+        testBFilterAndPrint();
 //        testBloomSimulatorFilter();
     }
 
@@ -151,12 +152,17 @@ public class MainTest {
         
         Bloom bloom = new Bloom(readBloomRelationConnector.getReadEnd(),
                 hBloomJoinConnector.getWriteEnd(), bloomConnector.getWriteEnd(), fieldNumber);   
-        BFilter filter = new BFilter(bloomConnector.getReadEnd(), 
-                readBloomFilterRelationConnector.getReadEnd(), hBloomFilterJoinConnector.getWriteEnd(), fieldNumber);
+        //BFilter filter = new BFilter(bloomConnector.getReadEnd(), 
+        //        readBloomFilterRelationConnector.getReadEnd(), hBloomFilterJoinConnector.getWriteEnd(), fieldNumber);
         
         r_bloom.start();
         r_bloomFilter.start();
         bloom.start();
+      
+        MapReduceBFilter filter = 
+                new MapReduceBFilter(bloomConnector.getReadEnd(), 
+                    readBloomFilterRelationConnector.getReadEnd(), 
+                    hBloomFilterJoinConnector.getWriteEnd(), fieldNumber);
         filter.start();
         
         PrintTuple readEnd = new PrintTuple(hBloomFilterJoinConnector.getReadEnd());

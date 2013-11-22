@@ -24,7 +24,7 @@ public class MapReduceBFilter extends ArrayConnectors {
     WriteEnd out;
     int fieldNumber;
     
-    public void MapReduceBFilter(ReadEnd in_bloom, ReadEnd in_split, WriteEnd out, int fieldNumber) {
+    public MapReduceBFilter(ReadEnd in_bloom, ReadEnd in_split, WriteEnd out, int fieldNumber) {
         this.in_bloom = in_bloom;
         this.in_split = in_split;
         this.out = out; 
@@ -43,7 +43,7 @@ public class MapReduceBFilter extends ArrayConnectors {
         Connector hb2 = new Connector("hb2");
         Connector hb3 = new Connector("hb3");
         Connector hb4 = new Connector("hb4");
-        HSplit h1 = new HSplit(this.fieldNumber, in_split, hb1.getWriteEnd(), 
+        HSplit h1 = new HSplit(this.fieldNumber, this.in_split, hb1.getWriteEnd(), 
                 hb2.getWriteEnd(), hb3.getWriteEnd(), hb4.getWriteEnd());
         
         Connector bmerge1 = new Connector("bmerge1");
@@ -62,5 +62,15 @@ public class MapReduceBFilter extends ArrayConnectors {
         Merge m = new Merge(this.out, bmerge1.getReadEnd(),
                 bmerge2.getReadEnd(), bmerge3.getReadEnd(),
                 bmerge4.getReadEnd());
+        
+        // Start all the threads.
+        
+        m1.start();
+        h1.start();
+        bf1.start();
+        bf2.start();
+        bf3.start();
+        bf4.start();
+        m.start();   
     }
 }

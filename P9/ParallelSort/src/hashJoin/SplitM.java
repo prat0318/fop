@@ -19,25 +19,18 @@ public class SplitM extends Thread {
            WriteEnd out1, WriteEnd out2, WriteEnd out3) {
         //this.hashKey=hashKey;
         this.in = in;
-        this.out = new WriteEnd[]{out0, out1, out2, out3};
+        this.out = new WriteEnd[] {out0, out1, out2, out3};
     }
 
     public void run() {
         try {
-            String input;
-            while (true) {
-                input = in.getNextString();
-                if (input == null) {
-                    break;
-                }
-                int hash = BMap.myhash(input);
-                out[hash].putNextString(input);
-                System.out.println("Hashed " + hash + " " + input);
-            }
-            for (int i = 0; i < GammaConstants.splitLen; i++) {
+            String input = in.getNextString();
+            for (int i=0; i < GammaConstants.splitLen; i++) {
+                out[i].putNextString(BMap.mask(input, i));
                 out[i].close();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             ReportError.msg(this.getClass().getName() + e);
         }
     }
