@@ -52,7 +52,7 @@ public class Test1 {
     }
 
     @Test
-    public void testJoinMap() {
+    public void testJoinMapReduce() {
         RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
         Connector out2 = new Connector("output2");
         MapReduceHJoin mapJ = new MapReduceHJoin(0, "client.txt", 0 , "viewing.txt",out2.getWriteEnd() );
@@ -64,7 +64,7 @@ public class Test1 {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        RegTest.Utility.validate("out.txt", "ClientJoinViewing.txt", false); // test passes if files are equal
+        RegTest.Utility.validate("out.txt", "ClientMapReduceHJoinViewing.txt", false); // test passes if files are equal
     }
 
 
