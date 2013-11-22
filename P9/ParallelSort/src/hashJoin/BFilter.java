@@ -7,6 +7,7 @@ package hashJoin;
 import hashJoin.basicConnector.ReadEnd;
 import hashJoin.basicConnector.WriteEnd;
 import hashJoin.gammaSupport.BMap;
+import hashJoin.gammaSupport.Tuple;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -31,13 +32,15 @@ public class BFilter extends Thread{
     
     public void run() {
         try {
+            //System.out.println(in_bloom.getNextString());
             BMap bm = BMap.makeBMap(in_bloom.getNextString());
             
             while(true) {
-                String input = in_split.getNextTuple().get(fieldNumber);
-                if (input == null) {
+                Tuple t = in_split.getNextTuple();
+                if (t == null) {
                     break;
                 }
+                String input = t.get(fieldNumber);
                 if (bm.getValue(input)) {
                     try {
                         out.putNextString(input);
@@ -46,6 +49,7 @@ public class BFilter extends Thread{
                     }
                 }
             }
+            out.close();
         } catch (Exception ex) {
             Logger.getLogger(BFilter.class.getName()).log(Level.SEVERE, null, ex);
         }

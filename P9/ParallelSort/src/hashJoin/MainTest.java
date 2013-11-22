@@ -18,7 +18,8 @@ public class MainTest {
 //        readRelation_Hsplit_PrintTuple();
 //       readRelation_Hjoin_PrintTupleTest();
 //        readRelation_Hsplit_Merge_PrintTuple();
-        bloomTest();
+        //bloomTest();
+        testBFilterAndPrint();
     }
 
     public static void readRelation_PrintTupleTest() {
@@ -125,19 +126,41 @@ public class MainTest {
     }
     
     public static void testBFilterAndPrint() {
+        System.out.println("Starting Test BFilter and Print");
+        Connector readBloomRelationConnector = new Connector("print_bloom");
+        Connector readBloomFilterRelationConnector = new Connector("print_bloomFilter");
         Connector bloomConnector = new Connector("bloomConnector");
-        Connector hsplitConnector = new Connector("hsplitConnector");
-        Connector hJoinConnector = new Connector("hJoinConnector");
+        //Connector hsplitConnector = new Connector("hsplitConnector");
+        Connector hBloomJoinConnector = new Connector("hBloomJoinConnector");
+        Connector hBloomFilterJoinConnector = new Connector("hBloomFilterJoinConnector");
+        
         int fieldNumber = 0;
+        
+        ReadRelation r_bloom = new ReadRelation("client.txt", readBloomRelationConnector.getWriteEnd());
+        ReadRelation r_bloomFilter = new ReadRelation("client.txt", readBloomFilterRelationConnector.getWriteEnd());
+        
+        Bloom bloom = new Bloom(readBloomRelationConnector.getReadEnd(),
+                hBloomJoinConnector.getWriteEnd(), bloomConnector.getWriteEnd(), fieldNumber);   
         BFilter filter = new BFilter(bloomConnector.getReadEnd(), 
-                hsplitConnector.getReadEnd(), hJoinConnector.getWriteEnd(), fieldNumber);
-        PrintTuple p = new PrintTuple(hJoinConnector.getReadEnd());
+                readBloomFilterRelationConnector.getReadEnd(), hBloomFilterJoinConnector.getWriteEnd(), fieldNumber);
+        
+        r_bloom.start();
+        r_bloomFilter.start();
+        bloom.start();
         filter.start();
-        p.start();
-        System.out.println("-----------------");
+        
+        ReadEnd readEnd = hBloomFilterJoinConnector.getReadEnd();
+ 
         try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
+            Thread.sleep(5);
+            while(true) {
+                String xx = readEnd.getNextString();
+                if (xx == null) {
+                    break;
+                }
+                System.out.println(xx);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
