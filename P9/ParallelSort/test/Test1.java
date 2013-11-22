@@ -69,5 +69,6 @@ public class Test1 {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "ClientMapReduceHJoinViewing.txt", false); // test passes if files are equal
+
     }
 }
