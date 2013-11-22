@@ -45,7 +45,7 @@ public class MapReduceBloom extends ArrayConnectors {
             Connector[] arr2bmap = ArrayConnectors.initConnectorArray("bmap_Split");
 
             for (int i = 0; i < GammaConstants.splitLen; i++) {
-                Bloom hj = new Bloom(arr1r[i].getReadEnd(), arr1write[i].getWriteEnd(), arr2bmap[i].getWriteEnd(), i);
+                Bloom hj = new Bloom(arr1r[i].getReadEnd(), arr1write[i].getWriteEnd(), arr2bmap[i].getWriteEnd(), joinKey);
                 hj.start();
             }
             

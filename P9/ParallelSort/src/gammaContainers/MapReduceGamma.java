@@ -63,7 +63,7 @@ public class MapReduceGamma extends ArrayConnectors {
             
             Connector[] filter_hjoin = ArrayConnectors.initConnectorArray("filter_hjoin");
             for (int i = 0; i < GammaConstants.splitLen; i++) {
-                BFilter bfilter = new BFilter(split_filter[i].getReadEnd(), bloom_filter[i].getReadEnd(), filter_hjoin[i].getWriteEnd(), joinKey2);
+                BFilter bfilter = new BFilter(bloom_filter[i].getReadEnd(), split_filter[i].getReadEnd(), filter_hjoin[i].getWriteEnd(), joinKey2);
                 bfilter.start();
             }            
 

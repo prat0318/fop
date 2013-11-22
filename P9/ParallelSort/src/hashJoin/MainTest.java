@@ -6,6 +6,7 @@ package hashJoin;
 
 import gammaContainers.MapReduceBFilter;
 import gammaContainers.MapReduceBloom;
+import gammaContainers.MapReduceGamma;
 import gammaContainers.MapReduceHJoin;
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
@@ -29,6 +30,7 @@ public class MainTest {
         readRelation_PrintTupleTest("viewing.txt");
         readRelation_Hsplit_PrintTuple();
         readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
+        gammaTest("client.txt","viewing.txt");
         readRelation_Hsplit_Merge_PrintTuple();
         bloomTest();
         mapReduceBloomTest();
@@ -111,8 +113,22 @@ public class MainTest {
     }
     }
 
+    public static void gammaTest(String file1, String file2) {
+        System.out.println("Starting Gamma Test...");
+        Connector out = new Connector("output");
+        MapReduceGamma h = new MapReduceGamma(0, file1, 0, file2,out.getWriteEnd());
+        PrintTuple p = new PrintTuple(out.getReadEnd());
+        h.start();
+        p.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }        
+    }
+    
     public static void readRelation_Hjoin_PrintTupleTest(String file1, String file2) {
-        //System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
+        System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r1 = new ReadRelation(file1, read_A.getWriteEnd());
         Connector read_B = new Connector("input2");
@@ -124,9 +140,8 @@ public class MainTest {
         r2.start();
         h.start();
         p.start();
-        //System.out.println("-----------------");
         try {
-            Thread.sleep(10);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -249,7 +264,6 @@ public class MainTest {
             writer.close();
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
         }
     }
 
