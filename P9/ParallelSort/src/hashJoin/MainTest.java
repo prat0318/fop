@@ -18,6 +18,7 @@ public class MainTest {
         readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
         readRelation_Hsplit_Merge_PrintTuple();
         bloomTest();
+        testBloomSimulator();
         testBFilterAndPrint();
     }
 
@@ -44,7 +45,6 @@ public class MainTest {
         PrintTuple p1 = new PrintTuple(bloom_join.getReadEnd());
         Connector bloom_bmap = new Connector("bloom_bmap");
         ReadEnd readEnd = bloom_bmap.getReadEnd();
-//        PrintTuple p2 = new PrintTuple(bloom_bmap.getReadEnd());
         Bloom bloom = new Bloom(print_bloom.getReadEnd(), bloom_join.getWriteEnd(), bloom_bmap.getWriteEnd(), 0);
         r.start();
         bloom.start();
@@ -162,5 +162,13 @@ public class MainTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void testBloomSimulator() throws Exception {
+        Connector bloom_print = new Connector("bloom_print");
+        BloomSimulator bloomSimulator = new BloomSimulator(bloom_print.getWriteEnd(), "client.txt");
+        ReadEnd readEnd = bloom_print.getReadEnd();
+        bloomSimulator.start();
+        System.out.println(readEnd.getNextString());        
     }
 }

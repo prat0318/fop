@@ -38,6 +38,7 @@ public class Bloom extends Thread {
                 bmap.setValue(fieldKey, true);
             }
             outputBmap.putNextString(bmap.getBloomFilter());
+            outputWriteEnd.close();
         } catch (Exception ex) {
             Logger.getLogger(Bloom.class.getName()).log(Level.SEVERE, null, ex);
         }
