@@ -15,6 +15,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -232,7 +233,7 @@ public class MainTest {
     
     public static void FileSort(String fileName) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader("fileToRead"));
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
             ArrayList<String> list = new ArrayList<String>();
             String line = "";
             while((line = reader.readLine()) != null) {
@@ -240,6 +241,7 @@ public class MainTest {
             }
             reader.close();
             FileWriter writer = new FileWriter(fileName);
+            Collections.sort(list);
             for(String val : list){
                 writer.write(val);	
                 writer.write('\n');
