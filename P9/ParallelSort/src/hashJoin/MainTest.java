@@ -6,27 +6,27 @@ package hashJoin;
 
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
-import hashJoin.basicConnector.WriteEnd;
 
 /**
  *
  * @author bansal
  */
 public class MainTest {
-    public static void main(String[] args) throws Exception {
-        //readRelation_PrintTupleTest();
-//        readRelation_Hsplit_PrintTuple();
-//       readRelation_Hjoin_PrintTupleTest();
-//        readRelation_Hsplit_Merge_PrintTuple();
-        //bloomTest();
+    public static void main(String[] args) throws  Exception{
+        readRelation_PrintTupleTest("client.txt");
+        readRelation_Hsplit_PrintTuple();
+        readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
+        readRelation_Hsplit_Merge_PrintTuple();
+        bloomTest();
+        testBloomSimulator();
         testBFilterAndPrint();
     }
 
-    public static void readRelation_PrintTupleTest() {
+    public static void readRelation_PrintTupleTest(String fileName) {
         // read --> sort --> print
         System.out.println("Starting ReadRelation _ PrintTuple");
         Connector read_A = new Connector("input1");
-        ReadRelation r = new ReadRelation("client.txt", read_A.getWriteEnd());
+        ReadRelation r = new ReadRelation(fileName, read_A.getWriteEnd());
         PrintTuple p = new PrintTuple(read_A.getReadEnd());
         r.start();
         p.start();
@@ -45,7 +45,6 @@ public class MainTest {
         PrintTuple p1 = new PrintTuple(bloom_join.getReadEnd());
         Connector bloom_bmap = new Connector("bloom_bmap");
         ReadEnd readEnd = bloom_bmap.getReadEnd();
-//        PrintTuple p2 = new PrintTuple(bloom_bmap.getReadEnd());
         Bloom bloom = new Bloom(print_bloom.getReadEnd(), bloom_join.getWriteEnd(), bloom_bmap.getWriteEnd(), 0);
         r.start();
         bloom.start();
@@ -81,12 +80,12 @@ public class MainTest {
     }
     }
 
-    public static void readRelation_Hjoin_PrintTupleTest() {
+    public static void readRelation_Hjoin_PrintTupleTest(String file1, String file2) {
         System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
         Connector read_A = new Connector("input1");
-        ReadRelation r1 = new ReadRelation("client.txt", read_A.getWriteEnd());
+        ReadRelation r1 = new ReadRelation(file1, read_A.getWriteEnd());
         Connector read_B = new Connector("input2");
-        ReadRelation r2 = new ReadRelation("viewing.txt", read_B.getWriteEnd());
+        ReadRelation r2 = new ReadRelation(file2, read_B.getWriteEnd());
         Connector out = new Connector("output");
         HJoin h = new HJoin(0, read_A.getReadEnd(),0,read_B.getReadEnd(),out.getWriteEnd());
         PrintTuple p = new PrintTuple(out.getReadEnd());
@@ -163,5 +162,13 @@ public class MainTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public static void testBloomSimulator() throws Exception {
+        Connector bloom_print = new Connector("bloom_print");
+        BloomSimulator bloomSimulator = new BloomSimulator(bloom_print.getWriteEnd(), "client.txt");
+        ReadEnd readEnd = bloom_print.getReadEnd();
+        bloomSimulator.start();
+        System.out.println(readEnd.getNextString());        
     }
 }

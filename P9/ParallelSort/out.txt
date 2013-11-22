@@ -1,1 +1,2 @@
-Starting Test3
+Starting ReadRelation _ HJoin _ PrintTuple
+-----------------
