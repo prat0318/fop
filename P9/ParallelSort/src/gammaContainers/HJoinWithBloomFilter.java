@@ -41,7 +41,7 @@ public class HJoinWithBloomFilter extends ArrayConnectors {
             Connector input_2 = new Connector("input_2");
             Bloom bloom = new Bloom(c1.getReadEnd(), input_1.getWriteEnd(), bmap.getWriteEnd(), 0);
             bloom.start();
-            BFilter bfliter = new BFilter(c2.getReadEnd(), bmap.getReadEnd(), input_2.getWriteEnd(), 0);
+            BFilter bfliter = new BFilter(bmap.getReadEnd(),c2.getReadEnd(), input_2.getWriteEnd(), 0);
             bfliter.start();
             HJoin hj = new HJoin(joinKey1, input_1.getReadEnd(), joinKey2, input_2.getReadEnd(), out);
             hj.start();
