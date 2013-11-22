@@ -3,6 +3,7 @@
  * and open the template in the editor.
  */
 
+import gammaContainers.HJoinWithBloomFilter;
 import gammaContainers.MapReduceHJoin;
 import hashJoin.PrintTuple;
 import hashJoin.basicConnector.Connector;
@@ -71,4 +72,22 @@ public class Test1 {
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "ClientMapReduceHJoinViewing.txt", false); // test passes if files are equal
     }
+
+    @Test
+    public void testJoinMapReduceWithBloom() {
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+        Connector out2 = new Connector("output2");
+        HJoinWithBloomFilter mapJ = new HJoinWithBloomFilter(0, "client.txt", 0 , "viewing.txt",out2.getWriteEnd() );
+        mapJ.start();
+        PrintTuple p2 = new PrintTuple(out2.getReadEnd());
+        p2.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        RegTest.Utility.validate("out.txt", "ClientMapReduceHJoinViewing.txt", false); // test passes if files are equal
+    }
+
+
 }
