@@ -4,15 +4,9 @@
  */
 package hashJoin;
 
-<<<<<<< HEAD
 import gammaContainers.MapReduceBFilter;
-=======
 import gammaContainers.MapReduceBloom;
-<<<<<<< HEAD
->>>>>>> be1360d493c5220eba5d741e551ad33b5d0bf1c0
 import gammaContainers.MapReduceHJoin;
-=======
->>>>>>> 5a10d2f4b8aef39fcc3a1149f0a3fe55a4eb822a
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
 
