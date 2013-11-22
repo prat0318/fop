@@ -4,7 +4,11 @@
  */
 package hashJoin;
 
+<<<<<<< HEAD
 import gammaContainers.MapReduceBFilter;
+=======
+import gammaContainers.MapReduceBloom;
+>>>>>>> be1360d493c5220eba5d741e551ad33b5d0bf1c0
 import gammaContainers.MapReduceHJoin;
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
@@ -17,10 +21,15 @@ public class MainTest {
     public static void main(String[] args) throws  Exception{
 //        readRelation_PrintTupleTest("client.txt");
 //        readRelation_PrintTupleTest("viewing.txt");
+<<<<<<< HEAD
 //        readRelation_Hsplit_PrintTuple();
+=======
+        //readRelation_Hsplit_PrintTuple();
+>>>>>>> be1360d493c5220eba5d741e551ad33b5d0bf1c0
 //        readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
 //        readRelation_Hsplit_Merge_PrintTuple();
 //        bloomTest();
+        mapReduceBloomTest();
 //        testBloomSimulator();
         testBFilterAndPrint();
 //        testBloomSimulatorFilter();
@@ -53,6 +62,21 @@ public class MainTest {
         Bloom bloom = new Bloom(print_bloom.getReadEnd(), bloom_join.getWriteEnd(), bloom_bmap.getWriteEnd(), 0);
         r.start();
         bloom.start();
+        p1.start();       
+        System.out.println(readEnd.getNextString());
+    }
+
+    public static void mapReduceBloomTest() throws Exception {
+        System.out.println("Starting Map Reduce Bloom Test");
+        Connector print_bloom = new Connector("print_bloom");
+        ReadRelation r = new ReadRelation("client.txt", print_bloom.getWriteEnd());
+        Connector bloom_join = new Connector("bloom_join");
+        PrintTuple p1 = new PrintTuple(bloom_join.getReadEnd());
+        Connector bloom_bmap = new Connector("bloom_bmap");
+        ReadEnd readEnd = bloom_bmap.getReadEnd();
+        MapReduceBloom mapReduceBloom = new MapReduceBloom(print_bloom.getReadEnd(), bloom_join.getWriteEnd(), bloom_bmap.getWriteEnd(), 0);
+        r.start();
+        mapReduceBloom.start();
         p1.start();       
         System.out.println(readEnd.getNextString());
     }
