@@ -8,8 +8,11 @@ package hashJoin;
 import gammaContainers.MapReduceBFilter;
 =======
 import gammaContainers.MapReduceBloom;
+<<<<<<< HEAD
 >>>>>>> be1360d493c5220eba5d741e551ad33b5d0bf1c0
 import gammaContainers.MapReduceHJoin;
+=======
+>>>>>>> 5a10d2f4b8aef39fcc3a1149f0a3fe55a4eb822a
 import hashJoin.basicConnector.Connector;
 import hashJoin.basicConnector.ReadEnd;
 
@@ -18,21 +21,17 @@ import hashJoin.basicConnector.ReadEnd;
  * @author bansal
  */
 public class MainTest {
-    public static void main(String[] args) throws  Exception{
-//        readRelation_PrintTupleTest("client.txt");
-//        readRelation_PrintTupleTest("viewing.txt");
-<<<<<<< HEAD
-//        readRelation_Hsplit_PrintTuple();
-=======
-        //readRelation_Hsplit_PrintTuple();
->>>>>>> be1360d493c5220eba5d741e551ad33b5d0bf1c0
-//        readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
-//        readRelation_Hsplit_Merge_PrintTuple();
-//        bloomTest();
+    public static void main(String[] args) throws Exception {
+        readRelation_PrintTupleTest("client.txt");
+        readRelation_PrintTupleTest("viewing.txt");
+        readRelation_Hsplit_PrintTuple();
+        readRelation_Hjoin_PrintTupleTest("client.txt","viewing.txt");
+        readRelation_Hsplit_Merge_PrintTuple();
+        bloomTest();
         mapReduceBloomTest();
-//        testBloomSimulator();
+        testBloomSimulator();
         testBFilterAndPrint();
-//        testBloomSimulatorFilter();
+        testBloomSimulatorFilter();
     }
 
     public static void readRelation_PrintTupleTest(String fileName) {
@@ -110,7 +109,7 @@ public class MainTest {
     }
 
     public static void readRelation_Hjoin_PrintTupleTest(String file1, String file2) {
-        System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
+        //System.out.println("Starting ReadRelation _ HJoin _ PrintTuple");
         Connector read_A = new Connector("input1");
         ReadRelation r1 = new ReadRelation(file1, read_A.getWriteEnd());
         Connector read_B = new Connector("input2");
@@ -122,18 +121,18 @@ public class MainTest {
         r2.start();
         h.start();
         p.start();
-        System.out.println("-----------------");
+        //System.out.println("-----------------");
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        Connector out2 = new Connector("output2");
-        MapReduceHJoin mapJ = new MapReduceHJoin(0, file1, 0 , file2,out2.getWriteEnd() );
-        mapJ.start();
-        PrintTuple p2 = new PrintTuple(out2.getReadEnd());
-        p2.start();
+//        Connector out2 = new Connector("output2");
+//        MapReduceHJoin mapJ = new MapReduceHJoin(0, file1, 0 , file2,out2.getWriteEnd() );
+//        mapJ.start();
+//        PrintTuple p2 = new PrintTuple(out2.getReadEnd());
+//        p2.start();
 
     }
     public static void readRelation_Hsplit_Merge_PrintTuple() {

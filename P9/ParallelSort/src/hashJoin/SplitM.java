@@ -13,11 +13,9 @@ import hashJoin.gammaSupport.ReportError;
 public class SplitM extends Thread {
     ReadEnd in;
     WriteEnd out[];
-    //int hashKey=0;
 
     public SplitM(ReadEnd in, WriteEnd out0,
            WriteEnd out1, WriteEnd out2, WriteEnd out3) {
-        //this.hashKey=hashKey;
         this.in = in;
         this.out = new WriteEnd[] {out0, out1, out2, out3};
     }
