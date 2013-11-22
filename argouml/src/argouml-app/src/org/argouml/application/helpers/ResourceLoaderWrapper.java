@@ -359,6 +359,7 @@ public final class ResourceLoaderWrapper {
         images.put("action.new-profile", "NewProfile");
         images.put("action.new-todo-item", "New To Do Item...");
         images.put("action.open-project", "Open Project...");
+        images.put("action.refactor-project", "Refactor Project");
         images.put("action.page-setup", "Page Setup...");
         images.put("action.paste", "Paste");
         images.put("action.print", "Print...");

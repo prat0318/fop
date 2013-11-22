@@ -87,6 +87,7 @@ import org.argouml.uml.ui.ActionGenerationSettings;
 import org.argouml.uml.ui.ActionImportFromSources;
 import org.argouml.uml.ui.ActionLayout;
 import org.argouml.uml.ui.ActionOpenProject;
+import org.argouml.uml.ui.ActionRefactorProject;
 import org.argouml.uml.ui.ActionRevertToSaved;
 import org.argouml.uml.ui.ActionSaveAllGraphics;
 import org.argouml.uml.ui.ActionSaveGraphics;
@@ -233,6 +234,7 @@ public class GenericArgoMenuBar extends JMenuBar implements
     private ActionAboutArgoUML aboutAction;
     private ActionExit exitAction;
     private ActionOpenProject openAction;
+    private ActionRefactorProject refactorAction;
     private ActionLayout layoutAction;
 
     /**
@@ -360,6 +362,11 @@ public class GenericArgoMenuBar extends JMenuBar implements
         setMnemonic(revertToSavedItem, "Revert To Saved");
         ShortcutMgr.assignAccelerator(revertToSavedItem,
                 ShortcutMgr.ACTION_REVERT_TO_SAVED);
+        file.addSeparator();
+
+        refactorAction = new ActionRefactorProject();
+        JMenuItem refactorItem = file.add(refactorAction);
+        setMnemonic(refactorItem, "Refactor Code");
         file.addSeparator();
 
         ShortcutMgr.assignAccelerator(file.add(new ActionImportXMI()),
