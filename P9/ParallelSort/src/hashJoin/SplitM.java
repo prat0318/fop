@@ -15,7 +15,7 @@ public class SplitM extends Thread {
     WriteEnd out[];
     //int hashKey=0;
 
-    SplitM(ReadEnd in, WriteEnd out0,
+    public SplitM(ReadEnd in, WriteEnd out0,
            WriteEnd out1, WriteEnd out2, WriteEnd out3) {
         //this.hashKey=hashKey;
         this.in = in;

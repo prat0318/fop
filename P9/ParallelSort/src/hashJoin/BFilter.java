@@ -43,7 +43,7 @@ public class BFilter extends Thread{
                 String input = t.get(fieldNumber);
                 if (bm.getValue(input)) {
                     try {
-                        out.putNextString(input);
+                        out.putNextTuple(t);
                     } catch (Exception ex) {
                         Logger.getLogger(BFilter.class.getName()).log(Level.SEVERE, null, ex);
                     }

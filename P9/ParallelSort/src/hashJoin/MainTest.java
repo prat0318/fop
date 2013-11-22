@@ -149,17 +149,18 @@ public class MainTest {
         bloom.start();
         filter.start();
         
-        ReadEnd readEnd = hBloomFilterJoinConnector.getReadEnd();
+        PrintTuple readEnd = new PrintTuple(hBloomFilterJoinConnector.getReadEnd());
+        readEnd.start();
  
         try {
             Thread.sleep(5);
-            while(true) {
-                String xx = readEnd.getNextString();
-                if (xx == null) {
-                    break;
-                }
-                System.out.println(xx);
-            }
+//            while(true) {
+//                String xx = readEnd.getNextString();
+//                if (xx == null) {
+//                    break;
+//                }
+//                System.out.println(xx);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

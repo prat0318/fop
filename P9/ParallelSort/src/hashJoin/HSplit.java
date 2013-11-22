@@ -14,7 +14,7 @@ public class HSplit extends Thread {
     WriteEnd out[];
     int hashKey=0;
 
-    HSplit(int hashKey, ReadEnd in, WriteEnd out0,
+    public HSplit(int hashKey, ReadEnd in, WriteEnd out0,
            WriteEnd out1, WriteEnd out2, WriteEnd out3) {
         this.hashKey=hashKey;
         this.in = in;
