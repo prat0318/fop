@@ -191,6 +191,11 @@ public class GenericArgoMenuBar extends JMenuBar implements
      * View under which is the Goto Diagram, Find, Zoom, Adjust grid etc.
      */
     private ArgoJMenu view;
+    
+    /**
+     * View under which all the refactorings would be listed.
+     */
+    private ArgoJMenu refactoring;
 
     /**
      * Toolbar:create diagram.
@@ -312,6 +317,7 @@ public class GenericArgoMenuBar extends JMenuBar implements
         initMenuFile();
         initMenuEdit();
         initMenuView();
+        initMenuRefactorings();
         initMenuCreate();
         initMenuArrange();
         initMenuGeneration();
@@ -610,6 +616,53 @@ public class GenericArgoMenuBar extends JMenuBar implements
                 ShortcutMgr.ACTION_SHOW_XML_DUMP);
     }
 
+    /** 
+     * All the code for the refactorings tab would go in here.
+     * 
+     * Gaurav Nanda
+     */
+    protected void initMenuRefactorings() {
+    	refactoring = (ArgoJMenu) add(new ArgoJMenu(MENU + prepareKey("Refactoring")));
+        setMnemonic(refactoring, "Refactoring");
+
+        JMenuItem rename = refactoring.add(new ActionRename());
+        setMnemonic(rename, "Rename");
+        refactoring.addSeparator();
+        
+//        JMenuItem rename = (JMenuItem) refactoring.add(new JMenu(menuLocalize("Rename")));
+//        setMnemonic(rename, "Rename");
+
+//        private void initMenuHelp() {
+//            help = new JMenu(menuLocalize("Help"));
+//            setMnemonic(help, "Help");
+//            if (help.getItemCount() > 0) {
+//                help.insertSeparator(0);
+//            }
+//
+//            // Add the help menu item.
+//            JMenuItem argoHelp = help.add(new ActionHelp());
+//            setMnemonic(argoHelp, "ArgoUML help");
+//            ShortcutMgr.assignAccelerator(argoHelp, ShortcutMgr.ACTION_HELP);
+//            help.addSeparator();
+//
+//            JMenuItem systemInfo = help.add(new ActionSystemInfo());
+//            setMnemonic(systemInfo, "System Information");
+//            ShortcutMgr.assignAccelerator(systemInfo,
+//                    ShortcutMgr.ACTION_SYSTEM_INFORMATION);
+//
+//            aboutAction = new ActionAboutArgoUML();
+//            if (!OsUtil.isMacOSX()) {
+//                help.addSeparator();
+//                JMenuItem aboutArgoUML = help.add(aboutAction);
+//                setMnemonic(aboutArgoUML, "About ArgoUML");
+//                ShortcutMgr.assignAccelerator(aboutArgoUML,
+//                        ShortcutMgr.ACTION_ABOUT_ARGOUML);
+//            }
+//
+//            // setHelpMenu(help);
+//            add(help);
+//        }
+    }
     /**
      * Build the menu "Create" and the toolbar for diagram creation. These are
      * build together to guarantee that the same items are present in both, and

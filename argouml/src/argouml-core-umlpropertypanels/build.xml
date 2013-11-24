@@ -249,10 +249,10 @@ Building this requires:
       <property name="version.suffix" value="0.28.0.200904210336"/>
       <property name="bundleVersion" value="${version.suffix}" />
 
-      <!-- Compiler settings. -->
+      <!-- Compiler settings.
       <condition property="dir_bootclasspath" value="${java.home}/../Classes">
         <os family="mac" />
-      </condition>
+      </condition> -->
       <property name="dir_bootclasspath" value="${java.home}/lib" />
       <path id="path_bootclasspath">
         <fileset dir="${dir_bootclasspath}">

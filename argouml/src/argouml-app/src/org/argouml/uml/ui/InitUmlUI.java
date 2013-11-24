@@ -59,6 +59,7 @@ public class InitUmlUI implements InitSubsystem {
     public List<AbstractArgoJPanel> getDetailsTabs() {
         List<AbstractArgoJPanel> result = 
             new ArrayList<AbstractArgoJPanel>();
+        //result.add(new TabRefactoring());
         result.add(new TabProps());
         result.add(new TabDocumentation());
         result.add(new TabStyle());
