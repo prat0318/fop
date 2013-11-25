@@ -38,20 +38,23 @@
 
 package org.argouml.model.mdr;
 
+import junit.framework.TestCase;
+import org.argouml.model.UmlException;
+import org.argouml.model.XmiReader;
+import org.omg.uml.foundation.core.UmlClass;
+//import org.omg.uml.modelmanagement.Model;
+import org.argouml.model.Model;
+import org.argouml.model.Facade;
+import org.omg.uml.modelmanagement.UmlPackage;
+import org.xml.sax.InputSource;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Collection;
-
-import junit.framework.TestCase;
-
-import org.argouml.model.UmlException;
-import org.argouml.model.XmiReader;
-import org.omg.uml.foundation.core.UmlClass;
-import org.omg.uml.modelmanagement.Model;
-import org.omg.uml.modelmanagement.UmlPackage;
-import org.xml.sax.InputSource;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Testing the set up of the MDR.
@@ -80,15 +83,15 @@ public class TestMDRModelImplementationCreate extends TestCase {
             FileNotFoundException {
         MDRModelImplementation mi = new MDRModelImplementation();
         assertNotNull(mi.getFacade());
-        Model m = (Model) mi.getModelManagementFactory().createModel();
+        org.omg.uml.modelmanagement.Model m = (org.omg.uml.modelmanagement.Model) mi.getModelManagementFactory().createModel();
         assertNotNull(m);
         UmlPackage p = (UmlPackage) mi.getModelManagementFactory().
                 createPackage();
         mi.getCoreHelper().setNamespace(p, m);
         UmlClass c = (UmlClass) mi.getCoreFactory().buildClass(m);
-        Model m1 = (Model) mi.getFacade().getRoot(c);
+        org.omg.uml.modelmanagement.Model m1 = (org.omg.uml.modelmanagement.Model) mi.getFacade().getRoot(c);
         assertNotNull(m1);
-        Model m2 = (Model) mi.getFacade().getRoot(p);
+        org.omg.uml.modelmanagement.Model m2 = (org.omg.uml.modelmanagement.Model) mi.getFacade().getRoot(p);
         assertNotNull(m2);
         assertEquals(m1, m);
         assertEquals(m2, m);
@@ -99,10 +102,43 @@ public class TestMDRModelImplementationCreate extends TestCase {
         File fileModel = new File(modelUrl.getPath());
         assertTrue(fileModel.exists());
         InputSource source = new InputSource(new FileInputStream(fileModel));
+        
+        XmiReader reader = null;
+        Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
+        reader = Model.getXmiReader();
+        /***** REFERENCE STARTS HERE ******/
+            List<String> searchPath = reader.getSearchPath();
+        String pathList =
+            System.getProperty("org.argouml.model.modules_search_path");
+        if (pathList != null) {
+            String[] paths = pathList.split(",");
+            for (String path : paths) {
+                if (!searchPath.contains(path)) {
+                    reader.addSearchPath(path);
+                }
+            }
+        }
+        reader.addSearchPath(source.getSystemId());
+
+       Collection elementsRead = reader.parse(source, false);
+        if (elementsRead != null && !elementsRead.isEmpty()) {
+            Facade facade = Model.getFacade();
+            Object current;
+            Iterator elements = elementsRead.iterator();
+            while (elements.hasNext()) {
+                current = elements.next();
+                System.out.println(facade.isAModel(current));
+                System.out.println(facade.getUMLClassName(current));                       
+                System.out.println(facade.getModelElementContents(current));                       
+                }
+            }
+        /***** REFERENCE ENDS HERE ******/
+        source = new InputSource(new FileInputStream(fileModel));  
         Collection modelElements = xmiReader.parse(source, false);
         assertNotNull(modelElements);
         assertEquals(1, modelElements.size());
-        assertNotNull(modelElements.iterator().next());
+        Object o = modelElements.iterator().next();
+        assertNotNull(o);
     }
 
 }
