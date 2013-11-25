@@ -158,15 +158,16 @@ public class TestMDRModelImplementationCreate extends TestCase {
                 int ass_end_index = 0;
                 for(Object item: contents){
                     if(facade.isAAssociation(item)){
-                        System.out.println("composition("+"assoc_"+(++ass_index)+", "+facade.getName(item)+").");
+                        String assoc_id = "assoc_"+(++ass_index);
+                        System.out.println("composition("+ assoc_id +", "+facade.getName(item)+").");
                         Collection items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
                             Object classifier = facade.getClassifier(item1);
                             String lower = (Integer)facade.getLower(item1) == -1 ? "inf" : ((Integer)(facade.getLower(item1))).toString();
                             String upper = (Integer)facade.getUpper(item1) == -1 ? "inf" : ((Integer)(facade.getUpper(item1))).toString();
                             System.out.println("association("+"assoc_end_"+
-                            (++ass_end_index)+", "+classMapping.get(facade.getName(classifier))+
-                            ", "+lower+".."+upper+").");
+                            (++ass_end_index)+", "+assoc_id+ ", "+classMapping.get(facade.getName(classifier))+
+                            ", \""+lower+".."+upper+"\").");
                         }
                         System.out.println();
                     }
