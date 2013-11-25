@@ -53,8 +53,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Testing the set up of the MDR.
@@ -101,12 +103,13 @@ public class TestMDRModelImplementationCreate extends TestCase {
         assertNotNull(modelUrl);
         File fileModel = new File(modelUrl.getPath());
         assertTrue(fileModel.exists());
-        InputSource source = new InputSource(new FileInputStream(fileModel));
-        
+        /***** REFERENCE STARTS HERE ******/
+        URL f = getClass().getClassLoader().getResource(
+                "testmodels/ShoppingCart.xmi");
+        InputSource source = new InputSource(new FileInputStream(new File(f.getPath())));        
         XmiReader reader = null;
         Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
         reader = Model.getXmiReader();
-        /***** REFERENCE STARTS HERE ******/
             List<String> searchPath = reader.getSearchPath();
         String pathList =
             System.getProperty("org.argouml.model.modules_search_path");
@@ -127,11 +130,49 @@ public class TestMDRModelImplementationCreate extends TestCase {
             Iterator elements = elementsRead.iterator();
             while (elements.hasNext()) {
                 current = elements.next();
-                System.out.println(facade.isAModel(current));
-                System.out.println(facade.getUMLClassName(current));                       
-                System.out.println(facade.getModelElementContents(current));                       
+                List contents = facade.getModelElementContents(current);
+                System.out.print("dbname("+facade.getName(current)+", [");
+                Map<String, String> classMapping = new HashMap<String, String>();
+                int classId = 0;
+                for(Object item: contents){
+                    if(facade.isAClass(item)){
+                        System.out.print(facade.getName(item)+", ");
+//                        System.out.println(item);
+                        classMapping.put(facade.getName(item), "class_"+(++classId));
+                    }                    
+                }
+                System.out.println("]).");
+                int attrIndex = 0;
+                for(Object item: contents){
+                    if(facade.isAClass(item)){
+                        String className = facade.getName(item);
+                        System.out.println("class("+classMapping.get(className)+", "+className+", "+facade.getVisibility(item)+").");
+                        List items1 = facade.getModelElementContents(item);
+                        for(Object item1: items1){
+                            System.out.println("attribute("+"attr_"+(++attrIndex)+", "+facade.getName(item1)+", "+facade.getVisibility(item1)+").");
+                        }
+                        System.out.println();
+                    }
+                }
+                int ass_index = 0;
+                int ass_end_index = 0;
+                for(Object item: contents){
+                    if(facade.isAAssociation(item)){
+                        System.out.println("composition("+"assoc_"+(++ass_index)+", "+facade.getName(item)+").");
+                        Collection items1 = facade.getModelElementContents(item);
+                        for(Object item1: items1){
+                            Object classifier = facade.getClassifier(item1);
+                            String lower = (Integer)facade.getLower(item1) == -1 ? "inf" : ((Integer)(facade.getLower(item1))).toString();
+                            String upper = (Integer)facade.getUpper(item1) == -1 ? "inf" : ((Integer)(facade.getUpper(item1))).toString();
+                            System.out.println("association("+"assoc_end_"+
+                            (++ass_end_index)+", "+classMapping.get(facade.getName(classifier))+
+                            ", "+lower+".."+upper+").");
+                        }
+                        System.out.println();
+                    }
                 }
             }
+        }
         /***** REFERENCE ENDS HERE ******/
         source = new InputSource(new FileInputStream(fileModel));  
         Collection modelElements = xmiReader.parse(source, false);
