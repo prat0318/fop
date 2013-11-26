@@ -75,7 +75,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/readRelationPrint.txt", false); // test passes if files are equal
-                System.setOut(System.out);
+        System.setOut(System.out);
     }    
     
     @Test       
@@ -123,7 +123,6 @@ public class UnitTest {
             e.printStackTrace();
         }
         assert("fftffftfffffffftfffffftfffff".equals(readEnd.getNextString())); 
-                System.setOut(System.out);
     }
     
     @Test
@@ -223,6 +222,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/ClientJoinViewing.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     }
 
     @Test
@@ -260,6 +260,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/PartsJoinOdetails.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     }
 
     @Test
@@ -278,6 +279,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/ClientJoinViewing.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     } 
 
     @Test
@@ -296,6 +298,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/OrdersJoinOdetails.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     } 
 
     @Test
@@ -314,6 +317,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/PartsJoinOdetails.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     } 
     
     @Test
@@ -345,6 +349,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/readRelationHsplitPrint.txt", false); // test passes if files are equal        
+        System.setOut(System.out);
     }
 
     @Test   
@@ -365,6 +370,7 @@ public class UnitTest {
         }        
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/ClientJoinViewing.txt", false); // test passes if files are equal        
+        System.setOut(System.out);
     }
     
    @Test   
@@ -385,6 +391,7 @@ public class UnitTest {
         }        
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/OrdersJoinOdetails.txt", false); // test passes if files are equal        
+        System.setOut(System.out);
     }
     
    @Test   
@@ -405,6 +412,7 @@ public class UnitTest {
         }        
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/PartsJoinOdetails.txt", false); // test passes if files are equal        
+        System.setOut(System.out);
     }
     
     @Test
@@ -432,6 +440,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/readRelationHsplitMergePrintOut.txt", false); // test passes if files are equal        
+        System.setOut(System.out);
     }
     
     @Test
