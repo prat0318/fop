@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class Tuple {
     // serialized tuples have their fields separated by this character
-    public static String separator="#";
+    public static String separator="\t";
 
     // a tuple is an array[size] of Strings
     private String[] field;
