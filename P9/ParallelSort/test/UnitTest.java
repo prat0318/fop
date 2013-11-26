@@ -33,9 +33,9 @@ import java.util.logging.Logger;
 /**
  * @author bansal
  */
-public class Test1 {
+public class UnitTest {
 
-    public Test1() {
+    public UnitTest() {
     }
 
     @BeforeClass
@@ -124,15 +124,15 @@ public class Test1 {
     }
     
     @Test
-    public void testJoin() {
-        System.out.println("Starting test simple HJoin...");
+    public void testJoin_ClientXViewing() {
+        System.out.println("Starting test simple HJoin..._ClientXViewing");
         RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
 
         String[] args = null;
         Connector read_A = new Connector("input1");
-        ReadRelation r1 = new ReadRelation("input/client.txt", "input/client.txt", read_A.getWriteEnd());
+        ReadRelation r1 = new ReadRelation("input/client.txt", "clientDB", read_A.getWriteEnd());
         Connector read_B = new Connector("input2");
-        ReadRelation r2 = new ReadRelation("input/viewing.txt", "input/viewing.txt", read_B.getWriteEnd());
+        ReadRelation r2 = new ReadRelation("input/viewing.txt", "clientDB", read_B.getWriteEnd());
         Connector out = new Connector("output");
         HJoin h = new HJoin(0, read_A.getReadEnd(),0,read_B.getReadEnd(),out.getWriteEnd());
         PrintTuple p = new PrintTuple(out.getReadEnd());
@@ -148,10 +148,62 @@ public class Test1 {
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/ClientJoinViewing.txt", false); // test passes if files are equal
     }
+    
+    @Test
+    public void testJoin_OrdersXOdetails() {
+        System.out.println("Starting test simple HJoin..._OrdersXOdetails");
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+
+        String[] args = null;
+        Connector read_A = new Connector("input1");
+        ReadRelation r1 = new ReadRelation("input/orders.txt", "clientDB", read_A.getWriteEnd());
+        Connector read_B = new Connector("input2");
+        ReadRelation r2 = new ReadRelation("input/odetails.txt", "clientDB", read_B.getWriteEnd());
+        Connector out = new Connector("output");
+        HJoin h = new HJoin(0, read_A.getReadEnd(),0,read_B.getReadEnd(),out.getWriteEnd());
+        PrintTuple p = new PrintTuple(out.getReadEnd());
+        r1.start();
+        r2.start();
+        h.start();
+        p.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "expected/OrdersJoinOdetails.txt", false); // test passes if files are equal
+    }
+    
+    @Test
+    public void testJoin_PartsXOdetails() {
+        System.out.println("Starting test simple HJoin..._PartsXOdetails");
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+
+        String[] args = null;
+        Connector read_A = new Connector("input1");
+        ReadRelation r1 = new ReadRelation("input/parts.txt", "clientDB", read_A.getWriteEnd());
+        Connector read_B = new Connector("input2");
+        ReadRelation r2 = new ReadRelation("input/odetails.txt", "clientDB", read_B.getWriteEnd());
+        Connector out = new Connector("output");
+        HJoin h = new HJoin(0, read_A.getReadEnd(), 1,read_B.getReadEnd(),out.getWriteEnd());
+        PrintTuple p = new PrintTuple(out.getReadEnd());
+        r1.start();
+        r2.start();
+        h.start();
+        p.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "expected/PartsJoinOdetails.txt", false); // test passes if files are equal
+    }
 
     @Test
-    public void testJoinMapReduce() {
-        System.out.println("Starting test MapReduce hJoin...");
+    public void testJoinMapReduce_ClientXViewing() {
+        System.out.println("Starting test MapReduce hJoin..._ClientXViewing");
         RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
         Connector out2 = new Connector("output2");
         MapReduceHJoin mapJ = new MapReduceHJoin(0, "input/client.txt", 0 , "input/viewing.txt",out2.getWriteEnd() );
@@ -168,8 +220,44 @@ public class Test1 {
     }
 
     @Test
-    public void testJoinMapReduceWithBloom() {
-        System.out.println("Starting test MapReduce BloomWithJoin...");
+    public void testJoinMapReduce_OrdersXOdetails() {
+        System.out.println("Starting test MapReduce hJoin..._OrdersXOdetails");
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+        Connector out2 = new Connector("output2");
+        MapReduceHJoin mapJ = new MapReduceHJoin(0, "input/orders.txt", 0 , "input/odetails.txt",out2.getWriteEnd() );
+        mapJ.start();
+        PrintTuple p2 = new PrintTuple(out2.getReadEnd());
+        p2.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "expected/OrdersJoinOdetails.txt", false); // test passes if files are equal
+    }
+
+    @Test
+    public void testJoinMapReduce_PartsXOdetails() {
+        System.out.println("Starting test MapReduce hJoin..._PartsXOdetails");
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+        Connector out2 = new Connector("output2");
+        MapReduceHJoin mapJ = new MapReduceHJoin(0, "input/parts.txt", 1, "input/odetails.txt",out2.getWriteEnd() );
+        mapJ.start();
+        PrintTuple p2 = new PrintTuple(out2.getReadEnd());
+        p2.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "expected/PartsJoinOdetails.txt", false); // test passes if files are equal
+    }
+
+    @Test
+    public void testJoinMapReduceWithBloom_ClientXViewing() {
+        System.out.println("Starting test MapReduce BloomWithJoin..._ClientXViewing");
         RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
         Connector out2 = new Connector("output2");
         HJoinWithBloomFilter mapJ = new HJoinWithBloomFilter(0, "input/client.txt", 0 , "input/viewing.txt",out2.getWriteEnd() );
@@ -184,9 +272,45 @@ public class Test1 {
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/ClientJoinViewing.txt", false); // test passes if files are equal
     } 
+
+    @Test
+    public void testJoinMapReduceWithBloom_OrdersXOdetails() {
+        System.out.println("Starting test MapReduce BloomWithJoin..._OrdersXOdetails");
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+        Connector out2 = new Connector("output2");
+        HJoinWithBloomFilter mapJ = new HJoinWithBloomFilter(0, "input/orders.txt", 0 , "input/odetails.txt",out2.getWriteEnd() );
+        mapJ.start();
+        PrintTuple p2 = new PrintTuple(out2.getReadEnd());
+        p2.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "expected/OrdersJoinOdetails.txt", false); // test passes if files are equal
+    } 
+
+    @Test
+    public void testJoinMapReduceWithBloom_PartsXOdetails() {
+        System.out.println("Starting test MapReduce BloomWithJoin..._PartsXOdetails");
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+        Connector out2 = new Connector("output2");
+        HJoinWithBloomFilter mapJ = new HJoinWithBloomFilter(0, "input/parts.txt", 1 , "input/odetails.txt",out2.getWriteEnd() );
+        mapJ.start();
+        PrintTuple p2 = new PrintTuple(out2.getReadEnd());
+        p2.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "expected/PartsJoinOdetails.txt", false); // test passes if files are equal
+    } 
     
-       @Test
-       public void testReadRelation_Hsplit_PrintTuple() {
+    @Test
+    public void testReadRelation_Hsplit_PrintTuple() {
         // read --> sort --> print
         System.out.println("Starting ReadRelation _ Hsplit _  PrintTuple");
         RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
@@ -217,8 +341,8 @@ public class Test1 {
     }
 
     @Test   
-    public void testGamma() {
-        System.out.println("Starting Gamma Test...");
+    public void testGamma_ClientXViewing() {
+        System.out.println("Starting Gamma Test...ClientXViewing");
         String file1 = "input/client.txt";
         String file2 = "input/viewing.txt";
         RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
@@ -233,7 +357,47 @@ public class Test1 {
             e.printStackTrace();
         }        
         MainTest.FileSort("out.txt");
-        RegTest.Utility.validate("out.txt", "expected/gammaOut.txt", false); // test passes if files are equal        
+        RegTest.Utility.validate("out.txt", "expected/ClientJoinViewing.txt", false); // test passes if files are equal        
+    }
+    
+   @Test   
+    public void testGamma_OrdersXOdetails() {
+        System.out.println("Starting Gamma Test.._OrdersXOdetails");
+        String file1 = "input/orders.txt";
+        String file2 = "input/odetails.txt";
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+        Connector out = new Connector("output");
+        MapReduceGamma h = new MapReduceGamma(0, file1, 0, file2,out.getWriteEnd());
+        PrintTuple p = new PrintTuple(out.getReadEnd());
+        h.start();
+        p.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }        
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "expected/OrdersJoinOdetails.txt", false); // test passes if files are equal        
+    }
+    
+   @Test   
+    public void testGamma_PartsXOdetails() {
+        System.out.println("Starting Gamma Test.._PartsXOdetails");
+        String file1 = "input/parts.txt";
+        String file2 = "input/odetails.txt";
+        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+        Connector out = new Connector("output");
+        MapReduceGamma h = new MapReduceGamma(0, file1, 1, file2,out.getWriteEnd());
+        PrintTuple p = new PrintTuple(out.getReadEnd());
+        h.start();
+        p.start();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }        
+        MainTest.FileSort("out.txt");
+        RegTest.Utility.validate("out.txt", "expected/PartsJoinOdetails.txt", false); // test passes if files are equal        
     }
     
     @Test
