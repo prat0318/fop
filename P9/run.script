@@ -1,0 +1,18 @@
+#!/bin/sh
+
+cd GammaJoin/src/
+
+echo "Compiling the Classes"
+#javac -classpath ../build/classes:../regressionTest.jar:../junit-4.10.jar -d ../build/classes  parallelsort/*.java hashJoin/*.java hashJoin/basicConnector/*.java hashJoin/gammaSupport/*java gammaContainers/*.java ../test/*.java
+javac -classpath ../build/classes:../regressionTest.jar:../junit-4.10.jar -d ../build/classes  parallelsort/*.java hashJoin/*.java hashJoin/basicConnector/*.java hashJoin/gammaSupport/*java gammaContainers/*.java
+echo "Completed compilation of the classes" 
+
+echo "Compliling the Test Class"
+#cd .. 
+javac  -classpath ../build/classes:../regressionTest.jar:../junit-4.10.jar ../test/*.java
+echo "Running Unit Test case"
+cd ..
+
+java -cp build/classes:regressionTest.jar:junit-4.10.jar:test/:. org.junit.runner.JUnitCore UnitTest
+
+echo "Completed Testing"
