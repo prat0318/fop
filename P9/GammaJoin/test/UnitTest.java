@@ -24,6 +24,7 @@ import org.junit.Test;
 import hashJoin.MainTest;
 import hashJoin.Merge;
 import hashJoin.ReadRelation;
+import hashJoin.Sink;
 import hashJoin.basicConnector.ReadEnd;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class UnitTest {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() {        
     }
 
     @After
@@ -60,7 +61,7 @@ public class UnitTest {
     
     @Test
     public void testReadRelation_PrintTuple() {
-        System.out.println("Starting test ReadRelation_PrintTuple connector... ");
+        System.out.println("Starting test ReadRelation_PrintTuple connector... ");       
         RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
         Connector read_A = new Connector("input1");
         ReadRelation r = new ReadRelation("input/client.txt","clientDB", read_A.getWriteEnd());
@@ -74,17 +75,18 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/readRelationPrint.txt", false); // test passes if files are equal
+                System.setOut(System.out);
     }    
     
     @Test       
      public void testMapReduceBloom() throws Exception {
         System.out.println("Starting Map Reduce Bloom Test...");
 
-        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+//        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
         Connector print_bloom = new Connector("print_bloom");
         ReadRelation r = new ReadRelation("input/client.txt","clientDB", print_bloom.getWriteEnd());
         Connector bloom_join = new Connector("bloom_join");
-        PrintTuple p1 = new PrintTuple(bloom_join.getReadEnd());
+        Sink p1 = new Sink(bloom_join.getReadEnd());
         Connector bloom_bmap = new Connector("bloom_bmap");
         ReadEnd readEnd = bloom_bmap.getReadEnd();
         Bloom mapReduceBloom = new Bloom(print_bloom.getReadEnd(), bloom_join.getWriteEnd(), bloom_bmap.getWriteEnd(), 0);
@@ -104,11 +106,11 @@ public class UnitTest {
     public void testBloom() throws Exception {
         System.out.println("Starting test Bloom...");
 
-        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
+//        RegTest.Utility.redirectStdOut("out.txt");  // redirects standard out to file "out.txt"
         Connector print_bloom = new Connector("print_bloom");
         ReadRelation r = new ReadRelation("input/client.txt","clientDB", print_bloom.getWriteEnd());
         Connector bloom_join = new Connector("bloom_join");
-        PrintTuple p1 = new PrintTuple(bloom_join.getReadEnd());
+        Sink p1 = new Sink(bloom_join.getReadEnd());
         Connector bloom_bmap = new Connector("bloom_bmap");
         ReadEnd readEnd = bloom_bmap.getReadEnd();
         Bloom bloom = new Bloom(print_bloom.getReadEnd(), bloom_join.getWriteEnd(), bloom_bmap.getWriteEnd(), 0);
@@ -121,6 +123,7 @@ public class UnitTest {
             e.printStackTrace();
         }
         assert("fftffftfffffffftfffffftfffff".equals(readEnd.getNextString())); 
+                System.setOut(System.out);
     }
     
     @Test
@@ -147,6 +150,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/ClientJoinViewing.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     }
     
     @Test
@@ -173,6 +177,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/OrdersJoinOdetails.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     }
     
     @Test
@@ -199,6 +204,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/PartsJoinOdetails.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     }
 
     @Test
@@ -235,6 +241,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/OrdersJoinOdetails.txt", false); // test passes if files are equal
+        System.setOut(System.out);
     }
 
     @Test
@@ -464,6 +471,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/readRelationHsplitMergePrintOut.txt", false); // test passes if files are equal        
+        System.setOut(System.out);
     }
     
     @Test
@@ -504,6 +512,7 @@ public class UnitTest {
         }
         MainTest.FileSort("out.txt");
         RegTest.Utility.validate("out.txt", "expected/bloomSimulatorFilterOut.txt", false); // test passes if files are equal        
+        System.setOut(System.out);
     }
 
 
