@@ -428,9 +428,11 @@ class ModelEventPumpMDRImpl extends AbstractModelEventPump implements
             } else if (e instanceof AttributeEvent) {
                 RefObject element = (RefObject) ((AttributeEvent) e)
                         .getSource();
+/* XXX: Commenting out to allow setName() on DataTypes.
                 if (isReadOnly(element)) {
                     throw new VetoChangeException(element, element);
                 }
+*/
             }
         }
 
