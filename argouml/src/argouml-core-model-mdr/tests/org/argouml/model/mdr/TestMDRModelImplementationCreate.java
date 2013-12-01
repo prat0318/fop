@@ -38,16 +38,6 @@
 
 package org.argouml.model.mdr;
 
-import junit.framework.TestCase;
-import org.argouml.model.UmlException;
-import org.argouml.model.XmiReader;
-import org.omg.uml.foundation.core.UmlClass;
-//import org.omg.uml.modelmanagement.Model;
-import org.argouml.model.Model;
-import org.argouml.model.Facade;
-import org.omg.uml.modelmanagement.UmlPackage;
-import org.xml.sax.InputSource;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -57,6 +47,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+//import javax.jmi.xmi.XmiReader;
+
+import junit.framework.TestCase;
+
+import org.argouml.model.Facade;
+import org.argouml.model.XmiReader;
+import org.omg.uml.behavioralelements.commonbehavior.UmlException;
+import org.omg.uml.foundation.core.UmlClass;
+import org.argouml.model.Model;
+import org.omg.uml.modelmanagement.UmlPackage;
+import org.xml.sax.InputSource;
+//import org.omg.uml.modelmanagement.Model;
 
 /**
  * Testing the set up of the MDR.
@@ -80,9 +83,10 @@ public class TestMDRModelImplementationCreate extends TestCase {
      *             if model subsystem initialization fails.
      * @throws FileNotFoundException
      *             If the test XMI file can't be found.
+     * @throws org.argouml.model.UmlException 
      */
-    public void testMDRModelImplementation() throws UmlException,
-            FileNotFoundException {
+    public void testMDRModelImplementation() throws
+            FileNotFoundException, org.argouml.model.UmlException {
         MDRModelImplementation mi = new MDRModelImplementation();
         assertNotNull(mi.getFacade());
         org.omg.uml.modelmanagement.Model m = (org.omg.uml.modelmanagement.Model) mi.getModelManagementFactory().createModel();
@@ -104,11 +108,9 @@ public class TestMDRModelImplementationCreate extends TestCase {
         File fileModel = new File(modelUrl.getPath());
         assertTrue(fileModel.exists());
         /***** REFERENCE STARTS HERE ******/
-        URL f = getClass().getClassLoader().getResource(
-                "testmodels/ShoppingCart.xmi");
-        InputSource source = new InputSource(new FileInputStream(new File(f.getPath())));        
+        InputSource source = new InputSource(new FileInputStream(new File("/tmp/ShoppingCart.xmi")));        
         XmiReader reader = null;
-        Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
+		Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
         reader = Model.getXmiReader();
             List<String> searchPath = reader.getSearchPath();
         String pathList =
