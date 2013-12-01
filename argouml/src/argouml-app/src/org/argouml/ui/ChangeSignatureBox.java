@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -18,6 +19,8 @@ import javax.swing.*;
 
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.DataType;
+import org.omg.uml.foundation.core.Feature;
+import org.omg.uml.foundation.core.Generalization;
 import org.omg.uml.foundation.core.Operation;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.core.UmlClass;
@@ -25,30 +28,18 @@ import org.omg.uml.foundation.core.UmlClass;
 import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectManager;
 
+import org.argouml.model.Model;
+
 // Gaurav Nanda
 public class ChangeSignatureBox  extends JFrame implements ActionListener{
     private static final Logger LOG =
             Logger.getLogger(ChangeSignatureBox.class.getName());
-    
+
     private List nodes = new ArrayList();
     private Operation target;
-    
+
     JTextField gui_method_return_type, gui_method_name;
     JTextField return_types[], param_names[];
-
-    // Temporary class to hold required elements of the operation.
-    class __param {
-        Parameter param;
-        String type, name;
-
-        __param(Parameter param, String type, String name) {
-            this.param = param;
-            this.type = type;
-            this.name = name;
-        }
-    }
-
-    List<__param> params;
 
 	/**
      * Class constructor.
@@ -57,9 +48,9 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
      */
 	public ChangeSignatureBox(String title, Object target) {
 		super(title);
-		
+
 		this.target = (Operation) target;
-		
+
 		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
 
@@ -67,8 +58,62 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
 		setSize( 400, 200);
 		setRenameNode();
 	}
-	
-	public void setRenameNode() {
+
+    private List<Operation> get_matching_operations(UmlClass klass, Operation op_gold) {
+        List<Feature> operation_list = klass.getFeature();
+        List<Operation> return_list = new ArrayList<Operation>();
+        List<Parameter> param_list_gold = op_gold.getParameter();
+
+        for (Feature _op_silv : operation_list) {
+            boolean match = true;
+            Operation op_silv = (Operation) _op_silv;
+            if(op_silv.getName().equals(op_gold.getName())) {
+                List<Parameter> param_list_silv = op_silv.getParameter();
+                if (param_list_silv.size() == param_list_gold.size()) {
+                    // Return type is not used in matching method signatures.
+                    for (int i=1; i<param_list_gold.size(); i++) {
+                        if (!param_list_gold.get(i).getType().getName().equals(param_list_silv.get(i).getType().getName())) {
+                            System.out.println ("Failed because param types differ: " + param_list_silv.get(i).getType().getName() + ", " + param_list_gold.get(i).getType().getName());
+                            match = false;
+                            break;
+                        }
+
+                        if (!param_list_gold.get(i).getName().equals(param_list_silv.get(i).getName())) {
+                            System.out.println ("Failed because param names differ: " + param_list_silv.get(i).getName() + ", " + param_list_gold.get(i).getName());
+                            match = false;
+                            break;
+                        }
+                    }
+                } else {
+                    System.out.println ("Failed because param list sizes differ" + param_list_silv.size() + ", " + param_list_gold.size());
+                    match = false;
+                }
+            } else {
+                System.out.println ("Failed because function names differ: " + op_silv.getName() + ", " + op_gold.getName());
+                match = false;
+            }
+
+            if (match) {
+                return_list.add(op_silv);
+            }
+        }
+
+        return return_list;
+    }
+
+    private List<UmlClass> get_child_classes(UmlClass klass) {
+        ArrayList<UmlClass> child_list = new ArrayList<UmlClass>();
+        Collection<Generalization> coll = Model.getFacade().getSpecializations((Object) klass);
+
+        for (Generalization gen : coll) {
+            UmlClass child = (UmlClass) gen.getChild();
+            child_list.add(child);
+        }
+
+        return child_list;
+    }
+
+	private void setRenameNode() {
         String method_name = null, return_type = null;
         List<Parameter> param_list = target.getParameter();
         Parameter return_param = param_list.get(0);
@@ -76,15 +121,6 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         method_name = target.getName();
         return_type = return_param.getType() != null ?
             return_param.getType().getName() : "void";
-
-        // Iterate over params and save them in our "struct".
-        params = new ArrayList<__param>();
-        for (int i = 1; i < param_list.size(); i++) {
-            Parameter param = param_list.get(i);
-            Classifier type = param.getType();
-            String type_name = type != null ? type.getName() : "void";
-            params.add(new __param(param, type_name, param.getName()));
-        }
 
         Container cp = getContentPane();
         cp.setLayout(new FlowLayout());
@@ -103,15 +139,14 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         return_types = new JTextField[param_list.size()];
         param_names = new JTextField[param_list.size()];
 
-        int i = 0;
-        for (__param param : params) {
-            return_types[i] = new JTextField(param.type, 15);
-            param_names[i] = new JTextField(param.name, 15);
+        for (int i = 1; i < param_list.size(); i++) {
+            Parameter param = param_list.get(i);
+            String type = param.getType() != null ? param.getType().getName() : "void";
+            return_types[i-1] = new JTextField(type, 15);
+            param_names[i-1] = new JTextField(param.getName(), 15);
 
-            cp.add(return_types[i]);
-            cp.add(param_names[i]);
-
-            i += 1;
+            cp.add(return_types[i-1]);
+            cp.add(param_names[i-1]);
         }
 
         setSize(350, 400);
@@ -125,40 +160,57 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         if (this.gui_method_name.getText().length() == 0) return false;
         if (this.gui_method_return_type.getText().length() == 0)  return false;
 
-        for (__param param : params) {
-            if (param.name.length() == 0) return false;
-            if (param.type.length() == 0) return false;
+        List<Parameter> param_list = target.getParameter();
+        for (int i = 1; i < param_list.size(); i++) {
+            if (param_names[i-1].getText().length() == 0) return false;
+            if (return_types[i-1].getText().length() == 0) return false;
         }
 
         return true;
     }
-	
+
+    private void update_method_signature(Operation operation) {
+        Project project = ProjectManager.getManager().getCurrentProject();
+        List<Parameter> param_list = operation.getParameter();
+
+        String method_name = this.gui_method_name.getText();
+        operation.setName(method_name);
+
+        String method_return_type = this.gui_method_return_type.getText();
+        Object data_type = project.findType(method_return_type, false);
+        if (data_type == null) {
+            data_type = project.findType(method_return_type, true);
+        }
+
+        Parameter return_param = param_list.get(0);
+        return_param.setType((Classifier) data_type);
+
+        for (int i = 1; i < param_list.size(); i++) {
+            Parameter param = param_list.get(i);
+            param.setName(param_names[i-1].getText());
+
+            data_type = project.findType(return_types[i-1].getText(), false);
+            if (data_type == null) {
+                data_type = project.findType(return_types[i-1].getText(), true);
+            }
+
+            param.setType((Classifier) data_type);
+        }
+    }
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
         if (is_input_valid()) {
-            String method_name = this.gui_method_name.getText();
-            String method_return_type = this.gui_method_return_type.getText();
-
-            target.setName(method_name);
-    
-            Project project = ProjectManager.getManager().getCurrentProject();
-
-            List<Parameter> param_list = target.getParameter();
-            Parameter return_param = param_list.get(0);
-
-            Object data_type = project.findType(method_return_type, true);
-            return_param.setType((Classifier) data_type);
-
-            int i = 0;
-            for (__param param : params) {
-                param.param.setName(param_names[i].getText());
-
-                data_type = project.findType(return_types[i].getText(), true);
-                param.param.setType((Classifier) data_type);
-
-                i += 1;
+            UmlClass owner = (UmlClass) this.target.getOwner();
+            List<UmlClass> child_list = get_child_classes(owner);
+            for (UmlClass child : child_list) {
+                List<Operation> operation_list = get_matching_operations(child, this.target);
+                for (Operation operation : operation_list) {
+                    update_method_signature(operation);
+                }
             }
 
+            update_method_signature(this.target);
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Invalid input!",
