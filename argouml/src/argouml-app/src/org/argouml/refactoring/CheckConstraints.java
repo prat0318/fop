@@ -42,10 +42,13 @@ public class CheckConstraints {
         
         try {
 			createPL();
-		} catch (FileNotFoundException | UmlException e) {
+		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			e1.printStackTrace();
+		} catch (UmlException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+        }
 
         return status;
     }
