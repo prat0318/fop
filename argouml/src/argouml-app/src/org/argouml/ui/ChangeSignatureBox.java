@@ -22,6 +22,9 @@ import org.omg.uml.foundation.core.Operation;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.core.UmlClass;
 
+import org.argouml.kernel.Project;
+import org.argouml.kernel.ProjectManager;
+
 // Gaurav Nanda
 public class ChangeSignatureBox  extends JFrame implements ActionListener{
     private static final Logger LOG =
@@ -120,11 +123,7 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
 
     public boolean is_input_valid() {
         if (this.gui_method_name.getText().length() == 0) return false;
-
-    /* 
-        FIXME: Until we can create new types, don't validate return type.
         if (this.gui_method_return_type.getText().length() == 0)  return false;
-    */
 
         for (__param param : params) {
             if (param.name.length() == 0) return false;
@@ -142,23 +141,20 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
 
             target.setName(method_name);
     
+            Project project = ProjectManager.getManager().getCurrentProject();
+
             List<Parameter> param_list = target.getParameter();
             Parameter return_param = param_list.get(0);
-            if (return_param.getType() == null) {
-                // FIXME: Create a new type.
-            } else {
-                return_param.getType().setName(method_return_type);
-            }
+
+            Object data_type = project.findType(method_return_type, true);
+            return_param.setType((Classifier) data_type);
 
             int i = 0;
             for (__param param : params) {
                 param.param.setName(param_names[i].getText());
 
-                if (param.param.getType() == null) {
-                    // FIXME: Create a new type.
-                } else {
-                    param.param.getType().setName(return_types[i].getText());
-                }
+                data_type = project.findType(return_types[i].getText(), true);
+                param.param.setType((Classifier) data_type);
 
                 i += 1;
             }
