@@ -48,7 +48,7 @@ public class RenameBox  extends JFrame implements ActionListener{
 	}
 	
 	public void setRenameNode() {
-		UmlClass ele = (UmlClass) target;
+		org.omg.uml.foundation.core.ModelElement ele = (org.omg.uml.foundation.core.ModelElement) target;
 		String name = ele.getName();
 		
 		label = new JLabel("Target: " + name);
@@ -100,18 +100,22 @@ public class RenameBox  extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		String newName = this.textField.getText();
 		
-		UmlClass ele = (UmlClass) target;
-		ele.setName(newName);
-		
-		// Save the project. Invoke the swipl module with this path for checking constraints.
-		
-		boolean status = CheckConstraints.validateUML();
-		
-		if (!status) {
-			// We would be throwing some exception actually and catching here to display any error.
+		try {
+			org.omg.uml.foundation.core.ModelElement ele = (org.omg.uml.foundation.core.ModelElement) target;
+			ele.setName(newName);
+			
+			// Save the project. Invoke the swipl module with this path for checking constraints.
+			
+			boolean status = CheckConstraints.validateUML();
+			
+			if (!status) {
+				// We would be throwing some exception actually and catching here to display any error.
+			}
+			// Project it back.
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			this.dispose();
 		}
-		// Project it back.
-		
-		this.dispose();
 	}
 }
