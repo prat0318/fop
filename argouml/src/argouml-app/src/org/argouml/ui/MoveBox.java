@@ -97,7 +97,8 @@ public class MoveBox  extends JFrame implements ActionListener{
             	dest = String.valueOf(gui_destClasses.getSelectedItem());
             }
         });                       
-        submitButton.addActionListener(this);        
+        submitButton.addActionListener(this);  
+        
 	}
 	
 	@Override

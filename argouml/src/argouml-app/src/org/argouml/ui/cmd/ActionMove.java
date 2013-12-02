@@ -64,6 +64,7 @@ public class ActionMove extends AbstractAction {
     	} else {
     		//OptionPane.showMessageDialog(diagram, "here comes the text.");  
     	}
+    	
     }
 
     /**
