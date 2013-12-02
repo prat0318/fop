@@ -18,6 +18,7 @@ import org.argouml.uml.diagram.DiagramUtils;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.UmlClass;
 import org.omg.uml.foundation.core.Operation;
+import org.omg.uml.foundation.core.Attribute;
 import org.tigris.gef.presentation.Fig;
 
 
@@ -51,13 +52,21 @@ public class ActionMove extends AbstractAction {
     				if(((Operation) source).getOwner().getName() == c.getName()){
     					continue;
     				}
-    				else{
-    					classes.add(c);
-    				}
+        			else{
+        				classes.add(c);
+        			}    			    				
+    			}    			
+    			else if(source instanceof Attribute){
+    				if(((Attribute) source).getOwner().getName() == c.getName()){
+        				continue;
+        			}   
+        			else{
+        				classes.add(c);
+        			}    			    				    				
     			}
     		}
     		
-    		if (source != null && source instanceof Operation) {
+    		if (source != null && (source instanceof Operation || source instanceof Attribute)) {
 	    		MoveBox box = new MoveBox(Translator.localize("action.move"), source, classes);
 	    		box.setVisible(true);	
     		}

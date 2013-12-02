@@ -21,6 +21,8 @@ import javax.swing.*;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.DataType;
 import org.omg.uml.foundation.core.Operation;
+import org.omg.uml.foundation.core.Feature;
+import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.core.UmlClass;
 
@@ -32,7 +34,7 @@ public class MoveBox  extends JFrame implements ActionListener{
     private static final Logger LOG =
             Logger.getLogger(ChangeSignatureBox.class.getName());
     
-    private Operation source;
+    private Feature source;
     private String[] classes;
     private Map<UmlClass,String> destClasses;
     private String dest;
@@ -46,7 +48,11 @@ public class MoveBox  extends JFrame implements ActionListener{
 	public MoveBox(String title, Object source, List<UmlClass> c) {
 		super(title);
 		
-		this.source = (Operation) source;
+		if(source instanceof Operation)
+			this.source = (Operation) source;
+		else if(source instanceof Attribute)
+			this.source = (Attribute) source;
+		
 		this.classes = new String[c.size()];
 		this.destClasses = new HashMap<UmlClass,String>();
 		
@@ -74,7 +80,13 @@ public class MoveBox  extends JFrame implements ActionListener{
         Container cp = getContentPane();
         cp.setLayout(new FlowLayout());
                
-        JLabel gui_source = new JLabel("Source Class: " + source.getOwner().getName());
+        String sourceName = "";
+        if(source.getOwner().getName() != "")
+        	sourceName = source.getOwner().getName();
+        else
+        	sourceName = source.getOwner().refMofId();
+        
+        JLabel gui_source = new JLabel("Source Class: " + sourceName);
         
         JLabel gui_destination = new JLabel("Destination Class:");
         final JComboBox gui_destClasses = new JComboBox(classes);
@@ -84,7 +96,7 @@ public class MoveBox  extends JFrame implements ActionListener{
         cp.add(gui_destination);
         cp.add(gui_destClasses);
         
-        setSize(210, 140);
+        setSize(230, 140);
         
         JButton submitButton = new JButton("Move");
         if(classes.length == 0){
@@ -97,8 +109,7 @@ public class MoveBox  extends JFrame implements ActionListener{
             	dest = String.valueOf(gui_destClasses.getSelectedItem());
             }
         });                       
-        submitButton.addActionListener(this);  
-        
+        submitButton.addActionListener(this);          
 	}
 	
 	@Override
