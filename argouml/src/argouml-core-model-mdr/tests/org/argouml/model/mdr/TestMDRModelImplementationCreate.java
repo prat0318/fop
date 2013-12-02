@@ -108,7 +108,7 @@ public class TestMDRModelImplementationCreate extends TestCase {
         File fileModel = new File(modelUrl.getPath());
         assertTrue(fileModel.exists());
         /***** REFERENCE STARTS HERE ******/
-        InputSource source = new InputSource(new FileInputStream(new File("/tmp/ShoppingCart.xmi")));        
+        InputSource source = new InputSource(new FileInputStream(new File("/home/prat0318/Downloads/ParentChild.xmi")));        
         XmiReader reader = null;
 		Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
         reader = Model.getXmiReader();
@@ -133,13 +133,14 @@ public class TestMDRModelImplementationCreate extends TestCase {
             while (elements.hasNext()) {
                 current = elements.next();
                 List contents = facade.getModelElementContents(current);
-                System.out.print("dbname("+facade.getName(current)+", [");
+                System.out.print("dbname("+facade.getName(current).toLowerCase() + ", [");
                 Map<String, String> classMapping = new HashMap<String, String>();
-                int classId = 0;
+                int classId = 0; int index = 0;
                 for(Object item: contents){
                     if(facade.isAClass(item)){
-                        System.out.print(facade.getName(item)+", ");
-//                        System.out.println(item);
+                    	if(index != 0) System.out.print(", ");
+                    	index++;
+                        System.out.print(facade.getName(item).toLowerCase());
                         classMapping.put(facade.getName(item), "class_"+(++classId));
                     }                    
                 }
@@ -148,7 +149,13 @@ public class TestMDRModelImplementationCreate extends TestCase {
                 for(Object item: contents){
                     if(facade.isAClass(item)){
                         String className = facade.getName(item);
-                        System.out.println("class("+classMapping.get(className)+", "+className+", "+facade.getVisibility(item)+").");
+                    	String parent = "null";
+                        Collection parents = facade.getGeneralizations(item);
+                        for(Object pp : parents) {
+                        	parent = classMapping.get(facade.getName(facade.getGeneral(pp)));
+                        }
+
+                        System.out.println("class("+classMapping.get(className)+", "+className.toLowerCase()+", "+facade.getVisibility(item)+", "+parent+").");
                         List items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
                             System.out.println("attribute("+"attr_"+(++attrIndex)+", "+facade.getName(item1)+", "+facade.getVisibility(item1)+").");
@@ -161,14 +168,14 @@ public class TestMDRModelImplementationCreate extends TestCase {
                 for(Object item: contents){
                     if(facade.isAAssociation(item)){
                         String assoc_id = "assoc_"+(++ass_index);
-                        System.out.println("composition("+ assoc_id +", "+facade.getName(item)+").");
+                        System.out.println("composition("+ assoc_id +", "+facade.getName(item).toLowerCase()+").");
                         Collection items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
                             Object classifier = facade.getClassifier(item1);
                             String lower = (Integer)facade.getLower(item1) == -1 ? "inf" : ((Integer)(facade.getLower(item1))).toString();
                             String upper = (Integer)facade.getUpper(item1) == -1 ? "inf" : ((Integer)(facade.getUpper(item1))).toString();
                             System.out.println("association("+"assoc_end_"+
-                            (++ass_end_index)+", "+assoc_id+ ", "+classMapping.get(facade.getName(classifier))+
+                            (++ass_end_index)+", "+assoc_id+ ", "+classMapping.get(facade.getName(classifier).toLowerCase())+
                             ", \""+lower+".."+upper+"\").");
                         }
                         System.out.println();
