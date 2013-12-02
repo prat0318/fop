@@ -33,7 +33,7 @@ import org.argouml.model.Model;
 // Gaurav Nanda
 public class ChangeSignatureBox  extends JFrame implements ActionListener{
     private static final Logger LOG =
-            Logger.getLogger(ChangeSignatureBox.class.getName());
+        Logger.getLogger(ChangeSignatureBox.class.getName());
 
     private List nodes = new ArrayList();
     private Operation target;
@@ -41,23 +41,23 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
     JTextField gui_method_return_type, gui_method_name;
     JTextField return_types[], param_names[];
 
-	/**
+    /**
      * Class constructor.
      *
      * @param title      the title of the help window.
      */
-	public ChangeSignatureBox(String title, Object target) {
-		super(title);
+    public ChangeSignatureBox(String title, Object target) {
+        super(title);
 
-		this.target = (Operation) target;
+        this.target = (Operation) target;
 
-		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
+        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
 
-		getContentPane().setLayout(new BorderLayout());
-		setSize( 400, 200);
-		setRenameNode();
-	}
+        getContentPane().setLayout(new BorderLayout());
+        setSize( 400, 200);
+        setRenameNode();
+    }
 
     private List<Operation> get_matching_operations(UmlClass klass, Operation op_gold) {
         List<Feature> operation_list = klass.getFeature();
@@ -78,11 +78,14 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
                             break;
                         }
 
+                        /*
+                        // Don't check argument names, they don't matter for method overriding..
                         if (!param_list_gold.get(i).getName().equals(param_list_silv.get(i).getName())) {
-                            System.out.println ("Failed because param names differ: " + param_list_silv.get(i).getName() + ", " + param_list_gold.get(i).getName());
-                            match = false;
-                            break;
+                        System.out.println ("Failed because param names differ: " + param_list_silv.get(i).getName() + ", " + param_list_gold.get(i).getName());
+                        match = false;
+                        break;
                         }
+                         */
                     }
                 } else {
                     System.out.println ("Failed because param list sizes differ" + param_list_silv.size() + ", " + param_list_gold.size());
@@ -113,7 +116,7 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         return child_list;
     }
 
-	private void setRenameNode() {
+    private void setRenameNode() {
         String method_name = null, return_type = null;
         List<Parameter> param_list = target.getParameter();
         Parameter return_param = param_list.get(0);
@@ -154,7 +157,7 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         JButton submitButton = new JButton("Change method signature");
         cp.add(submitButton);
         submitButton.addActionListener(this);
-	}
+    }
 
     public boolean is_input_valid() {
         if (this.gui_method_name.getText().length() == 0) return false;
@@ -198,23 +201,33 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         }
     }
 
-	@Override
-	public void actionPerformed(ActionEvent event) {
-        if (is_input_valid()) {
-            UmlClass owner = (UmlClass) this.target.getOwner();
-            List<UmlClass> child_list = get_child_classes(owner);
-            for (UmlClass child : child_list) {
-                List<Operation> operation_list = get_matching_operations(child, this.target);
-                for (Operation operation : operation_list) {
-                    update_method_signature(operation);
-                }
+    private void propagate_change(UmlClass klass, Operation op_gold) {
+        List<UmlClass> child_list = get_child_classes(klass);
+        for (UmlClass child : child_list) {
+            List<Operation> operation_list = get_matching_operations(child, op_gold);
+            for (Operation operation : operation_list) {
+                update_method_signature(operation);
             }
 
-            update_method_signature(this.target);
-            this.dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid input!",
-                    "Input validator", JOptionPane.INFORMATION_MESSAGE);
+            propagate_change(child, op_gold);
         }
-	}
+    }
+
+    @Override
+        public void actionPerformed(ActionEvent event) {
+            if (is_input_valid()) {
+                // Propagate changes to child classes.
+                UmlClass owner = (UmlClass) this.target.getOwner();
+                propagate_change(owner, this.target);
+
+                // Update this method.
+                update_method_signature(this.target);
+
+                // Get rid of the dialog box.
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid input!",
+                        "Input validator", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
 }
