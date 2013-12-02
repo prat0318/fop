@@ -38,16 +38,6 @@
 
 package org.argouml.model.mdr;
 
-import junit.framework.TestCase;
-import org.argouml.model.UmlException;
-import org.argouml.model.XmiReader;
-import org.omg.uml.foundation.core.UmlClass;
-//import org.omg.uml.modelmanagement.Model;
-import org.argouml.model.Model;
-import org.argouml.model.Facade;
-import org.omg.uml.modelmanagement.UmlPackage;
-import org.xml.sax.InputSource;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -57,6 +47,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+//import javax.jmi.xmi.XmiReader;
+
+import junit.framework.TestCase;
+
+import org.argouml.model.Facade;
+import org.argouml.model.XmiReader;
+import org.omg.uml.behavioralelements.commonbehavior.UmlException;
+import org.omg.uml.foundation.core.UmlClass;
+import org.argouml.model.Model;
+import org.omg.uml.modelmanagement.UmlPackage;
+import org.xml.sax.InputSource;
+//import org.omg.uml.modelmanagement.Model;
 
 /**
  * Testing the set up of the MDR.
@@ -80,9 +83,10 @@ public class TestMDRModelImplementationCreate extends TestCase {
      *             if model subsystem initialization fails.
      * @throws FileNotFoundException
      *             If the test XMI file can't be found.
+     * @throws org.argouml.model.UmlException 
      */
-    public void testMDRModelImplementation() throws UmlException,
-            FileNotFoundException {
+    public void testMDRModelImplementation() throws
+            FileNotFoundException, org.argouml.model.UmlException {
         MDRModelImplementation mi = new MDRModelImplementation();
         assertNotNull(mi.getFacade());
         org.omg.uml.modelmanagement.Model m = (org.omg.uml.modelmanagement.Model) mi.getModelManagementFactory().createModel();
@@ -104,11 +108,9 @@ public class TestMDRModelImplementationCreate extends TestCase {
         File fileModel = new File(modelUrl.getPath());
         assertTrue(fileModel.exists());
         /***** REFERENCE STARTS HERE ******/
-        URL f = getClass().getClassLoader().getResource(
-                "testmodels/ShoppingCart.xmi");
-        InputSource source = new InputSource(new FileInputStream(new File(f.getPath())));        
+        InputSource source = new InputSource(new FileInputStream(new File("/home/prat0318/Downloads/ParentChild.xmi")));        
         XmiReader reader = null;
-        Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
+		Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
         reader = Model.getXmiReader();
             List<String> searchPath = reader.getSearchPath();
         String pathList =
@@ -131,13 +133,14 @@ public class TestMDRModelImplementationCreate extends TestCase {
             while (elements.hasNext()) {
                 current = elements.next();
                 List contents = facade.getModelElementContents(current);
-                System.out.print("dbname("+facade.getName(current)+", [");
+                System.out.print("dbname("+facade.getName(current).toLowerCase() + ", [");
                 Map<String, String> classMapping = new HashMap<String, String>();
-                int classId = 0;
+                int classId = 0; int index = 0;
                 for(Object item: contents){
                     if(facade.isAClass(item)){
-                        System.out.print(facade.getName(item)+", ");
-//                        System.out.println(item);
+                    	if(index != 0) System.out.print(", ");
+                    	index++;
+                        System.out.print(facade.getName(item).toLowerCase());
                         classMapping.put(facade.getName(item), "class_"+(++classId));
                     }                    
                 }
@@ -146,7 +149,13 @@ public class TestMDRModelImplementationCreate extends TestCase {
                 for(Object item: contents){
                     if(facade.isAClass(item)){
                         String className = facade.getName(item);
-                        System.out.println("class("+classMapping.get(className)+", "+className+", "+facade.getVisibility(item)+").");
+                    	String parent = "null";
+                        Collection parents = facade.getGeneralizations(item);
+                        for(Object pp : parents) {
+                        	parent = classMapping.get(facade.getName(facade.getGeneral(pp)));
+                        }
+
+                        System.out.println("class("+classMapping.get(className)+", "+className.toLowerCase()+", "+facade.getVisibility(item)+", "+parent+").");
                         List items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
                             System.out.println("attribute("+"attr_"+(++attrIndex)+", "+facade.getName(item1)+", "+facade.getVisibility(item1)+").");
@@ -159,14 +168,14 @@ public class TestMDRModelImplementationCreate extends TestCase {
                 for(Object item: contents){
                     if(facade.isAAssociation(item)){
                         String assoc_id = "assoc_"+(++ass_index);
-                        System.out.println("composition("+ assoc_id +", "+facade.getName(item)+").");
+                        System.out.println("composition("+ assoc_id +", "+facade.getName(item).toLowerCase()+").");
                         Collection items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
                             Object classifier = facade.getClassifier(item1);
                             String lower = (Integer)facade.getLower(item1) == -1 ? "inf" : ((Integer)(facade.getLower(item1))).toString();
                             String upper = (Integer)facade.getUpper(item1) == -1 ? "inf" : ((Integer)(facade.getUpper(item1))).toString();
                             System.out.println("association("+"assoc_end_"+
-                            (++ass_end_index)+", "+assoc_id+ ", "+classMapping.get(facade.getName(classifier))+
+                            (++ass_end_index)+", "+assoc_id+ ", "+classMapping.get(facade.getName(classifier).toLowerCase())+
                             ", \""+lower+".."+upper+"\").");
                         }
                         System.out.println();

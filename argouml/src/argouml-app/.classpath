@@ -9,6 +9,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/ocl-argo-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/swidgets-0.1.4.jar" sourcepath="/swidgets/src"/>
 	<classpathentry exported="true" kind="lib" path="lib/toolbar-1.4.1-20071227.jar" sourcepath="/toolbar/src"/>
+	<classpathentry kind="lib" path="lib/zip4j_1.3.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="lib" path="/argouml-core-tools/lib/easymock12.jar"/>
 	<classpathentry kind="lib" path="/argouml-core-tools/jdepend-2.9/lib/jdepend-2.9.jar"/>
