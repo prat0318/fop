@@ -30,6 +30,8 @@ import org.argouml.kernel.ProjectManager;
 
 import org.argouml.model.Model;
 
+import org.argouml.refactoring.CheckConstraints;
+
 // Gaurav Nanda
 public class ChangeSignatureBox  extends JFrame implements ActionListener{
     private static final Logger LOG =
@@ -222,6 +224,13 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
 
                 // Update this method.
                 update_method_signature(this.target);
+
+                if (CheckConstraints.validateUML() == false) {
+                    // TODO: Undo change.
+                    System.out.println ("Validation failed, but cannot undo.");
+                } else {
+                    System.out.println ("Validation succeeded!");
+                }
 
                 // Get rid of the dialog box.
                 this.dispose();
