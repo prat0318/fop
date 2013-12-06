@@ -83,20 +83,20 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
                         String type_silv = param_silv.getType().getName();
 
                         if (!type_gold.equals(type_silv)) {
-                            LOG.log(Level.DEBUG, "Failed because param types"
+                            LOG.log(Level.FINE, "Failed because param types" +
                                     " differ: " + type_silv + ", " + type_gold);
                             match = false;
                             break;
                         }
                     }
                 } else {
-                    LOG.log(Level.DEBUG, "Failed because param list sizes "
+                    LOG.log(Level.FINE, "Failed because param list sizes " +
                             "differ" + param_list_silv.size() + ", " +
                             param_list_gold.size());
                     match = false;
                 }
             } else {
-                LOG.log(Level.DEBUG, "Failed because function names differ: "
+                LOG.log(Level.FINE, "Failed because function names differ: "
                         + op_silv.getName() + ", " + op_gold.getName());
                 match = false;
             }
@@ -179,14 +179,12 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         return true;
     }
 
-    private void update_method_signature(Operation operation) {
+    private void update_method_signature(Operation operation,
+            String method_name, String method_return_type) {
         Project project = ProjectManager.getManager().getCurrentProject();
         List<Parameter> param_list = operation.getParameter();
 
-        String method_name = this.gui_method_name.getText();
         operation.setName(method_name);
-
-        String method_return_type = this.gui_method_return_type.getText();
         Object data_type = project.findType(method_return_type, false);
         if (data_type == null) {
             data_type = project.findType(method_return_type, true);
@@ -214,7 +212,9 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
             List<Operation> operation_list = get_matching_operations(child,
                     op_gold);
             for (Operation operation : operation_list) {
-                update_method_signature(operation);
+                update_method_signature(operation,
+                    this.gui_method_name.getText(),
+                    this.gui_method_return_type.getText());
             }
 
             propagate_change(child, op_gold);
@@ -229,7 +229,9 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
                 propagate_change(owner, this.target);
 
                 // Update this method.
-                update_method_signature(this.target);
+                update_method_signature(this.target,
+                    this.gui_method_name.getText(),
+                    this.gui_method_return_type.getText());
 
                 if (CheckConstraints.validateUML() == false) {
                     // TODO: Undo change.
