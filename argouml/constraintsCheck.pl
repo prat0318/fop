@@ -1,47 +1,3 @@
-/** file   discontiguous.pl -- eliminates aggrevating warnings*   about tuples of a table not being listed sequentially **/
-
-:- discontiguous table/1, composition/2, class/4, attribute/3, association/3.
-
-
-/* uniqueNames CONSTRAINT: Class, and Interfaces have unique names constraint */
-
-dbase(argo,[class,interface,association,composition,attribute]).
-
-table(class,[id,"name","visibility",super_id]).
-table(interface,[id,"name","visibility",super_id]).
-table(attribute,[atr_id,"atr_name","atr_visibility","class_id"]).
-table(association,[end,class_id,multiplicity]).
-
-interface(i_1, abd, adc,iabd ).
-class(class_1, shoppingCart, vk_public, class_2).
-attribute(attr_1, subTotalMoney, vk_public).
-attribute(attr_2, vatAmount, vk_public).
-attribute(attr_3, totalMoeny, vk_public).
-
-class(class_2, customer, vk_public, class_3).
-attribute(attr_4, customerName, vk_public).
-attribute(attr_5, emailAddress, vk_private).
-
-class(class_3, creditCard, vk_public, class_1).
-attribute(attr_6, issuer, vk_public).
-attribute(attr_7, cardNumber, vk_private).
-
-class(class_4, itermToPurchase, vk_public, class_1).
-attribute(attr_8, quantity, vk_public).
-attribute(attr_9, pricePerUnit, vk_public).
-
-composition(assoc_1, customer_Cart).
-association(assoc_end_1, class_1, "0..inf").
-association(assoc_end_2, class_2, "1..1").
-
-composition(assoc_2, cart_Item).
-association(assoc_end_3, class_1, "1..1").
-association(assoc_end_4, class_4, "1..inf").
-
-composition(assoc_3, cart_Card).
-association(assoc_end_5, class_1, "1..1").
-association(assoc_end_6, class_3, "1..1").
-
 /* isError(S,N):- tell(user_error),write(S),writeln(N),told.*/
   
 isError(S,N):- write(S),writeln(N).
@@ -101,9 +57,5 @@ ilegalMultiplicity :- forall(isIntf(I,N),testMultiplicity(I,N)).
 
 
 /* ALL CONSTRAINTS */
-/*
 run:-uniqueNames,circular,icircular,
             legalMultiplicity,ilegalMultiplicity.
-*/
-run:-true.
-%run:- write('__'),false.
