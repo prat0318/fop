@@ -17,6 +17,7 @@ import org.argouml.model.Model;
 import org.omg.uml.foundation.core.Operation;
 import org.omg.uml.foundation.core.Method;
 import org.argouml.refactoring.CheckConstraints;
+import org.argouml.refactoring.RefactoringUndoManager;
 import org.omg.uml.foundation.core.UmlClass;
 
 
@@ -104,6 +105,9 @@ public class RenameBox  extends JFrame implements ActionListener{
 		String newName = this.textField.getText();
 		
 		try {
+			// Lets just save the entire project for now and then we would see what happens next.
+			RefactoringUndoManager.saveFile();
+			
 			org.omg.uml.foundation.core.ModelElement ele = (org.omg.uml.foundation.core.ModelElement) target;
 			ele.setName(newName);
 			
@@ -114,9 +118,11 @@ public class RenameBox  extends JFrame implements ActionListener{
 				method.setOwner(test);
 			}
 			
-			boolean status = CheckConstraints.validateUML();
+			boolean status = false;//CheckConstraints.validateUML();
 			
 			if (!status) {
+				JOptionPane.showMessageDialog(this, "This refactoring is not possible. Reverting back.");
+				RefactoringUndoManager.reloadbackUp();
 				// We would be throwing some exception actually and catching here to display any error.
 			}
 			// Project it back.

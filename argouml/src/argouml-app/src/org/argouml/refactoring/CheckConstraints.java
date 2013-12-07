@@ -50,7 +50,6 @@ public class CheckConstraints {
         try {
 			createPL();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -58,20 +57,7 @@ public class CheckConstraints {
     }
 
     private static void runSwipl() {
-//        HomePath.setHomePath(true);
-//        String swipl = MDELiteObject.configFile.getProperty("SWI_PROLOG_LOCATION");
-//        String filename = HomePath.homePath+"script.txt";
-        
-//        try {
-//            PrintStream ps;
-//            ps = new PrintStream(filename);
-//            ps.print(":-['" + HomePath.homePath + "libpl/swiplInstalled'],run,halt.");
-//            ps.flush();
-//            ps.close();
-//        } catch (Exception e) {
-//            MDELiteObject.done(e);
-//        }
-        String[] cmdarray = {"/usr/bin/swipl", "--quiet", "-f", DIR_NAME+"/"+PL_NAME};
+        String[] cmdarray = {"/usr/bin/swipl", "--quiet", "-f", DIR_NAME + "/" + PL_NAME};
         try {
             execute(cmdarray);
         } catch (Exception e) {
@@ -83,7 +69,8 @@ public class CheckConstraints {
     }
     
 	private static void createPL() throws Exception {
-        String url = DIR_NAME+"/"+XMI_NAME; File file = new File(url);
+        String url = DIR_NAME + "/" + XMI_NAME; 
+        File file = new File(url);
 		InputSource source = new InputSource(new FileInputStream(file)); 
         source.setSystemId(file.toURI().toURL().toExternalForm());
         XmiReader reader = null;
@@ -103,7 +90,7 @@ public class CheckConstraints {
         reader.addSearchPath(source.getSystemId());
 //        System.out.println("--->"+source.getSystemId());
        Collection elementsRead = reader.parse(source, true);
-       PrintWriter writer = new PrintWriter(DIR_NAME+"/"+PL_NAME, "UTF-8");
+       PrintWriter writer = new PrintWriter(DIR_NAME+"/" + PL_NAME, "UTF-8");
         if (elementsRead != null && !elementsRead.isEmpty()) {
             Facade facade = Model.getFacade();
             Object current;
@@ -185,7 +172,7 @@ public class CheckConstraints {
                     + " is not of a known file type");
         }
 
-        // Repair any errors in the project
+        // Repair any errors in the project.
         String report = project.repair();
 
         project.preSave();
@@ -205,10 +192,9 @@ public static void execute(String[] cmdarray) throws Exception {
     String line;
     String errorLine = "";
     boolean error = false;
-    // Runtime rt = Runtime.getRuntime();
-    //Process p = rt.exec(cmdarray);
     Process p = new ProcessBuilder(cmdarray).start();
-    // assume input, output, error stream is standard input, output, error
+    
+    // Assume input, output, error stream is standard input, output, error
     BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
     BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
     while ((line = er.readLine()) != null) {
