@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
@@ -47,13 +49,10 @@ public class CheckConstraints {
         
         try {
 			createPL();
-		} catch (FileNotFoundException e1) {
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		} catch (UmlException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-        }
+		}
 
         return status;
     }
@@ -83,10 +82,12 @@ public class CheckConstraints {
         System.out.println("MDELite Ready to Use!");    	
     }
     
-	private static void createPL() throws FileNotFoundException, UmlException {
-		InputSource source = new InputSource(new FileInputStream(new File(DIR_NAME+"/"+XMI_NAME)));        
+	private static void createPL() throws Exception {
+        String url = DIR_NAME+"/"+XMI_NAME; File file = new File(url);
+		InputSource source = new InputSource(new FileInputStream(file)); 
+        source.setSystemId(file.toURI().toURL().toExternalForm());
         XmiReader reader = null;
-        Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
+//        Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
         reader = Model.getXmiReader();
             List<String> searchPath = reader.getSearchPath();
         String pathList =
@@ -100,28 +101,29 @@ public class CheckConstraints {
             }
         }
         reader.addSearchPath(source.getSystemId());
-
-       Collection elementsRead = reader.parse(source, false);
-       RegTest.Utility.redirectStdOut(DIR_NAME+"/"+PL_NAME);
+//        System.out.println("--->"+source.getSystemId());
+       Collection elementsRead = reader.parse(source, true);
+       PrintWriter writer = new PrintWriter(DIR_NAME+"/"+PL_NAME, "UTF-8");
         if (elementsRead != null && !elementsRead.isEmpty()) {
             Facade facade = Model.getFacade();
             Object current;
             Iterator elements = elementsRead.iterator();
             while (elements.hasNext()) {
                 current = elements.next();
+                if(!(facade.isAModel(current))) continue;
+                writer.print("dbname("+facade.getName(current).toLowerCase() + ", [");
                 List contents = facade.getModelElementContents(current);
-                System.out.print("dbname("+facade.getName(current).toLowerCase() + ", [");
                 Map<String, String> classMapping = new HashMap<String, String>();
                 int classId = 0; int index = 0;
                 for(Object item: contents){
                     if(facade.isAClass(item)){
-                    	if(index != 0) System.out.print(", ");
+                    	if(index != 0) writer.print(", ");
                     	index++;
-                        System.out.print(facade.getName(item).toLowerCase());
+                    	writer.print(facade.getName(item).toLowerCase());
                         classMapping.put(facade.getName(item), "class_"+(++classId));
                     }                    
                 }
-                System.out.println("]).");
+                writer.println("]).");
                 int attrIndex = 0;
                 for(Object item: contents){
                     if(facade.isAClass(item)){
@@ -132,36 +134,37 @@ public class CheckConstraints {
                         	parent = classMapping.get(facade.getName(facade.getGeneral(pp)));
                         }
 
-                        System.out.println("class("+classMapping.get(className)+", "+className.toLowerCase()+", "+facade.getVisibility(item)+", "+parent+").");
+                        writer.println("class("+classMapping.get(className)+", "+className.toLowerCase()+", "+facade.getVisibility(item)+", "+parent+").");
                         List items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
-                            System.out.println("attribute("+"attr_"+(++attrIndex)+", "+facade.getName(item1)+", "+facade.getVisibility(item1)+").");
+                        	writer.println("attribute("+"attr_"+(++attrIndex)+", "+facade.getName(item1)+", "+facade.getVisibility(item1)+").");
                         }
-                        System.out.println();
+                        writer.println();
                     }
                 }
+
                 int ass_index = 0;
                 int ass_end_index = 0;
                 for(Object item: contents){
                     if(facade.isAAssociation(item)){
                         String assoc_id = "assoc_"+(++ass_index);
                         String attr_name = (facade.getName(item).toLowerCase()).equals("") ? "null" : facade.getName(item).toLowerCase();
-                        System.out.println("association("+ assoc_id +", "+ attr_name +").");
+                        writer.println("association("+ assoc_id +", "+ attr_name +").");
                         Collection items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
                             Object classifier = facade.getClassifier(item1);
                             String lower = (Integer)facade.getLower(item1) == -1 ? "inf" : ((Integer)(facade.getLower(item1))).toString();
                             String upper = (Integer)facade.getUpper(item1) == -1 ? "inf" : ((Integer)(facade.getUpper(item1))).toString();
-                            System.out.println("association_end("+"assoc_end_"+
+                            writer.println("association_end("+"assoc_end_"+
                             (++ass_end_index)+", "+assoc_id+ ", "+classMapping.get(facade.getName(classifier).toLowerCase())+
                             ", \""+lower+".."+upper+"\").");
                         }
-                        System.out.println();
+                        writer.println();
                     }
                 }
             }
         }
-        System.setOut(System.out);
+        writer.close();
 	}
 
     public static boolean saveFile() {
