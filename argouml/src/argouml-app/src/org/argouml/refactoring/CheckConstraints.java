@@ -125,7 +125,8 @@ public class CheckConstraints {
             System.err.println("MDELite halts -- SWI Prolog Errors detected");
             System.err.println("debug this prolog file:  " );
         	System.out.println(System.getProperty("user.dir"));
-            error_message = new Scanner(new File("conform.txt")).useDelimiter("\\Z").next();
+            Scanner s = new Scanner(new File("conform.txt"));
+            while(s.hasNextLine()) error_message += s.nextLine();
             System.err.println(error_message);
             return false;
         }
