@@ -37,6 +37,7 @@ public class CheckConstraints {
     static String XMI_NAME = "constraints.xmi";
 
     static String PL_NAME = "constraints.pl";
+    static String CONSTRAINTS_TO_CHECK_PL = "constraintsCheck.pl";
     
     static final String OS = System.getProperty("os.name");
     
@@ -67,7 +68,9 @@ public class CheckConstraints {
         try {
     		is_active = true;
 			createPL();
+			runSwipl();
 		} catch (Exception e1) {
+			status = false;
 			e1.printStackTrace();
 		} finally {
 			is_active = false;
@@ -91,7 +94,13 @@ public class CheckConstraints {
 //        } catch (Exception e) {
 //            MDELiteObject.done(e);
 //        }
-        String[] cmdarray = {swiplPath, "--quiet", "-f", DIR_NAME+"/"+PL_NAME};
+//    	String[] concatCommandArray = {};
+    	String[] filesToConcat = new String[2];
+    	filesToConcat[0] = DIR_NAME + "/" + PL_NAME;
+    	filesToConcat[1] = DIR_NAME + "/" + CONSTRAINTS_TO_CHECK_PL;
+    	GProlog concater = new GProlog(DIR_NAME + "/" + "test", filesToConcat);
+    	
+        String[] cmdarray = {swiplPath, "--quiet", "-f", DIR_NAME + "/" + concater.fullName};
         try {
             execute(cmdarray);
         } catch (Exception e) {
@@ -110,6 +119,7 @@ public class CheckConstraints {
 //        Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
         reader = Model.getXmiReader();
         reader.setIgnoredElements(null);
+        //reader.
 //            List<String> searchPath = reader.getSearchPath();
 //        String pathList =
 //            System.getProperty("org.argouml.model.modules_search_path");
