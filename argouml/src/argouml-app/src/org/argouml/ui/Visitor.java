@@ -10,6 +10,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +28,15 @@ import org.omg.uml.foundation.core.*;
 import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectManager;
 import org.argouml.model.Model;
-import org.omg.uml.foundation.core.ModelElement;
+import org.omg.uml.foundation.core.*;
+import org.argouml.refactoring.CheckConstraints;
+import org.argouml.refactoring.RefactoringUndoManager;
+import org.argouml.uml.diagram.DiagramElement;
+import org.omg.uml.foundation.datatypes.CallConcurrencyKindEnum;
+import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
+import org.omg.uml.foundation.datatypes.ScopeKindEnum;
+import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
+import org.argouml.uml.diagram.static_structure.ui.*;
 
 /**
  * @author bansal
@@ -42,7 +51,8 @@ public class Visitor extends JFrame implements ActionListener{
     private List<UmlClass> selectedClasses;
     private Operation[] visitorMethods;
     private String dest;
-
+    private UMLClassDiagram diagram;
+    
     JTextField gui_class_name;
 
     /**
@@ -50,9 +60,9 @@ public class Visitor extends JFrame implements ActionListener{
      *
      * @param title      the title of the help window.
      */
-    public Visitor(String title, Object target) {
+    public Visitor(String title, Object target, Object diagram) {
         super(title);
-
+        this.diagram = (UMLClassDiagram) diagram;
         Object[] targetsList = (Object[]) target;
         this.selectedClasses = new ArrayList<UmlClass>();
         for(Object t:targetsList){
@@ -75,23 +85,9 @@ public class Visitor extends JFrame implements ActionListener{
     }
     
     
-//CoreFactoryMDRImpl Class has the code which is used to create all the objects present in the model 
-//Class : ProjectImpl.java contains the fucntion findType used to find the type of the 
-//selected node
-
-//  	public UmlClass createClass(org.omg.uml.UmlPackage extent) {
-//  		Model.getCoreFactory().buildClass(getCurrentNamespace());
-//  		UmlClass myClass = extent.getCore().getUmlClass().createUmlClass();
-//  	    super.initialize(myClass);
-//  	    return myClass;
-//  	}
-
   	
 
       //Model.getCoreFactory().buildClass(getCurrentNamespace());
-
-
-
 
     private void setRenameNode() {
         String method_name = null, return_type = null;
@@ -102,13 +98,9 @@ public class Visitor extends JFrame implements ActionListener{
         }
         
         //For each of the extracted Operation Check which signatures are similar 
-        
+       
         //Get the name of the class User wants for the new Visitor Class = gui_class_name 
-        
-        //        JButton submitButton = new JButton("Create Visitor pattern ");
-        //        cp.add(submitButton);
-        //        submitButton.addActionListener(this);
-    }
+      }
 
 
 
@@ -139,10 +131,53 @@ public class Visitor extends JFrame implements ActionListener{
     		test.put(class1,opList);
     	
     		}
+    	
+		
+    	UmlClass klass = selectedClasses.get(0);
+		
+		// Save the project. Invoke the swipl module with this path for checking constraints.
+		UmlClass visitor = null ;
+		Operation newOP;
+		
+		visitor = (UmlClass) Model.getCoreFactory().buildClass("visitor", klass.getNamespace());
+		Rectangle bounds = new Rectangle();
+		diagram.createDiagramElement(test, bounds);
+			
+		List<Feature> eleList = klass.getFeature();
+		for(Operation op : visitorMethods){
+			List<Parameter> pList = op.getParameter();
+					newOP = (Operation) Model.getCoreFactory().buildOperation2(klass, pList.get(0).getType() , "visitorOp");
+			}
+		
+
     	//These methods will be used to create the Dialog Box needed for the user to select the Functions 
         //Get rid of the dialog box.
-    	
+//    	createVisitorClass();
+//    	ChangeSignatureBox.change_method_signature(Operation operation,
+//                String method_name, String method_return_type,
+//                String [] s_param_names, String [] s_return_types);
         this.dispose();
         createVisitorClass();
         }
 }
+
+//NOTES 
+
+//CoreFactoryMDRImpl Class has the code which is used to create all the objects present in the model 
+//Class : ProjectImpl.java contains the fucntion findType used to find the type of the 
+//selected node
+
+//	public UmlClass createClass(org.omg.uml.UmlPackage extent) {
+//	}
+
+//Parameter param = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
+//.getCore().getParameter().createParameter();
+//param.setType((org.omg.uml.foundation.core.Classifier)klass);
+//Parameter returnParameter = (Parameter) Model.getCoreFactory().buildParameter( (Classifier) ele, pList.get(0));
+
+//FigNodeModelElement  figNode = new FigClass(modelElement, bounds, settings);
+//DiagramElement de = UMLClassDiagram.createDiagramElement(droppedObject, bounds);
+
+//Parameter returnParameter = (Parameter) Model.getCoreFactory().buildParameter( (Classifier) ele,(BehavioralFeature) ((UmlClass)ele).getFeature().get(2));
+//op = (Operation) Model.getCoreFactory().buildOperation2(((Operation) f).getOwner(), returnParameter , "testOP");
+//op = (Operation) Model.getCoreFactory().buildOperation2(((Operation) i).getOwner(), i, "testOP");

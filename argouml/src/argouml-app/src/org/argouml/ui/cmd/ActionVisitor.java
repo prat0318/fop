@@ -41,7 +41,7 @@ public class ActionVisitor extends AbstractAction {
  	if (!nodes.isEmpty()) {
  		Object target = TargetManager.getInstance().getTargets();
  		if (target != null) {
- 			Visitor box = new Visitor(Translator.localize("action.visitor"), target);
+ 			Visitor box = new Visitor(Translator.localize("action.visitor"), target, diagram);
 	    		//LOG.info(target.getClass().getName());
 	    		
 	//    		if (target != null && target instanceof UmlClass) {
