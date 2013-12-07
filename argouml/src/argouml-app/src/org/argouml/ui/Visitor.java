@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import java.awt.Point;
 import org.omg.uml.foundation.core.*;
 import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectManager;
@@ -37,7 +38,9 @@ import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
 import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 import org.argouml.uml.diagram.static_structure.ui.*;
-
+import org.tigris.gef.base.LayerPerspective;
+import org.tigris.gef.presentation.Fig;
+import org.tigris.gef.presentation.FigEdge;
 /**
  * @author bansal
  *
@@ -140,8 +143,10 @@ public class Visitor extends JFrame implements ActionListener{
 		Operation newOP;
 		
 		visitor = (UmlClass) Model.getCoreFactory().buildClass("visitor", klass.getNamespace());
-		Rectangle bounds = new Rectangle();
-		diagram.createDiagramElement(test, bounds);
+		Point p = new Point(240, 90);
+		Fig element =  (Fig) diagram.drop(visitor, p);
+		LayerPerspective layer = diagram.getLayer();
+		layer.add(element);
 			
 		List<Feature> eleList = klass.getFeature();
 		for(Operation op : visitorMethods){
