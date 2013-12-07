@@ -14,9 +14,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
+
+import org.apache.tools.ant.types.CommandlineJava.SysProperties;
 import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectManager;
 import org.argouml.model.Facade;
@@ -34,6 +37,8 @@ public class CheckConstraints {
 
     static String DIR_NAME = "/tmp/constraints";
     
+    static String RELATIVE = "../../../..";
+    
     static String XMI_NAME = "constraints.xmi";
 
     static String PL_NAME = "constraints.pl";
@@ -43,8 +48,10 @@ public class CheckConstraints {
     
     static public boolean is_active = false;
     
+    static String error_message = "";
+    
     public enum SwiplPath {
-    	Linux("/usr/bin/swip"),
+    	Linux("/usr/bin/swipl"),
     	Windows("C:/Program Files/swipl/bin/swipl"),
     	MacOS("/opt/local/bin/swipl"),
     	Other("/usr/bin/swipl");
@@ -76,39 +83,53 @@ public class CheckConstraints {
 			is_active = false;
 		}
 
-        return status;
+        try {
+			return runSwipl();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
     }
 
-    private void runSwipl() {
+    private boolean runSwipl() throws FileNotFoundException {
+    	System.out.println(this.getClass().getClassLoader().getResource("").getPath());
     	String swiplPath = SwiplPath.valueOf(OS).path;
+    	System.out.println("---"+swiplPath);
 //        HomePath.setHomePath(true);
 //        String swipl = MDELiteObject.configFile.getProperty("SWI_PROLOG_LOCATION");
 //        String filename = HomePath.homePath+"script.txt";
-        
-//        try {
-//            PrintStream ps;
-//            ps = new PrintStream(filename);
-//            ps.print(":-['" + HomePath.homePath + "libpl/swiplInstalled'],run,halt.");
-//            ps.flush();
-//            ps.close();
-//        } catch (Exception e) {
-//            MDELiteObject.done(e);
-//        }
-//    	String[] concatCommandArray = {};
+
     	String[] filesToConcat = new String[2];
     	filesToConcat[0] = DIR_NAME + "/" + PL_NAME;
     	filesToConcat[1] = DIR_NAME + "/" + CONSTRAINTS_TO_CHECK_PL;
     	GProlog concater = new GProlog(DIR_NAME + "/" + "test", filesToConcat);
-    	
-        String[] cmdarray = {swiplPath, "--quiet", "-f", DIR_NAME + "/" + concater.fullName};
+    	String combinedFile = concater.fullName; //"constraintsCheck.pl"
+
+    	String script = RELATIVE+"/"+"script.txt";        
+        try {
+            PrintStream ps; 
+            ps = new PrintStream(script);
+            ps.println(":-['" + combinedFile + "'],tell('" + "conform.txt" + "'),run,told,halt.");
+            ps.println(":-halt.");
+            ps.flush();
+            ps.close();
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        String[] cmdarray = {swiplPath, "--quiet", "-f", script};
         try {
             execute(cmdarray);
         } catch (Exception e) {
             System.err.println("MDELite halts -- SWI Prolog Errors detected");
             System.err.println("debug this prolog file:  " );
-            System.exit(1);
+        	System.out.println(System.getProperty("user.dir"));
+            error_message = new Scanner(new File("conform.txt")).useDelimiter("\\Z").next();
+            System.err.println(error_message);
+            return false;
         }
-        System.out.println("MDELite Ready to Use!");    	
+        System.out.println("MDELite Ready to Use!");
+        return true;
     }
     
 	private void createPL() throws Exception {

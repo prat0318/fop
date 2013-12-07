@@ -1,3 +1,8 @@
+/** file   discontiguous.pl -- eliminates aggrevating warnings*   about tuples of a table not being listed sequentially **/
+
+:- discontiguous table/1, composition/2, class/4, attribute/3, association/3.
+
+
 /* uniqueNames CONSTRAINT: Class, and Interfaces have unique names constraint */
 
 dbase(argo,[class,interface,association,composition,attribute]).
@@ -37,9 +42,18 @@ composition(assoc_3, cart_Card).
 association(assoc_end_5, class_1, "1..1").
 association(assoc_end_6, class_3, "1..1").
 
+/* isError(S,N):- tell(user_error),write(S),writeln(N),told.*/
+  
+isError(S,N):- write(S),writeln(N).
+  
 findPair(I1,I2,N):-ename(I1,N),ename(I2,N),@I1 @< @I2.
 uniqueNames:-forall(findPair(_,_,N),isError('unique names constraint violated: ',N)).
 
+/* the following rule/incantation I owe to Jan Wielemaker -- I never
+*    would have figured this out myself. this is used in comparing
+*       two prolog atoms (I1,I2), such as @I1 @> @I2.  */
+
+:-op(200,fy,@).
 
 /* circular CONSTRAINT: Check circularity of class Hierarchy */
 
@@ -87,7 +101,9 @@ ilegalMultiplicity :- forall(isIntf(I,N),testMultiplicity(I,N)).
 
 
 /* ALL CONSTRAINTS */
-
+/*
 run:-uniqueNames,circular,icircular,
             legalMultiplicity,ilegalMultiplicity.
-
+*/
+run:-true.
+%run:- write('__'),false.
