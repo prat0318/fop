@@ -62,7 +62,7 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         setRenameNode();
     }
 
-    private List<Operation> get_matching_operations(UmlClass klass, Operation
+    private static List<Operation> get_matching_operations(UmlClass klass, Operation
             op_gold) {
         List<Feature> operation_list = klass.getFeature();
         List<Operation> return_list = new ArrayList<Operation>();
@@ -109,7 +109,7 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         return return_list;
     }
 
-    private List<UmlClass> get_child_classes(UmlClass klass) {
+    private static List<UmlClass> get_child_classes(UmlClass klass) {
         ArrayList<UmlClass> child_list = new ArrayList<UmlClass>();
         Collection<Generalization> coll = Model.getFacade().getSpecializations(
                 (Object) klass);
@@ -145,8 +145,8 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         cp.add(gui_name);
         cp.add(gui_method_name);
 
-        return_types = new JTextField[param_list.size()];
-        param_names = new JTextField[param_list.size()];
+        return_types = new JTextField[param_list.size()-1];
+        param_names = new JTextField[param_list.size()-1];
 
         for (int i = 1; i < param_list.size(); i++) {
             Parameter param = param_list.get(i);
@@ -166,21 +166,28 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         submitButton.addActionListener(this);
     }
 
-    public boolean is_input_valid() {
-        if (this.gui_method_name.getText().length() == 0) return false;
-        if (this.gui_method_return_type.getText().length() == 0)  return false;
+    public static boolean is_input_valid(Operation operation, String method_name,
+            String method_return_type, String [] s_param_names,
+            String [] s_return_types) {
 
-        List<Parameter> param_list = target.getParameter();
+        List<Parameter> param_list = operation.getParameter();
+        if (param_list.size() - 1 != s_param_names.length)    return false;
+        if (param_list.size() - 1 != s_return_types.length)    return false;
+
+        if (method_name.length() == 0) return false;
+        if (method_return_type.length() == 0)  return false;
+
         for (int i = 1; i < param_list.size(); i++) {
-            if (param_names[i-1].getText().length() == 0) return false;
-            if (return_types[i-1].getText().length() == 0) return false;
+            if (s_param_names[i-1].length() == 0) return false;
+            if (s_return_types[i-1].length() == 0) return false;
         }
 
         return true;
     }
 
-    private void update_method_signature(Operation operation,
-            String method_name, String method_return_type) {
+    private static void update_method_signature(Operation operation,
+            String method_name, String method_return_type,
+            String [] s_param_names, String [] s_return_types) {
         Project project = ProjectManager.getManager().getCurrentProject();
         List<Parameter> param_list = operation.getParameter();
 
@@ -195,51 +202,81 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
 
         for (int i = 1; i < param_list.size(); i++) {
             Parameter param = param_list.get(i);
-            param.setName(param_names[i-1].getText());
+            param.setName(s_param_names[i-1]);
 
-            data_type = project.findType(return_types[i-1].getText(), false);
+            data_type = project.findType(s_return_types[i-1], false);
             if (data_type == null) {
-                data_type = project.findType(return_types[i-1].getText(), true);
+                data_type = project.findType(s_return_types[i-1], true);
             }
 
             param.setType((Classifier) data_type);
         }
     }
 
-    private void propagate_change(UmlClass klass, Operation op_gold) {
+    private static void propagate_change(UmlClass klass, Operation op_gold,
+            String method_name, String method_return_type,
+            String [] s_param_names, String [] s_return_types) {
         List<UmlClass> child_list = get_child_classes(klass);
         for (UmlClass child : child_list) {
             List<Operation> operation_list = get_matching_operations(child,
                     op_gold);
             for (Operation operation : operation_list) {
-                update_method_signature(operation,
-                    this.gui_method_name.getText(),
-                    this.gui_method_return_type.getText());
+                update_method_signature(operation, method_name,
+                        method_return_type, s_param_names, s_return_types);
             }
 
-            propagate_change(child, op_gold);
+            propagate_change(child, op_gold, method_name, method_return_type,
+                    s_param_names, s_return_types);
         }
+    }
+
+    public static boolean change_method_signature(Operation operation,
+            String method_name, String method_return_type,
+            String [] s_param_names, String [] s_return_types) {
+        if (is_input_valid(operation, method_name, method_return_type,
+                    s_param_names, s_return_types)) {
+            // Propagate changes to child classes.
+            UmlClass owner = (UmlClass) operation.getOwner();
+            propagate_change(owner, operation, method_name, method_return_type,
+                    s_param_names, s_return_types);
+
+            // Update this method.
+            update_method_signature(operation, method_name, method_return_type,
+                    s_param_names, s_return_types);
+
+            // FIXME: Validate UML.
+            if (/* CheckConstraints.validateUML() */ true == false) {
+                // TODO: Undo change.
+                LOG.log(Level.INFO, "Validation failed, but cannot undo.");
+            } else {
+                LOG.log(Level.INFO, "Validation succeeded!");
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     @Override
         public void actionPerformed(ActionEvent event) {
-            if (is_input_valid()) {
-                // Propagate changes to child classes.
-                UmlClass owner = (UmlClass) this.target.getOwner();
-                propagate_change(owner, this.target);
+            // Rearrange the data structures.
+            String [] s_param_names = new String[param_names.length];
+            String [] s_return_types = new String[return_types.length];
 
-                // Update this method.
-                update_method_signature(this.target,
-                    this.gui_method_name.getText(),
-                    this.gui_method_return_type.getText());
+            for (int i=0; i<param_names.length; i++)
+                s_param_names[i] = param_names[i].getText();
 
-                if (CheckConstraints.validateUML() == false) {
-                    // TODO: Undo change.
-                    LOG.log(Level.INFO, "Validation failed, but cannot undo.");
-                } else {
-                    LOG.log(Level.INFO, "Validation succeeded!");
-                }
+            for (int i=0; i<return_types.length; i++)
+                s_return_types[i] = return_types[i].getText();
 
+            String method_name = this.gui_method_name.getText();
+            String method_return_type = this.gui_method_return_type.getText();
+
+            Operation method_target = this.target;
+
+            if (change_method_signature(method_target, method_name,
+                        method_return_type, s_param_names, s_return_types)) {
                 // Get rid of the dialog box.
                 this.dispose();
             } else {
