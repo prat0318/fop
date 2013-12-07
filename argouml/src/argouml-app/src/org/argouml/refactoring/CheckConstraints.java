@@ -40,6 +40,8 @@ public class CheckConstraints {
     
     static final String OS = System.getProperty("os.name");
     
+    static public boolean is_active = false;
+    
     public enum SwiplPath {
     	Linux("/usr/bin/swip"),
     	Windows("C:/Program Files/swipl/bin/swipl"),
@@ -63,9 +65,12 @@ public class CheckConstraints {
         }
         
         try {
+    		is_active = true;
 			createPL();
 		} catch (Exception e1) {
 			e1.printStackTrace();
+		} finally {
+			is_active = false;
 		}
 
         return status;

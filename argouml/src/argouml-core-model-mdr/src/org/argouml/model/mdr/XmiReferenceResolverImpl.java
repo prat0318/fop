@@ -38,7 +38,7 @@
 // UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 
 package org.argouml.model.mdr;
-
+import org.argouml.refactoring.CheckConstraints;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -273,6 +273,7 @@ class XmiReferenceResolverImpl extends XmiContext {
                 // can resolve all references
                 super.register(resolvedSystemId, xmiId, object);
             } else {
+            	if(CheckConstraints.is_active) return;
                LOG.log(Level.SEVERE, "Collision - multiple elements with same xmi.id : "
                         + xmiId);
                 throw new IllegalStateException(
