@@ -75,7 +75,6 @@ public class CheckConstraints {
         try {
     		is_active = true;
 			createPL();
-			runSwipl();
 		} catch (Exception e1) {
 			status = false;
 			e1.printStackTrace();
@@ -100,13 +99,15 @@ public class CheckConstraints {
 //        String swipl = MDELiteObject.configFile.getProperty("SWI_PROLOG_LOCATION");
 //        String filename = HomePath.homePath+"script.txt";
 
-    	String[] filesToConcat = new String[2];
-    	filesToConcat[0] = DIR_NAME + "/" + PL_NAME;
-    	filesToConcat[1] = DIR_NAME + "/" + CONSTRAINTS_TO_CHECK_PL;
-    	GProlog concater = new GProlog(DIR_NAME + "/" + "test", filesToConcat);
-    	String combinedFile = concater.fullName; //"constraintsCheck.pl"
+    	String[] filesToConcat = new String[4];
+    	filesToConcat[0] = "discontiguous.pl";
+    	filesToConcat[1] = "metaargo.pl";
+    	filesToConcat[2] = DIR_NAME + "/" + PL_NAME;
+    	filesToConcat[3] = CONSTRAINTS_TO_CHECK_PL;
+    	GProlog concater = new GProlog("combined", filesToConcat);
+    	String combinedFile = "combined.pl";
 
-    	String script = RELATIVE+"/"+"script.txt";        
+    	String script = "script.txt";        
         try {
             PrintStream ps; 
             ps = new PrintStream(script);
@@ -124,7 +125,8 @@ public class CheckConstraints {
             System.err.println("MDELite halts -- SWI Prolog Errors detected");
             System.err.println("debug this prolog file:  " );
         	System.out.println(System.getProperty("user.dir"));
-            error_message = new Scanner(new File("conform.txt")).useDelimiter("\\Z").next();
+            Scanner s = new Scanner(new File("conform.txt"));
+            while(s.hasNextLine()) error_message += s.nextLine();
             System.err.println(error_message);
             return false;
         }
@@ -163,33 +165,35 @@ public class CheckConstraints {
             while (elements.hasNext()) {
                 current = elements.next();
                 if(!(facade.isAModel(current))) continue;
-                writer.print("dbname("+facade.getName(current).toLowerCase() + ", [");
+//                writer.print("dbname("+facade.getName(current).toLowerCase() + ", [");
                 List contents = facade.getModelElementContents(current);
                 Map<String, String> classMapping = new HashMap<String, String>();
                 int classId = 0; int index = 0;
                 for(Object item: contents){
                     if(facade.isAClass(item)){
-                    	if(index != 0) writer.print(", ");
+//                    	if(index != 0) writer.print(", ");
                     	index++;
-                    	writer.print(facade.getName(item).toLowerCase());
-                        classMapping.put(facade.getName(item), "class_"+(++classId));
+//                    	writer.print(facade.getName(item).toLowerCase());
+                        classMapping.put(facade.getUUID(item), "class_"+(++classId));
+//                        System.out.println(facade.getName(item)+" "+facade.getUUID(item));
                     }                    
                 }
-                writer.println("]).");
+//                writer.println("]).");
                 int attrIndex = 0;
                 for(Object item: contents){
                     if(facade.isAClass(item)){
                         String className = facade.getName(item);
+                        String classUUID = facade.getUUID(item);
                     	String parent = "null";
                         Collection parents = facade.getGeneralizations(item);
                         for(Object pp : parents) {
-                        	parent = classMapping.get(facade.getName(facade.getGeneral(pp)));
+                        	parent = classMapping.get(facade.getUUID(facade.getGeneral(pp)));
                         }
 
-                        writer.println("class("+classMapping.get(className)+", "+className.toLowerCase()+", "+facade.getVisibility(item)+", "+parent+").");
+                        writer.println("class("+classMapping.get(classUUID)+", "+className.toLowerCase()+", "+facade.getVisibility(item)+", "+parent+").");
                         List items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
-                        	writer.println("attribute("+"attr_"+(++attrIndex)+", "+facade.getName(item1)+", "+facade.getVisibility(item1)+").");
+                        	writer.println("attribute("+"attr_"+(++attrIndex)+", "+facade.getName(item1).toLowerCase()+", "+classMapping.get(classUUID)+", "+facade.getVisibility(item1)+").");
                         }
                         writer.println();
                     }
@@ -205,10 +209,12 @@ public class CheckConstraints {
                         Collection items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
                             Object classifier = facade.getClassifier(item1);
+//                            System.out.println(classMapping);
+//                            System.out.println(facade.getUUID(classifier) + " " + facade.getName(classifier));
                             String lower = (Integer)facade.getLower(item1) == -1 ? "inf" : ((Integer)(facade.getLower(item1))).toString();
                             String upper = (Integer)facade.getUpper(item1) == -1 ? "inf" : ((Integer)(facade.getUpper(item1))).toString();
                             writer.println("association_end("+"assoc_end_"+
-                            (++ass_end_index)+", "+assoc_id+ ", "+classMapping.get(facade.getName(classifier).toLowerCase())+
+                            (++ass_end_index)+", "+assoc_id+ ", "+classMapping.get(facade.getUUID(classifier))+
                             ", \""+lower+".."+upper+"\").");
                         }
                         writer.println();
