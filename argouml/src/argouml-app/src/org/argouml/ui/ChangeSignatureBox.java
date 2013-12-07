@@ -245,7 +245,7 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
                     s_param_names, s_return_types);
 
             // FIXME: Validate UML.
-            if (/* CheckConstraints.validateUML() */ true == false) {
+            if ((new CheckConstraints()).validateUML()) {
                 // TODO: Undo change.
                 LOG.log(Level.INFO, "Validation failed, but cannot undo.");
             } else {
