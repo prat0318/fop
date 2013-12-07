@@ -42,7 +42,6 @@ public class MoveBox  extends JFrame implements ActionListener{
 
 	/**
      * Class constructor.
-     *
      * @param title      the title of the help window.
      */
 	public MoveBox(String title, Object source, List<UmlClass> c) {

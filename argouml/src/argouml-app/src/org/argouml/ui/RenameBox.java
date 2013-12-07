@@ -13,6 +13,9 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import org.argouml.model.Model;
+import org.omg.uml.foundation.core.Operation;
+import org.omg.uml.foundation.core.Method;
 import org.argouml.refactoring.CheckConstraints;
 import org.omg.uml.foundation.core.UmlClass;
 
@@ -105,6 +108,11 @@ public class RenameBox  extends JFrame implements ActionListener{
 			ele.setName(newName);
 			
 			// Save the project. Invoke the swipl module with this path for checking constraints.
+			if( ele instanceof UmlClass ){
+				UmlClass test = (UmlClass)Model.getCoreFactory().buildClass("test", ele.getNamespace());
+				Method method = (Method) Model.getCoreFactory().buildMethod("Test2");
+				method.setOwner(test);
+			}
 			
 			boolean status = CheckConstraints.validateUML();
 			
@@ -119,3 +127,4 @@ public class RenameBox  extends JFrame implements ActionListener{
 		}
 	}
 }
+

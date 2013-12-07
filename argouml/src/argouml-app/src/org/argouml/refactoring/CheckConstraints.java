@@ -84,7 +84,7 @@ public class CheckConstraints {
     }
     
 	private static void createPL() throws FileNotFoundException, UmlException {
-        InputSource source = new InputSource(new FileInputStream(new File(DIR_NAME+"/"+XMI_NAME)));        
+		InputSource source = new InputSource(new FileInputStream(new File(DIR_NAME+"/"+XMI_NAME)));        
         XmiReader reader = null;
         Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
         reader = Model.getXmiReader();
