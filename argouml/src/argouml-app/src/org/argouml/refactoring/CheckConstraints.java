@@ -71,10 +71,6 @@ public class CheckConstraints {
         return status;
     }
 
-<<<<<<< HEAD
-    private static void runSwipl() {
-        String[] cmdarray = {"/usr/bin/swipl", "--quiet", "-f", DIR_NAME + "/" + PL_NAME};
-=======
     private void runSwipl() {
     	String swiplPath = SwiplPath.valueOf(OS).path;
 //        HomePath.setHomePath(true);
@@ -91,7 +87,6 @@ public class CheckConstraints {
 //            MDELiteObject.done(e);
 //        }
         String[] cmdarray = {swiplPath, "--quiet", "-f", DIR_NAME+"/"+PL_NAME};
->>>>>>> OS config
         try {
             execute(cmdarray);
         } catch (Exception e) {
@@ -102,14 +97,8 @@ public class CheckConstraints {
         System.out.println("MDELite Ready to Use!");    	
     }
     
-<<<<<<< HEAD
-	private static void createPL() throws Exception {
-        String url = DIR_NAME + "/" + XMI_NAME; 
-        File file = new File(url);
-=======
 	private void createPL() throws Exception {
         String url = DIR_NAME+"/"+XMI_NAME; File file = new File(url);
->>>>>>> OS config
 		InputSource source = new InputSource(new FileInputStream(file)); 
         source.setSystemId(file.toURI().toURL().toExternalForm());
         XmiReader reader = null;
