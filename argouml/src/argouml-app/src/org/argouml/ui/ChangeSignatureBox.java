@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import javax.swing.*;
 
@@ -61,7 +62,8 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         setRenameNode();
     }
 
-    private List<Operation> get_matching_operations(UmlClass klass, Operation op_gold) {
+    private List<Operation> get_matching_operations(UmlClass klass, Operation
+            op_gold) {
         List<Feature> operation_list = klass.getFeature();
         List<Operation> return_list = new ArrayList<Operation>();
         List<Parameter> param_list_gold = op_gold.getParameter();
@@ -74,27 +76,28 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
                 if (param_list_silv.size() == param_list_gold.size()) {
                     // Return type is not used in matching method signatures.
                     for (int i=1; i<param_list_gold.size(); i++) {
-                        if (!param_list_gold.get(i).getType().getName().equals(param_list_silv.get(i).getType().getName())) {
-                            System.out.println ("Failed because param types differ: " + param_list_silv.get(i).getType().getName() + ", " + param_list_gold.get(i).getType().getName());
+                        Parameter param_gold = param_list_gold.get(i);
+                        String type_gold = param_gold.getType().getName();
+
+                        Parameter param_silv = param_list_silv.get(i);
+                        String type_silv = param_silv.getType().getName();
+
+                        if (!type_gold.equals(type_silv)) {
+                            LOG.log(Level.FINE, "Failed because param types" +
+                                    " differ: " + type_silv + ", " + type_gold);
                             match = false;
                             break;
                         }
-
-                        /*
-                        // Don't check argument names, they don't matter for method overriding..
-                        if (!param_list_gold.get(i).getName().equals(param_list_silv.get(i).getName())) {
-                        System.out.println ("Failed because param names differ: " + param_list_silv.get(i).getName() + ", " + param_list_gold.get(i).getName());
-                        match = false;
-                        break;
-                        }
-                         */
                     }
                 } else {
-                    System.out.println ("Failed because param list sizes differ" + param_list_silv.size() + ", " + param_list_gold.size());
+                    LOG.log(Level.FINE, "Failed because param list sizes " +
+                            "differ" + param_list_silv.size() + ", " +
+                            param_list_gold.size());
                     match = false;
                 }
             } else {
-                System.out.println ("Failed because function names differ: " + op_silv.getName() + ", " + op_gold.getName());
+                LOG.log(Level.FINE, "Failed because function names differ: "
+                        + op_silv.getName() + ", " + op_gold.getName());
                 match = false;
             }
 
@@ -108,7 +111,8 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
 
     private List<UmlClass> get_child_classes(UmlClass klass) {
         ArrayList<UmlClass> child_list = new ArrayList<UmlClass>();
-        Collection<Generalization> coll = Model.getFacade().getSpecializations((Object) klass);
+        Collection<Generalization> coll = Model.getFacade().getSpecializations(
+                (Object) klass);
 
         for (Generalization gen : coll) {
             UmlClass child = (UmlClass) gen.getChild();
@@ -146,7 +150,8 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
 
         for (int i = 1; i < param_list.size(); i++) {
             Parameter param = param_list.get(i);
-            String type = param.getType() != null ? param.getType().getName() : "void";
+            String type = param.getType() != null ? param.getType().getName() :
+                "void";
             return_types[i-1] = new JTextField(type, 15);
             param_names[i-1] = new JTextField(param.getName(), 15);
 
@@ -174,14 +179,12 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         return true;
     }
 
-    private void update_method_signature(Operation operation) {
+    private void update_method_signature(Operation operation,
+            String method_name, String method_return_type) {
         Project project = ProjectManager.getManager().getCurrentProject();
         List<Parameter> param_list = operation.getParameter();
 
-        String method_name = this.gui_method_name.getText();
         operation.setName(method_name);
-
-        String method_return_type = this.gui_method_return_type.getText();
         Object data_type = project.findType(method_return_type, false);
         if (data_type == null) {
             data_type = project.findType(method_return_type, true);
@@ -206,9 +209,12 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
     private void propagate_change(UmlClass klass, Operation op_gold) {
         List<UmlClass> child_list = get_child_classes(klass);
         for (UmlClass child : child_list) {
-            List<Operation> operation_list = get_matching_operations(child, op_gold);
+            List<Operation> operation_list = get_matching_operations(child,
+                    op_gold);
             for (Operation operation : operation_list) {
-                update_method_signature(operation);
+                update_method_signature(operation,
+                    this.gui_method_name.getText(),
+                    this.gui_method_return_type.getText());
             }
 
             propagate_change(child, op_gold);
@@ -223,13 +229,15 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
                 propagate_change(owner, this.target);
 
                 // Update this method.
-                update_method_signature(this.target);
+                update_method_signature(this.target,
+                    this.gui_method_name.getText(),
+                    this.gui_method_return_type.getText());
 
                 if (CheckConstraints.validateUML() == false) {
                     // TODO: Undo change.
-                    System.out.println ("Validation failed, but cannot undo.");
+                    LOG.log(Level.INFO, "Validation failed, but cannot undo.");
                 } else {
-                    System.out.println ("Validation succeeded!");
+                    LOG.log(Level.INFO, "Validation succeeded!");
                 }
 
                 // Get rid of the dialog box.
