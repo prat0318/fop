@@ -118,7 +118,7 @@ public class RenameBox  extends JFrame implements ActionListener{
 				method.setOwner(test);
 			}
 			
-			boolean status = false;//CheckConstraints.validateUML();
+			boolean status = (new CheckConstraints()).validateUML();
 			
 			if (!status) {
 				JOptionPane.showMessageDialog(this, "This refactoring is not possible. Reverting back.");

@@ -37,8 +37,23 @@ public class CheckConstraints {
     static String XMI_NAME = "constraints.xmi";
 
     static String PL_NAME = "constraints.pl";
+    
+    static final String OS = System.getProperty("os.name");
+    
+    public enum SwiplPath {
+    	Linux("/usr/bin/swip"),
+    	Windows("C:/Program Files/swipl/bin/swipl"),
+    	MacOS("/opt/local/bin/swipl"),
+    	Other("/usr/bin/swipl");
+    	
+    	String path;
+    	
+    	private SwiplPath(String path) {
+			this.path = path;
+		}
+    }
 
-    public static boolean validateUML() {
+    public boolean validateUML() {
         boolean status = saveFile();
         try {
             ZipFile zipFile = new ZipFile(FILE_NAME);
@@ -56,8 +71,27 @@ public class CheckConstraints {
         return status;
     }
 
+<<<<<<< HEAD
     private static void runSwipl() {
         String[] cmdarray = {"/usr/bin/swipl", "--quiet", "-f", DIR_NAME + "/" + PL_NAME};
+=======
+    private void runSwipl() {
+    	String swiplPath = SwiplPath.valueOf(OS).path;
+//        HomePath.setHomePath(true);
+//        String swipl = MDELiteObject.configFile.getProperty("SWI_PROLOG_LOCATION");
+//        String filename = HomePath.homePath+"script.txt";
+        
+//        try {
+//            PrintStream ps;
+//            ps = new PrintStream(filename);
+//            ps.print(":-['" + HomePath.homePath + "libpl/swiplInstalled'],run,halt.");
+//            ps.flush();
+//            ps.close();
+//        } catch (Exception e) {
+//            MDELiteObject.done(e);
+//        }
+        String[] cmdarray = {swiplPath, "--quiet", "-f", DIR_NAME+"/"+PL_NAME};
+>>>>>>> OS config
         try {
             execute(cmdarray);
         } catch (Exception e) {
@@ -68,26 +102,32 @@ public class CheckConstraints {
         System.out.println("MDELite Ready to Use!");    	
     }
     
+<<<<<<< HEAD
 	private static void createPL() throws Exception {
         String url = DIR_NAME + "/" + XMI_NAME; 
         File file = new File(url);
+=======
+	private void createPL() throws Exception {
+        String url = DIR_NAME+"/"+XMI_NAME; File file = new File(url);
+>>>>>>> OS config
 		InputSource source = new InputSource(new FileInputStream(file)); 
         source.setSystemId(file.toURI().toURL().toExternalForm());
         XmiReader reader = null;
 //        Model.initialise("org.argouml.model.mdr.MDRModelImplementation");
         reader = Model.getXmiReader();
-            List<String> searchPath = reader.getSearchPath();
-        String pathList =
-            System.getProperty("org.argouml.model.modules_search_path");
-        if (pathList != null) {
-            String[] paths = pathList.split(",");
-            for (String path : paths) {
-                if (!searchPath.contains(path)) {
-                    reader.addSearchPath(path);
-                }
-            }
-        }
-        reader.addSearchPath(source.getSystemId());
+        reader.setIgnoredElements(null);
+//            List<String> searchPath = reader.getSearchPath();
+//        String pathList =
+//            System.getProperty("org.argouml.model.modules_search_path");
+//        if (pathList != null) {
+//            String[] paths = pathList.split(",");
+//            for (String path : paths) {
+//                if (!searchPath.contains(path)) {
+//                    reader.addSearchPath(path);
+//                }
+//            }
+//        }
+//        reader.addSearchPath(source.getSystemId());
 //        System.out.println("--->"+source.getSystemId());
        Collection elementsRead = reader.parse(source, true);
        PrintWriter writer = new PrintWriter(DIR_NAME+"/" + PL_NAME, "UTF-8");
@@ -151,10 +191,10 @@ public class CheckConstraints {
                 }
             }
         }
-        writer.close();
+        writer.close(); 
 	}
 
-    public static boolean saveFile() {
+    public boolean saveFile() {
 
         File file = new File(FILE_NAME);
         Project project = ProjectManager.getManager().getCurrentProject();
@@ -188,7 +228,7 @@ public class CheckConstraints {
     }
 
 // original design of execute
-public static void execute(String[] cmdarray) throws Exception {
+public void execute(String[] cmdarray) throws Exception {
     String line;
     String errorLine = "";
     boolean error = false;
