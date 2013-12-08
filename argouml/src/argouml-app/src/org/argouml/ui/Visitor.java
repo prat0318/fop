@@ -59,7 +59,7 @@ public class Visitor extends JFrame implements ActionListener{
     private UMLClassDiagram diagram;
     private Operation selectedOp;
     
-    String gui_class_name ="visitor";
+    String gui_class_name ="Visitor";
 
     public Visitor(String title, List<Object> target, Object diagram) {
         super(title);
@@ -248,26 +248,22 @@ public class Visitor extends JFrame implements ActionListener{
     	
     	for(UmlClass klass: selectedClasses){
     		List<Feature> elementList = klass.getFeature();
-    		List<Operation> opList = new ArrayList<Operation>();
     		for(Feature f : elementList){
     			if(f instanceof Operation){
     				Operation op = (Operation) f;
     				if(op.getName().equals(selectedOp.getName())){
     					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
-    					String[] arguments = new String[op.getParameter().size()];
-    					String[] argumenttypes = new String[op.getParameter().size()];
+    					String[] arguments = new String[op.getParameter().size()-1];
+    					String[] argumenttypes = new String[op.getParameter().size()-1];
     					
     					for(int i=0; i < op.getParameter().size();i++){
     						Parameter p = op.getParameter().get(i);;
-    						arguments[i]=p.getName();
-    						if(p.getType()!=null)
-    							argumenttypes[i]=p.getType().getName();
     						if(i==0){
-    	    					p = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
+    							Parameter newP = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
     	    	    					.getCore().getParameter().createParameter();
-    	    	    			p.setType((org.omg.uml.foundation.core.Classifier)klass);
-    	    	    			p.setName("klass");
-            					p.setBehavioralFeature(newOP);
+    							newP.setType((org.omg.uml.foundation.core.Classifier)klass);
+    							newP.setName("klass");
+    							newP.setBehavioralFeature(newOP);
     						}else{
     							Parameter newP = ((org.omg.uml.UmlPackage) p.refOutermostPackage())
     	    	    					.getCore().getParameter().createParameter();
@@ -275,9 +271,13 @@ public class Visitor extends JFrame implements ActionListener{
     	    						newP.setType((org.omg.uml.foundation.core.Classifier)p.getType());
     							newP.setName(p.getName());
     							newP.setBehavioralFeature(newOP);
+        						arguments[i-1]=p.getName();
+        						if(p.getType()!=null)
+        							argumenttypes[i-1]=p.getType().getName();
     						}
     					}
-    					ChangeSignatureBox.change_method_signature(op, "accept", op.getParameter().get(0).getName(), arguments, argumenttypes);
+    					boolean sigChange = ChangeSignatureBox.change_method_signature(op, "accept", op.getParameter().get(0).getName(), arguments, argumenttypes);
+    					LOG.info("Signature "+sigChange);
     				}
     			}
     		}
