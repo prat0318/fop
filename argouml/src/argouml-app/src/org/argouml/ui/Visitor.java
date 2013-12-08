@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 
 import java.awt.Point;
+
 import org.omg.uml.foundation.core.*;
 import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectManager;
@@ -55,8 +56,9 @@ public class Visitor extends JFrame implements ActionListener{
     private Operation[] visitorMethods;
     private String commonMethod;
     private UMLClassDiagram diagram;
+    private Operation selectedOp;
     
-    JTextField gui_class_name;
+    String gui_class_name ="visitor";
 
     public Visitor(String title, List<Object> target, Object diagram) {
         super(title);
@@ -88,7 +90,7 @@ public class Visitor extends JFrame implements ActionListener{
         Map<UmlClass, List<Operation>> mapClassListOp = new HashMap<UmlClass,List<Operation>>();        
         List<Operation> lstCommonOp = new ArrayList<Operation>();
         String[] methods;
-        Operation selectedOp;
+        
                        
         for(UmlClass cl: selectedClasses){
         	List<Feature> lstFeatures = cl.getFeature();  
@@ -170,7 +172,6 @@ public class Visitor extends JFrame implements ActionListener{
         	
         
         //UI
-        String gui_class_name = "";
         Container cp = getContentPane();
         cp.setLayout(new FlowLayout());
                
@@ -220,10 +221,16 @@ public class Visitor extends JFrame implements ActionListener{
 
 
 
-    public void createVisitorClass(){
+    public UmlClass createVisitorClass(){
 
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
-		UmlClass visitorClass = (UmlClass)Model.getCoreFactory().buildClass(commonMethod, namespace);
+		UmlClass visitorClass = (UmlClass)Model.getCoreFactory().buildClass(gui_class_name, namespace);
+		Point p = new Point(300, 90);
+		Fig element =  (Fig) diagram.drop(visitorClass, p);
+		LayerPerspective layer = diagram.getLayer();
+		layer.add(element);
+
+		return visitorClass;
 		//Classifier classifier = Model.getCoreFactory().createClass();
 		//Operation o = Model.getCoreFactory().buildOperation(classifier, returnType)
 		//o.setOwner(visitorClass);
@@ -233,39 +240,38 @@ public class Visitor extends JFrame implements ActionListener{
     @Override
         public void actionPerformed(ActionEvent event) {
     	//From all the elected classes Extract the operations are part of it 
-    	Map<UmlClass,List<Operation>> test = new HashMap<UmlClass,List<Operation>>();
-    	for(UmlClass class1:selectedClasses){
-    		Collection<ModelElement> elementList = class1.getOwnedElement();
-    		Iterator<ModelElement> it = elementList.iterator();
+    	UmlClass visitor = createVisitorClass();
+    	
+    	for(UmlClass klass: selectedClasses){
+    		List<Feature> elementList = klass.getFeature();
     		List<Operation> opList = new ArrayList<Operation>();
-    		while(it.hasNext()){
-    			ModelElement i = it.next();
-    			if(i instanceof Operation){
-    				opList.add((Operation)i);
+    		for(Feature f : elementList){
+    			if(f instanceof Operation){
+    				Operation op = (Operation) f;
+    				if(op.getName().equals(selectedOp.getName())){
+    					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
+    					for(int i=1; i <= op.getParameter().size();i++){
+    						Parameter p = op.getParameter().get(i);
+    						p.setBehavioralFeature(newOP);
+    					}
+    				}
     			}
     		}
-    		test.put(class1,opList);
+    	}
     	
-    		}
-    	
-		
-    	UmlClass klass = selectedClasses.get(0);
 		
 		// Save the project. Invoke the swipl module with this path for checking constraints.
-		UmlClass visitor = null ;
-		Operation newOP;
-		
-		visitor = (UmlClass) Model.getCoreFactory().buildClass("visitor", klass.getNamespace());
-		Point p = new Point(240, 90);
-		Fig element =  (Fig) diagram.drop(visitor, p);
-		LayerPerspective layer = diagram.getLayer();
-		layer.add(element);
+//		visitor = (UmlClass) Model.getCoreFactory().buildClass("visitor", klass.getNamespace());
+//		Point p = new Point(240, 90);
+//		Fig element =  (Fig) diagram.drop(visitor, p);
+//		LayerPerspective layer = diagram.getLayer();
+//		layer.add(element);
 			
-		List<Feature> eleList = klass.getFeature();
-		for(Operation op : visitorMethods){
-			List<Parameter> pList = op.getParameter();
-					newOP = (Operation) Model.getCoreFactory().buildOperation2(klass, pList.get(0).getType() , "visitorOp");
-			}
+//		List<Feature> eleList = klass.getFeature();
+//		for(Operation op : visitorMethods){
+//			List<Parameter> pList = op.getParameter();
+//					newOP = (Operation) Model.getCoreFactory().buildOperation2(klass, pList.get(0).getType() , "visitorOp");
+//			}
 		
 
     	//These methods will be used to create the Dialog Box needed for the user to select the Functions 
@@ -275,7 +281,6 @@ public class Visitor extends JFrame implements ActionListener{
 //                String method_name, String method_return_type,
 //                String [] s_param_names, String [] s_return_types);
         this.dispose();
-        createVisitorClass();
         }
 }
 

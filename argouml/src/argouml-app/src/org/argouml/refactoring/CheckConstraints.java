@@ -89,9 +89,18 @@ public class CheckConstraints {
 
     private boolean runSwipl() throws Exception {
     	System.out.println(this.getClass().getClassLoader().getResource("").getPath());
+<<<<<<< Updated upstream
     	String swiplPath = swiplPathMap.get(OS);
     	if(swiplPath == null) throw new Exception("ADD ENTRY OF "+OS+" to swiplPathMap");
 //    	System.out.println("---"+swiplPath);
+=======
+    	String swiplPath ="";
+    	if(OS.contains("Mac")){
+    		swiplPath = SwiplPath.MacOS.path;
+    	}
+    	//String swiplPath = SwiplPath.valueOf(OS).path;
+    	System.out.println("---"+swiplPath);
+>>>>>>> Stashed changes
 //        HomePath.setHomePath(true);
 //        String swipl = MDELiteObject.configFile.getProperty("SWI_PROLOG_LOCATION");
 //        String filename = HomePath.homePath+"script.txt";

@@ -222,5 +222,7 @@
 	<classpathentry kind="lib" path="tools/pmd-4.0/lib/jaxen-1.1.jar"/>
 	<classpathentry kind="lib" path="tools/pmd-4.0/lib/pmd-4.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="src/argouml-app/lib/regressionTest.jar"/>
+	<classpathentry kind="lib" path="src/argouml-app/lib/zip4j_1.3.1.jar"/>
 	<classpathentry kind="output" path="src/argouml-core-umlpropertypanels/build/classes"/>
 </classpath>

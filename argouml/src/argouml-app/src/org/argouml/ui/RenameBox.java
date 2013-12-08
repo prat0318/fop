@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +14,22 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
+import java.awt.Point;
+
 import org.argouml.model.Model;
+import org.omg.uml.foundation.core.Feature;
 import org.omg.uml.foundation.core.Operation;
 import org.omg.uml.foundation.core.Method;
+import org.omg.uml.foundation.core.Parameter;
 import org.argouml.refactoring.CheckConstraints;
 import org.argouml.refactoring.RefactoringUndoManager;
+import org.argouml.uml.diagram.DiagramElement;
+import org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram;
+import org.argouml.uml.diagram.ui.UMLDiagram;
 import org.omg.uml.foundation.core.UmlClass;
+import org.tigris.gef.base.LayerPerspective;
+import org.tigris.gef.presentation.Fig;
+import org.tigris.gef.presentation.FigEdge;
 
 
 // Gaurav Nanda
@@ -28,6 +39,7 @@ public class RenameBox  extends JFrame implements ActionListener{
     
     private List nodes = new ArrayList();
     private Object target;
+    private UMLClassDiagram diagram;
     
 	JLabel label;
 	JLabel renameLabel;
@@ -38,11 +50,11 @@ public class RenameBox  extends JFrame implements ActionListener{
      *
      * @param title      the title of the help window.
      */
-	public RenameBox(String title, Object target) {
+	public RenameBox(String title, Object target, Object diagram) {
 		super(title);
 		
 		this.target = target;
-		
+		this.diagram = (UMLClassDiagram) diagram;
 		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
 
@@ -112,11 +124,30 @@ public class RenameBox  extends JFrame implements ActionListener{
 			ele.setName(newName);
 			
 			// Save the project. Invoke the swipl module with this path for checking constraints.
-//			if( ele instanceof UmlClass ){
-//				UmlClass test = (UmlClass)Model.getCoreFactory().buildClass("test", ele.getNamespace());
-//				Method method = (Method) Model.getCoreFactory().buildMethod("Test2");
-//				method.setOwner(test);
-//			}
+
+			UmlClass visitor = null ;
+			Operation newOP;
+			
+			UmlClass klass = (UmlClass) ele;
+			
+			
+			visitor = (UmlClass) Model.getCoreFactory().buildClass("visitor", klass.getNamespace());
+			//Rectangle bounds = new Rectangle(240, 90 );
+			//diagram.createDiagramElement(visitor, bounds);
+			Point p = new Point(240, 90);
+			Fig element =  (Fig) diagram.drop(visitor, p);
+			LayerPerspective layer = diagram.getLayer();
+			layer.add(element);
+				
+			List<Feature> eleList = klass.getFeature();
+			Operation op = (Operation)klass.getFeature().get(0);
+			{
+				List<Parameter> pList = op.getParameter();
+				newOP = (Operation) Model.getCoreFactory().buildOperation2(klass, pList.get(0).getType() , "newOp");
+				newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, pList.get(0).getType() , "visitorOp");
+			}
+			
+
 			
 			boolean status = (new CheckConstraints()).validateUML();
 			

@@ -14,6 +14,7 @@ import org.argouml.ui.RenameBox;
 import org.argouml.ui.targetmanager.TargetManager;
 import org.argouml.uml.diagram.ArgoDiagram;
 import org.argouml.uml.diagram.DiagramUtils;
+import org.argouml.uml.diagram.static_structure.ui.UMLClassDiagram;
 import org.omg.uml.foundation.core.UmlClass;
 import org.tigris.gef.presentation.Fig;
 
@@ -42,7 +43,8 @@ public class ActionRename extends AbstractAction {
     	if (!nodes.isEmpty()) {
     		Object target = TargetManager.getInstance().getTarget();
     		if (target != null) {
-	    		RenameBox box = new RenameBox(Translator.localize("action.rename"), target);
+	    		RenameBox box = new RenameBox(Translator.localize("action.rename"), target, diagram);
+	    		
 	    		//LOG.info(target.getClass().getName());
 	    		
 	//    		if (target != null && target instanceof UmlClass) {
