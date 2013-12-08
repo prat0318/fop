@@ -267,8 +267,15 @@ public class Visitor extends JFrame implements ActionListener{
     	    	    					.getCore().getParameter().createParameter();
     	    	    			p.setType((org.omg.uml.foundation.core.Classifier)klass);
     	    	    			p.setName("klass");
+            					p.setBehavioralFeature(newOP);
+    						}else{
+    							Parameter newP = ((org.omg.uml.UmlPackage) p.refOutermostPackage())
+    	    	    					.getCore().getParameter().createParameter();
+    							if(p.getType()!=null)
+    	    						newP.setType((org.omg.uml.foundation.core.Classifier)p.getType());
+    							newP.setName(p.getName());
+    							newP.setBehavioralFeature(newOP);
     						}
-        					p.setBehavioralFeature(newOP);
     					}
     					ChangeSignatureBox.change_method_signature(op, "accept", op.getParameter().get(0).getName(), arguments, argumenttypes);
     				}
