@@ -49,18 +49,14 @@ public class CheckConstraints {
     static public boolean is_active = false;
     
     static String error_message = "";
+    static Map<String, String> swiplPathMap = new HashMap<String, String>();
     
-    public enum SwiplPath {
-    	Linux("/usr/bin/swipl"),
-    	Windows("C:/Program Files/swipl/bin/swipl"),
-    	MacOS("/opt/local/bin/swipl"),
-    	Other("/usr/bin/swipl");
-    	
-    	String path;
-    	
-    	private SwiplPath(String path) {
-			this.path = path;
-		}
+    static {
+    	swiplPathMap.put("Linux", "/usr/bin/swipl");
+    	swiplPathMap.put("Windows", "C:/Program Files/swipl/bin/swipl");
+    	swiplPathMap.put("MacOS", "/opt/local/bin/swipl");
+    	swiplPathMap.put("MAC OS X", "/opt/local/bin/swipl");
+    	swiplPathMap.put("Other", "/usr/bin/swipl");   //ADD YOUR ENTRY TO HASH MAP if new OS
     }
 
     public boolean validateUML() {
@@ -84,17 +80,18 @@ public class CheckConstraints {
 
         try {
 			return runSwipl();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
     }
 
-    private boolean runSwipl() throws FileNotFoundException {
+    private boolean runSwipl() throws Exception {
     	System.out.println(this.getClass().getClassLoader().getResource("").getPath());
-    	String swiplPath = SwiplPath.valueOf(OS).path;
-    	System.out.println("---"+swiplPath);
+    	String swiplPath = swiplPathMap.get(OS);
+    	if(swiplPath == null) throw new Exception("ADD ENTRY OF "+OS+" to swiplPathMap");
+//    	System.out.println("---"+swiplPath);
 //        HomePath.setHomePath(true);
 //        String swipl = MDELiteObject.configFile.getProperty("SWI_PROLOG_LOCATION");
 //        String filename = HomePath.homePath+"script.txt";
