@@ -32,6 +32,7 @@ import org.argouml.kernel.ProjectManager;
 import org.argouml.model.Model;
 import org.omg.uml.foundation.core.*;
 import org.argouml.refactoring.CheckConstraints;
+import org.argouml.refactoring.RefactoringUndoManager;
 //import org.argouml.refactoring.RefactoringUndoManager;
 import org.argouml.uml.diagram.DiagramElement;
 import org.omg.uml.foundation.datatypes.CallConcurrencyKindEnum;
@@ -240,6 +241,8 @@ public class Visitor extends JFrame implements ActionListener{
     @Override
         public void actionPerformed(ActionEvent event) {
     	//From all the elected classes Extract the operations are part of it 
+		try {
+
     	UmlClass visitor = createVisitorClass();
     	
     	for(UmlClass klass: selectedClasses){
@@ -250,15 +253,41 @@ public class Visitor extends JFrame implements ActionListener{
     				Operation op = (Operation) f;
     				if(op.getName().equals(selectedOp.getName())){
     					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
+    					String[] arguments = new String[op.getParameter().size()];
+    					String[] argumenttypes = new String[op.getParameter().size()];
+    					Parameter param = ((org.omg.uml.UmlPackage) visitor.refOutermostPackage())
+    					.getCore().getParameter().createParameter();
+    					param.setType((org.omg.uml.foundation.core.Classifier)visitor);
+    					param.setName("klass");
+    					arguments[0]=param.getName();
+    					argumenttypes[0]=param.getType().getName();
+    					
     					for(int i=1; i < op.getParameter().size();i++){
     						Parameter p = op.getParameter().get(i);
     						p.setBehavioralFeature(newOP);
+    						arguments[i]=p.getName();
+    						argumenttypes[i]=p.getType().getName();
     					}
-    				//	ChangeSignatureBox.change_method_signature(op, "visit", method_return_type, s_param_names, s_return_types)
+    					ChangeSignatureBox.change_method_signature(op, "accept", op.getParameter().get(0).getName(), arguments, argumenttypes);
     				}
     			}
     		}
     	}
+    	
+		boolean status = (new CheckConstraints()).validateUML();
+		
+		if (!status) {
+			JOptionPane.showMessageDialog(this, "This refactoring is not possible. Reverting back.");
+			RefactoringUndoManager.reloadbackUp();
+			// We would be throwing some exception actually and catching here to display any error.
+		}
+		// Project it back.
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	} finally {
+		this.dispose();
+	}
+
     	
 		
 		// Save the project. Invoke the swipl module with this path for checking constraints.
