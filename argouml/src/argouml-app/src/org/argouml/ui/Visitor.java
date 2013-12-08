@@ -242,6 +242,7 @@ public class Visitor extends JFrame implements ActionListener{
         public void actionPerformed(ActionEvent event) {
     	//From all the elected classes Extract the operations are part of it 
 		try {
+			RefactoringUndoManager.saveFile();
 
     	UmlClass visitor = createVisitorClass();
     	
@@ -255,18 +256,19 @@ public class Visitor extends JFrame implements ActionListener{
     					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
     					String[] arguments = new String[op.getParameter().size()];
     					String[] argumenttypes = new String[op.getParameter().size()];
-    					Parameter param = ((org.omg.uml.UmlPackage) visitor.refOutermostPackage())
-    					.getCore().getParameter().createParameter();
-    					param.setType((org.omg.uml.foundation.core.Classifier)visitor);
-    					param.setName("klass");
-    					arguments[0]=param.getName();
-    					argumenttypes[0]=param.getType().getName();
     					
-    					for(int i=1; i < op.getParameter().size();i++){
-    						Parameter p = op.getParameter().get(i);
-    						p.setBehavioralFeature(newOP);
+    					for(int i=0; i < op.getParameter().size();i++){
+    						Parameter p = op.getParameter().get(i);;
     						arguments[i]=p.getName();
-    						argumenttypes[i]=p.getType().getName();
+    						if(p.getType()!=null)
+    							argumenttypes[i]=p.getType().getName();
+    						if(i==0){
+    	    					p = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
+    	    	    					.getCore().getParameter().createParameter();
+    	    	    			p.setType((org.omg.uml.foundation.core.Classifier)klass);
+    	    	    			p.setName("klass");
+    						}
+        					p.setBehavioralFeature(newOP);
     					}
     					ChangeSignatureBox.change_method_signature(op, "accept", op.getParameter().get(0).getName(), arguments, argumenttypes);
     				}
@@ -274,12 +276,11 @@ public class Visitor extends JFrame implements ActionListener{
     		}
     	}
     	
-		boolean status = (new CheckConstraints()).validateUML();
-		
-		if (!status) {
-			JOptionPane.showMessageDialog(this, "This refactoring is not possible. Reverting back.");
+		try {
+			boolean status = (new CheckConstraints()).validateUML();
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, ex.getMessage() + "\n\n" + "Going to revert back to the original state.");
 			RefactoringUndoManager.reloadbackUp();
-			// We would be throwing some exception actually and catching here to display any error.
 		}
 		// Project it back.
 	} catch (Exception ex) {

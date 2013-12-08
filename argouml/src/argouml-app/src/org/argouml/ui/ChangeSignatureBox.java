@@ -25,13 +25,11 @@ import org.omg.uml.foundation.core.Generalization;
 import org.omg.uml.foundation.core.Operation;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.core.UmlClass;
-
 import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectManager;
-
 import org.argouml.model.Model;
-
 import org.argouml.refactoring.CheckConstraints;
+import org.argouml.refactoring.RefactoringUndoManager;
 
 // Gaurav Nanda
 public class ChangeSignatureBox  extends JFrame implements ActionListener{
@@ -235,6 +233,8 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
             String [] s_param_names, String [] s_return_types) {
         if (is_input_valid(operation, method_name, method_return_type,
                     s_param_names, s_return_types)) {
+        	
+			
             // Propagate changes to child classes.
             UmlClass owner = (UmlClass) operation.getOwner();
             propagate_change(owner, operation, method_name, method_return_type,
@@ -245,13 +245,6 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
                     s_param_names, s_return_types);
 
             // FIXME: Validate UML.
-            if ((new CheckConstraints()).validateUML()) {
-                // TODO: Undo change.
-                LOG.log(Level.INFO, "Validation failed, but cannot undo.");
-            } else {
-                LOG.log(Level.INFO, "Validation succeeded!");
-            }
-
             return true;
         }
 
@@ -274,11 +267,21 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
             String method_return_type = this.gui_method_return_type.getText();
 
             Operation method_target = this.target;
+			RefactoringUndoManager.saveFile();
 
             if (change_method_signature(method_target, method_name,
                         method_return_type, s_param_names, s_return_types)) {
-                // Get rid of the dialog box.
-                this.dispose();
+
+            	// Get rid of the dialog box.
+                
+    			try {
+    				boolean status = (new CheckConstraints()).validateUML();
+    			} catch (Exception ex) {
+    				JOptionPane.showMessageDialog(this, ex.getMessage() + "\n\n" + "Going to revert back to the original state.");
+    				RefactoringUndoManager.reloadbackUp();
+    			}
+
+            	this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid input!",
                         "Input validator", JOptionPane.INFORMATION_MESSAGE);
