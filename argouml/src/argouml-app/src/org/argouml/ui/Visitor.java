@@ -250,11 +250,11 @@ public class Visitor extends JFrame implements ActionListener{
     				Operation op = (Operation) f;
     				if(op.getName().equals(selectedOp.getName())){
     					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
-    					for(int i=1; i <= op.getParameter().size();i++){
+    					for(int i=1; i < op.getParameter().size();i++){
     						Parameter p = op.getParameter().get(i);
     						p.setBehavioralFeature(newOP);
     					}
-    					ChangeSignatureBox.change_method_signature(op, "visit", method_return_type, s_param_names, s_return_types)
+    				//	ChangeSignatureBox.change_method_signature(op, "visit", method_return_type, s_param_names, s_return_types)
     				}
     			}
     		}

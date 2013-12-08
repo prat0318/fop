@@ -39,7 +39,6 @@ public class RenameBox  extends JFrame implements ActionListener{
     
     private List nodes = new ArrayList();
     private Object target;
-    private UMLClassDiagram diagram;
     
 	JLabel label;
 	JLabel renameLabel;
@@ -50,11 +49,10 @@ public class RenameBox  extends JFrame implements ActionListener{
      *
      * @param title      the title of the help window.
      */
-	public RenameBox(String title, Object target, Object diagram) {
+	public RenameBox(String title, Object target) {
 		super(title);
 		
 		this.target = target;
-		this.diagram = (UMLClassDiagram) diagram;
 		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
 
@@ -124,30 +122,6 @@ public class RenameBox  extends JFrame implements ActionListener{
 			ele.setName(newName);
 			
 			// Save the project. Invoke the swipl module with this path for checking constraints.
-
-			UmlClass visitor = null ;
-			Operation newOP;
-			
-			UmlClass klass = (UmlClass) ele;
-			
-			
-			visitor = (UmlClass) Model.getCoreFactory().buildClass("visitor", klass.getNamespace());
-			//Rectangle bounds = new Rectangle(240, 90 );
-			//diagram.createDiagramElement(visitor, bounds);
-			Point p = new Point(240, 90);
-			Fig element =  (Fig) diagram.drop(visitor, p);
-			LayerPerspective layer = diagram.getLayer();
-			layer.add(element);
-				
-			List<Feature> eleList = klass.getFeature();
-			Operation op = (Operation)klass.getFeature().get(0);
-			{
-				List<Parameter> pList = op.getParameter();
-				newOP = (Operation) Model.getCoreFactory().buildOperation2(klass, pList.get(0).getType() , "newOp");
-				newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, pList.get(0).getType() , "visitorOp");
-			}
-			
-
 			
 			boolean status = (new CheckConstraints()).validateUML();
 			

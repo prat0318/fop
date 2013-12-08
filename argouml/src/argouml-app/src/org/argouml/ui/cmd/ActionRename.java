@@ -43,7 +43,7 @@ public class ActionRename extends AbstractAction {
     	if (!nodes.isEmpty()) {
     		Object target = TargetManager.getInstance().getTarget();
     		if (target != null) {
-	    		RenameBox box = new RenameBox(Translator.localize("action.rename"), target, diagram);
+	    		RenameBox box = new RenameBox(Translator.localize("action.rename"), target);
 	    		
 	    		//LOG.info(target.getClass().getName());
 	    		
