@@ -28,7 +28,7 @@ public class ActionVisitor extends AbstractAction {
   * Constructor.
   */
  public ActionVisitor() {
-     super(Translator.localize("action.visitor"), null);
+     super(Translator.localize("action.apply-visitor-pattern"), null);
  }
 
  /*
@@ -39,9 +39,9 @@ public class ActionVisitor extends AbstractAction {
  	List nodes = diagram.getNodes();
  	
  	if (!nodes.isEmpty()) {
- 		Object target = TargetManager.getInstance().getTargets();
+ 		List<Object> target = TargetManager.getInstance().getTargets();
  		if (target != null) {
- 			Visitor box = new Visitor(Translator.localize("action.visitor"), target, diagram);
+ 			Visitor box = new Visitor(Translator.localize("action.apply-visitor-pattern"), target, diagram);
 	    		//LOG.info(target.getClass().getName());
 	    		
 	//    		if (target != null && target instanceof UmlClass) {

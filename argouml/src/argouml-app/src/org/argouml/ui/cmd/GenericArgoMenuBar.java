@@ -634,7 +634,10 @@ public class GenericArgoMenuBar extends JMenuBar implements
         JMenuItem move = refactoring.add(new ActionMove());
         setMnemonic(move, "Move");
         
-                
+        JMenuItem apply_visitor_pattern = refactoring.add(new ActionVisitor());
+        setMnemonic(apply_visitor_pattern, "ApplyVisitorPattern");
+
+        
         refactoring.addSeparator();
         
 //        JMenuItem rename = (JMenuItem) refactoring.add(new JMenu(menuLocalize("Rename")));

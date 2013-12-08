@@ -31,7 +31,7 @@ import org.argouml.kernel.ProjectManager;
 import org.argouml.model.Model;
 import org.omg.uml.foundation.core.*;
 import org.argouml.refactoring.CheckConstraints;
-import org.argouml.refactoring.RefactoringUndoManager;
+//import org.argouml.refactoring.RefactoringUndoManager;
 import org.argouml.uml.diagram.DiagramElement;
 import org.omg.uml.foundation.datatypes.CallConcurrencyKindEnum;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
@@ -53,56 +53,169 @@ public class Visitor extends JFrame implements ActionListener{
     private Object target;
     private List<UmlClass> selectedClasses;
     private Operation[] visitorMethods;
-    private String dest;
+    private String commonMethod;
     private UMLClassDiagram diagram;
     
     JTextField gui_class_name;
 
-    /**
-     * Class constructor.
-     *
-     * @param title      the title of the help window.
-     */
-    public Visitor(String title, Object target, Object diagram) {
+    public Visitor(String title, List<Object> target, Object diagram) {
         super(title);
         this.diagram = (UMLClassDiagram) diagram;
-        Object[] targetsList = (Object[]) target;
         this.selectedClasses = new ArrayList<UmlClass>();
-        for(Object t:targetsList){
-        	if(t instanceof UmlClass){
-        		//Valid 
+        for(Object t:target){
+        	if(t instanceof UmlClass){ 
+        		
         		this.selectedClasses.add((UmlClass)t);
+        		
         	}else{
-        		//Unvalid selection 
+        		//Invalid selection 
         	}
         }
-        //Then we should be able to do this  
-        //this.selectedClasses = (UmlClass[]) target;
+        
+        LOG.info("@@@@@@@@@@@@@@@" + selectedClasses.size());
+        
+		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
 
-//        Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-//        setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
-//
-//        getContentPane().setLayout(new BorderLayout());
-//        setSize( 400, 200);
+		getContentPane().setLayout(new BorderLayout());
+		setSize( 400, 200);
+        
         setRenameNode();
     }
-    
-    
-  	
-
-      //Model.getCoreFactory().buildClass(getCurrentNamespace());
 
     private void setRenameNode() {
-        String method_name = null, return_type = null;
-        
-        for(UmlClass class1: selectedClasses){
-        	Collection<org.omg.uml.foundation.core.ModelElement> elementSet = class1.getOwnedElement();
-        	//extract the methods because every operation and attribute implements ModelElement
+        String method_name = null, return_type = null;                      
+        Map<UmlClass, List<Operation>> mapClassListOp = new HashMap<UmlClass,List<Operation>>();        
+        List<Operation> lstCommonOp = new ArrayList<Operation>();
+        String[] methods;
+        Operation selectedOp;
+                       
+        for(UmlClass cl: selectedClasses){
+        	List<Feature> lstFeatures = cl.getFeature();  
+        	List<Operation> lstClassOp = new ArrayList<Operation>();
+        	for(Feature ft:lstFeatures){
+        		if(ft instanceof Operation){
+        			Operation op = (Operation)ft;
+        			LOG.info("$$$$$$$$ Method Name: " + op.getName());        			
+        			lstClassOp.add(op);
+        		}
+        		mapClassListOp.put(cl, lstClassOp);
+        	}
+        }
+        	
+        for (Map.Entry<UmlClass, List<Operation>> entry : mapClassListOp.entrySet()) {
+        	List<Operation> lstOuterOp = entry.getValue();
+        	for(Operation _opOuter:lstOuterOp){
+        		int ct = 0;
+            	for(UmlClass _class:selectedClasses){
+            		if(!_class.equals(entry.getKey())){
+            			List<Operation> lstInnerOp = mapClassListOp.get(_class); 
+            			if(lstInnerOp != null){
+            				for(Operation _opInner:lstInnerOp){
+            					//check if function names are the same
+            					if(_opOuter.getName().equals(_opInner.getName())){
+            						List<Parameter> lstOuterPar = _opOuter.getParameter();
+            						List<Parameter> lstInnerPar = _opInner.getParameter();
+            						if(lstOuterPar.size() == lstInnerPar.size()){
+            							if(lstOuterPar.size() > 0 && lstInnerPar.size() > 0){
+            								Boolean isSame = true;
+            								for(int k=0;k<lstOuterPar.size();k++){
+            									if(lstOuterPar.get(k).getType() == null){
+            										if(lstInnerPar.get(k).getType() != null){
+            											isSame = false;
+            											break;
+            										}
+            									}
+            									else if(lstOuterPar.get(k).getType() != null){
+            										if(lstInnerPar.get(k).getType() == null){
+            											isSame = false;
+            											break;
+            										}
+            										else{
+            											Parameter p = lstOuterPar.get(k);
+            											String s = p.getType().getName();	
+            											Parameter p2 = lstInnerPar.get(k);
+            											String s2 = p2.getType().getName();                							
+            											if(!lstOuterPar.get(k).getType().getName().equals(lstInnerPar.get(k).getType().getName())){
+            												isSame = false;
+            												break;
+            											}                									
+            										}
+            									}
+            								}
+            								if(isSame)
+            									ct++;                						
+            							}
+            						}
+            					}
+            				}
+            			}
+            		}
+            	}
+            	LOG.info("%%%%%%%%%%%%%%%%%%%% ct size: " + ct);
+            	if(ct == selectedClasses.size() - 1){
+            		lstCommonOp.add(_opOuter);
+            	}           
+        	}
+        	break;
         }
         
+        LOG.info("!!!!!!!!!!!!!!!!!!!!Common Size: " + lstCommonOp.size());
+        
+        methods = new String[lstCommonOp.size()];
+        for(int g=0;g<lstCommonOp.size();g++){
+        	LOG.info("Common Operation: " + lstCommonOp.get(g).getName());
+        	methods[g] = lstCommonOp.get(g).getName();
+        }
+        	
+        
+        //UI
+        String gui_class_name = "";
+        Container cp = getContentPane();
+        cp.setLayout(new FlowLayout());
+               
+        JLabel gui_visitor_class = new JLabel("Visitor Class Name:");
+        JTextField gui_visitor_class_name = new JTextField(gui_class_name, 15);
+        
+        JLabel gui_common_methods = new JLabel("Common Methods:");
+        final JComboBox gui_common_methods_list = new JComboBox(methods);
+        commonMethod = String.valueOf(gui_common_methods_list.getSelectedItem());      
+
+        cp.add(gui_visitor_class);
+        cp.add(gui_visitor_class_name);
+        cp.add(gui_common_methods);
+        cp.add(gui_common_methods_list);
+        
+        setSize(230, 200);
+        
+        JButton submitButton = new JButton("Apply Visitor Pattern");
+        if(methods.length == 0){
+        	submitButton.setEnabled(false);
+        }
+        cp.add(submitButton); 
+                
+        gui_common_methods_list.addActionListener (new ActionListener () {
+            public void actionPerformed(ActionEvent e) {
+            	commonMethod = String.valueOf(gui_common_methods_list.getSelectedItem());
+            }
+        });                       
+        
+        for(Operation _op:lstCommonOp){
+        	if(_op.getName().equals(commonMethod)){
+        		selectedOp = _op;
+        		break;
+        	}
+        }
+        submitButton.addActionListener(this);          
+                
         //For each of the extracted Operation Check which signatures are similar 
        
-        //Get the name of the class User wants for the new Visitor Class = gui_class_name 
+        //Get the name of the class User wants for the new Visitor Class = gui_class_name
+        
+        //selectedClasses -- classes selected by the user -- List<UmlClass>
+        //gui_class_name -- destination visitor class name -- String
+        //selectedOp -- selected common method -- Operation
+         
       }
 
 
@@ -110,7 +223,7 @@ public class Visitor extends JFrame implements ActionListener{
     public void createVisitorClass(){
 
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
-		UmlClass visitorClass = (UmlClass)Model.getCoreFactory().buildClass(dest, namespace);
+		UmlClass visitorClass = (UmlClass)Model.getCoreFactory().buildClass(commonMethod, namespace);
 		//Classifier classifier = Model.getCoreFactory().createClass();
 		//Operation o = Model.getCoreFactory().buildOperation(classifier, returnType)
 		//o.setOwner(visitorClass);
