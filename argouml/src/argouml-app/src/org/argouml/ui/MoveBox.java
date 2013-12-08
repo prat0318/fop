@@ -25,9 +25,10 @@ import org.omg.uml.foundation.core.Feature;
 import org.omg.uml.foundation.core.Attribute;
 import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.core.UmlClass;
-
 import org.argouml.kernel.Project;
 import org.argouml.kernel.ProjectManager;
+import org.argouml.refactoring.CheckConstraints;
+import org.argouml.refactoring.RefactoringUndoManager;
 import org.argouml.ui.targetmanager.TargetManager;
 
 public class MoveBox  extends JFrame implements ActionListener{
@@ -114,18 +115,37 @@ public class MoveBox  extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) 
 	{			
-		Classifier c = null;
-		for (Map.Entry<UmlClass, String> entry : destClasses.entrySet()){
-			if(entry.getValue() == dest){
-				LOG.info("Owner: " + entry.getKey().getName());
-				c = (Classifier)entry.getKey();
-				break;
+		
+		try {
+			// Lets just save the entire project for now and then we would see what happens next.
+			RefactoringUndoManager.saveFile();
+			
+			//Action begin
+			Classifier c = null;
+			for (Map.Entry<UmlClass, String> entry : destClasses.entrySet()){
+				if(entry.getValue() == dest){
+					LOG.info("Owner: " + entry.getKey().getName());
+					c = (Classifier)entry.getKey();
+					break;
+				}
 			}
+							
+	        source.setOwner(c);
+	        TargetManager.getInstance().removeTarget(source);
+	        //Action end
+	        
+			
+			// Save the project. Invoke the swipl module with this path for checking constraints.
+			try {
+				boolean status = (new CheckConstraints()).validateUML();
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, ex.getMessage() + "\n\n" + "Going to revert back to the original state.");
+				RefactoringUndoManager.reloadbackUp();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			this.dispose();
 		}
-						
-        source.setOwner(c);
-        TargetManager.getInstance().removeTarget(source);
-    
-        this.dispose();
 	}
 }
