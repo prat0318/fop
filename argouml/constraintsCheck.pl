@@ -1,4 +1,7 @@
 /* isError(S,N):- tell(user_error),write(S),writeln(N),told.*/
+
+:- style_check(-discontiguous).
+:- style_check(-singleton).
   
 isError(S,N):- write(S),writeln(N).
   
@@ -40,22 +43,17 @@ testICycle(_,_).
 icircular:-forall(isIntf(I,N),testICycle(I,N)).
 
 /* legalMultiplicity CONSTRAINT: Check the legality of the multiplicity */
-
 noMult('').
 
-isTriangle('TRIANGLE').
 
-%(\+ noMult(Mult1);\+ noMult(Mult2)),
-testMultiplicity(I,N):- association(I,Mult1,Arrow1,_,_,Mult2,Arrow2,_,_),
-                            (not(noMult(Mult1));not(noMult(Mult2))),
-                                (isTriangle(Arrow1);isTriangle(Arrow2)), 
-                                    isError('illegal multiplicity: ',N).
-testMultiplicity(_,_).
+/*%(\+ noMult(Mult1);\+ noMult(Mult2)),*/
+testMultiplicity(I):- association_end(I,_,_,Mult1),(not(noMult(Mult1))),isError('illegal multiplicity: ',I).
+testMulti :- testMultiplicity(_).
 
-legalMultiplicity :- forall(isClass(I,N),testMultiplicity(I,N)).
+/*legalMultiplicity :- forall(isClass(I,N),testMultiplicity(I,N)).
 ilegalMultiplicity :- forall(isIntf(I,N),testMultiplicity(I,N)).
-
+*/
 
 /* ALL CONSTRAINTS */
-run:-uniqueNames,circular,icircular,
-            legalMultiplicity,ilegalMultiplicity.
+run:-uniqueNames,circular,icircular.
+
