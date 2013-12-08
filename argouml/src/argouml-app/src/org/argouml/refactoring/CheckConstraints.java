@@ -37,8 +37,6 @@ public class CheckConstraints {
 
     static String DIR_NAME = "/tmp/constraints";
     
-    static String RELATIVE = "../../../..";
-    
     static String XMI_NAME = "constraints.xmi";
 
     static String PL_NAME = "constraints.pl";
@@ -56,10 +54,11 @@ public class CheckConstraints {
     	swiplPathMap.put("Windows", "C:/Program Files/swipl/bin/swipl");
     	swiplPathMap.put("MacOS", "/opt/local/bin/swipl");
     	swiplPathMap.put("MAC OS X", "/opt/local/bin/swipl");
+    	swiplPathMap.put("Mac OS X", "/opt/local/bin/swipl");
     	swiplPathMap.put("Other", "/usr/bin/swipl");   //ADD YOUR ENTRY TO HASH MAP if new OS
     }
 
-    public boolean validateUML() {
+    public boolean validateUML() throws Exception {
         boolean status = saveFile();
         try {
             ZipFile zipFile = new ZipFile(FILE_NAME);
@@ -78,23 +77,13 @@ public class CheckConstraints {
 			is_active = false;
 		}
 
-        try {
-			return runSwipl();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
+		return runSwipl();
     }
 
     private boolean runSwipl() throws Exception {
     	System.out.println(this.getClass().getClassLoader().getResource("").getPath());
     	String swiplPath = swiplPathMap.get(OS);
-    	if(swiplPath == null) throw new Exception("ADD ENTRY OF "+OS+" to swiplPathMap");
-//    	System.out.println("---"+swiplPath);
-//        HomePath.setHomePath(true);
-//        String swipl = MDELiteObject.configFile.getProperty("SWI_PROLOG_LOCATION");
-//        String filename = HomePath.homePath+"script.txt";
+    	if(swiplPath == null) throw new Exception("ADD ENTRY OF " + OS + " to swiplPathMap");
 
     	String[] filesToConcat = new String[4];
     	filesToConcat[0] = "discontiguous.pl";
@@ -122,12 +111,17 @@ public class CheckConstraints {
             System.err.println("MDELite halts -- SWI Prolog Errors detected");
             System.err.println("debug this prolog file:  " );
         	System.out.println(System.getProperty("user.dir"));
-            Scanner s = new Scanner(new File("conform.txt"));
-            while(s.hasNextLine()) error_message += s.nextLine();
-            System.err.println(error_message);
-            return false;
+        	throw new Exception("Could not run prolog constraints. Check your swipl path. ");
         }
-        System.out.println("MDELite Ready to Use!");
+        Scanner s = new Scanner(new File("conform.txt"));
+        
+        error_message = "";
+        int count = 0;
+        while(s.hasNextLine()) { error_message += ++count + ") " + s.nextLine() + "\n"; } 
+        System.out.println(error_message);
+        if (!error_message.equals("")) {
+        	throw new Exception(error_message);
+        }
         return true;
     }
     

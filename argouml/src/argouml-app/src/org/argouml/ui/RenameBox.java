@@ -122,15 +122,12 @@ public class RenameBox  extends JFrame implements ActionListener{
 			ele.setName(newName);
 			
 			// Save the project. Invoke the swipl module with this path for checking constraints.
-			
-			boolean status = (new CheckConstraints()).validateUML();
-			
-			if (!status) {
-				JOptionPane.showMessageDialog(this, "This refactoring is not possible. Reverting back.");
+			try {
+				boolean status = (new CheckConstraints()).validateUML();
+			} catch (Exception ex) {
+				JOptionPane.showMessageDialog(this, ex.getMessage() + "\n\n" + "Going to revert back to the original state.");
 				RefactoringUndoManager.reloadbackUp();
-				// We would be throwing some exception actually and catching here to display any error.
 			}
-			// Project it back.
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
