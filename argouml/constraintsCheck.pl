@@ -46,14 +46,14 @@ icircular:-forall(isIntf(I,N),testICycle(I,N)).
 noMult('').
 
 
-%(\+ noMult(Mult1);\+ noMult(Mult2)),
+/*%(\+ noMult(Mult1);\+ noMult(Mult2)),*/
 testMultiplicity(I):- association_end(I,_,_,Mult1),(not(noMult(Mult1))),isError('illegal multiplicity: ',I).
 testMulti :- testMultiplicity(_).
 
-%legalMultiplicity :- forall(isClass(I,N),testMultiplicity(I,N)).
-%ilegalMultiplicity :- forall(isIntf(I,N),testMultiplicity(I,N)).
-
+/*legalMultiplicity :- forall(isClass(I,N),testMultiplicity(I,N)).
+ilegalMultiplicity :- forall(isIntf(I,N),testMultiplicity(I,N)).
+*/
 
 /* ALL CONSTRAINTS */
-run:-uniqueNames,circular,icircular,testMulti.
+run:-uniqueNames,circular,icircular.
 
