@@ -254,6 +254,7 @@ public class Visitor extends JFrame implements ActionListener{
     						Parameter p = op.getParameter().get(i);
     						p.setBehavioralFeature(newOP);
     					}
+    					ChangeSignatureBox.change_method_signature(op, "visit", method_return_type, s_param_names, s_return_types)
     				}
     			}
     		}
