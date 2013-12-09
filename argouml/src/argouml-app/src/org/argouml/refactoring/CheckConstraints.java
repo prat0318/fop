@@ -184,7 +184,20 @@ public class CheckConstraints {
                         writer.println("class("+classMapping.get(classUUID)+", "+className.toLowerCase()+", "+facade.getVisibility(item)+", "+parent+").");
                         List items1 = facade.getModelElementContents(item);
                         for(Object item1: items1){
-                        	writer.println("attribute("+"attr_"+(++attrIndex)+", "+facade.getName(item1).toLowerCase()+", "+classMapping.get(classUUID)+", "+facade.getVisibility(item1)+").");
+                        	String attrName = facade.getName(item1).toLowerCase();
+                        	if(facade.isABehavioralFeature(item1)) {
+                        		attrName += "("; int index1 = 0;
+	                        	List params = facade.getParametersList(item1);	                        	
+	                        	for(Object param: params) {
+	                        		if(index1 != 0) attrName += ","; index1++;
+	                        		if(!facade.isReturn(param)) {
+	                        			attrName += facade.getName(facade.getType(param));
+	                        		}
+	                        	}
+                        		attrName += ")";
+                        	}
+                        	
+                        	writer.println("attribute("+"attr_"+(++attrIndex)+", '"+ attrName + "', "+classMapping.get(classUUID)+", "+facade.getVisibility(item1)+").");
                         }
                         writer.println();
                     }
