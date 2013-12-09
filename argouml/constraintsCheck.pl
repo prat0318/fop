@@ -4,6 +4,11 @@
 :- style_check(-singleton).
   
 isError(S,N):- write(S),writeln(N).
+isError1(S,N,C):-write(S),write(N),write(' in '),writeln(C).
+
+findAttrPair(I1,I2,N,C):-attribute(I1,N,C,_),attribute(I2,N,C,_), @I1 @< @I2.
+
+uniqueAttrName:-forall(findAttrPair(_,_,N,C), isError1('unique attribute constraint violated for method ',N,C)).  
   
 findPair(I1,I2,N):-ename(I1,N),ename(I2,N),@I1 @< @I2.
 uniqueNames:-forall(findPair(_,_,N),isError('unique names constraint violated: ',N)).
@@ -55,5 +60,5 @@ ilegalMultiplicity :- forall(isIntf(I,N),testMultiplicity(I,N)).
 */
 
 /* ALL CONSTRAINTS */
-run:-uniqueNames,circular,icircular.
+run:-uniqueNames,circular,icircular,uniqueAttrName.
 
