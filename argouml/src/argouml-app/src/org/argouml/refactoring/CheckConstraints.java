@@ -189,8 +189,8 @@ public class CheckConstraints {
                         		attrName += "("; int index1 = 0;
 	                        	List params = facade.getParametersList(item1);	                        	
 	                        	for(Object param: params) {
-	                        		if(index1 != 0) attrName += ","; index1++;
 	                        		if(!facade.isReturn(param)) {
+		                        		if(index1 != 0) attrName += ","; index1++;
 	                        			attrName += facade.getName(facade.getType(param));
 	                        		}
 	                        	}
