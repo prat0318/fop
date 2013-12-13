@@ -314,13 +314,13 @@ public class Visitor extends JFrame implements ActionListener{
     							Parameter newP = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
     	    	    					.getCore().getParameter().createParameter();
     							newP.setType((org.omg.uml.foundation.core.Classifier)klass);
-    							newP.setName("class");
+    							newP.setName(klass.getName().toLowerCase());
     							newP.setBehavioralFeature(newOP);
 
     							Parameter newInfP = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
     	    	    					.getCore().getParameter().createParameter();
     							newInfP.setType((org.omg.uml.foundation.core.Classifier)klass);
-    							newInfP.setName("class");
+    							newInfP.setName(klass.getName().toLowerCase());
     							newInfP.setBehavioralFeature(newInfOP);
 
     						} else {

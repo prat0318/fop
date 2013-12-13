@@ -135,7 +135,7 @@ public class MoveBox  extends JFrame implements ActionListener{
 				Parameter newP = ((org.omg.uml.UmlPackage) source.getOwner().refOutermostPackage())
     					.getCore().getParameter().createParameter();
 				newP.setType((org.omg.uml.foundation.core.Classifier)source.getOwner());
-				newP.setName("class");
+				newP.setName(source.getOwner().getName().toLowerCase());
 				newP.setBehavioralFeature(op);
 
 				for(int i=0; i < op.getParameter().size();i++){
