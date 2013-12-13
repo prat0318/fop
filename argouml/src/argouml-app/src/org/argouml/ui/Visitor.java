@@ -226,10 +226,12 @@ public class Visitor extends JFrame implements ActionListener{
 
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
 		UmlClass visitorClass = (UmlClass)Model.getCoreFactory().buildClass(gui_class_name, namespace);
-		Point p = new Point(300, 90);
+		Point p = new Point(550, 110);
 		Fig element =  (Fig) diagram.drop(visitorClass, p);
 		LayerPerspective layer = diagram.getLayer();
 		layer.add(element);
+		diagram.add(element);
+		diagram.getGraphModel().getNodes().add(visitorClass);
 
 		return visitorClass;
 		//Classifier classifier = Model.getCoreFactory().createClass();
@@ -242,11 +244,13 @@ public class Visitor extends JFrame implements ActionListener{
 
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
     	Interface visitorInterface = (Interface) Model.getCoreFactory().buildInterface("Visitor", namespace);
-		Point p = new Point(550, 90);
+		Point p = new Point(550, 10);
 		Fig element =  (Fig) diagram.drop(visitorInterface, p);
 		LayerPerspective layer = diagram.getLayer();
 		layer.add(element);
-
+		diagram.add(element);
+		diagram.getGraphModel().getNodes().add(visitorInterface);
+		
 		return visitorInterface;
     }
 
@@ -254,7 +258,12 @@ public class Visitor extends JFrame implements ActionListener{
     public Abstraction createRealization(UmlClass klass, Interface inf){
 
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
-    	Abstraction visitorInterface = (Abstraction) Model.getCoreFactory().buildRealization(klass, inf, namespace);
+    	Abstraction visitorInterface = (Abstraction) Model.getCoreFactory().buildRealization(inf, klass, namespace);
+    	
+    	//diagram.ad
+    	//LayerPerspective layer = diagram.getLayer();
+		//layer.add(element);
+
 //		Point p = new Point(550, 90);
 //		Fig element =  (Fig) diagram.drop(visitorInterface, p);
 //		LayerPerspective layer = diagram.getLayer();
@@ -274,6 +283,7 @@ public class Visitor extends JFrame implements ActionListener{
     	
     	Interface visitorInterface = createVisitorInterface();
    
+    	createRealization(visitor,visitorInterface);
     	
     	for(UmlClass klass: selectedClasses){
     		List<Feature> elementList = klass.getFeature();
