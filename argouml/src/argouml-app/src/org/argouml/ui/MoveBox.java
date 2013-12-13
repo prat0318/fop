@@ -130,10 +130,34 @@ public class MoveBox  extends JFrame implements ActionListener{
 				}
 			}
 							
-	        source.setOwner(c);
+			if(source instanceof Operation){
+				Operation op = (Operation) source;
+				Parameter newP = ((org.omg.uml.UmlPackage) source.getOwner().refOutermostPackage())
+    					.getCore().getParameter().createParameter();
+				newP.setType((org.omg.uml.foundation.core.Classifier)source.getOwner());
+				newP.setName("class");
+				newP.setBehavioralFeature(op);
+
+				for(int i=0; i < op.getParameter().size();i++){
+				Parameter p = op.getParameter().get(i);
+				
+				if(p.getType()!= null && p.getType().equals(c)){
+					((Operation) source).getParameter().remove(i);
+					break;
+//					Parameter newP = ((org.omg.uml.UmlPackage) source.getOwner().refOutermostPackage())
+//	    					.getCore().getParameter().createParameter();
+//					newP.setType((org.omg.uml.foundation.core.Classifier)source.getOwner());
+//					newP.setName("class");
+//					newP.setBehavioralFeature(op);
+				}
+	       }
+	       }
+
+			source.setOwner(c);
 	        TargetManager.getInstance().removeTarget(source);
-	        //Action end
-	        
+
+			//Action end
+
 			
 			// Save the project. Invoke the swipl module with this path for checking constraints.
 			try {
