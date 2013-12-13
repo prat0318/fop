@@ -276,7 +276,7 @@ public abstract class UmlDiagramRenderer
      * @param layer the layer to look for the FigNodes
      * @param newEdge The edge to attach
      */
-    protected final void setPorts(Layer layer, FigEdge newEdge) {
+    public static final void setPorts(Layer layer, FigEdge newEdge) {
         Object modelElement = newEdge.getOwner();
         if (newEdge.getSourcePortFig() == null) {
             Object source;
@@ -308,12 +308,12 @@ public abstract class UmlDiagramRenderer
         }
     }
 
-    private void setSourcePort(FigEdge edge, FigNode source) {
+    private static void setSourcePort(FigEdge edge, FigNode source) {
         edge.setSourcePortFig(source);
         edge.setSourceFigNode(source);
     }
 
-    private void setDestPort(FigEdge edge, FigNode dest) {
+    private static void setDestPort(FigEdge edge, FigNode dest) {
         edge.setDestPortFig(dest);
         edge.setDestFigNode(dest);
     }
@@ -329,7 +329,7 @@ public abstract class UmlDiagramRenderer
      * @param modelElement the model element to find presentation for
      * @return the FigNode presentation of the model element
      */
-    protected FigNode getNodePresentationFor(Layer lay, Object modelElement) {
+    protected static FigNode getNodePresentationFor(Layer lay, Object modelElement) {
         assert modelElement != null : "A modelElement must be supplied";
         for (Object fig : lay.getContentsNoEdges()) {
  

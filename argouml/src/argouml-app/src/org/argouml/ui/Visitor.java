@@ -35,6 +35,7 @@ import org.argouml.refactoring.CheckConstraints;
 import org.argouml.refactoring.RefactoringUndoManager;
 //import org.argouml.refactoring.RefactoringUndoManager;
 import org.argouml.uml.diagram.DiagramElement;
+import org.argouml.uml.diagram.UmlDiagramRenderer;
 import org.omg.uml.foundation.datatypes.CallConcurrencyKindEnum;
 import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
 import org.omg.uml.foundation.datatypes.ScopeKindEnum;
@@ -44,6 +45,7 @@ import org.tigris.gef.base.Layer;
 import org.tigris.gef.base.LayerPerspective;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
+import org.tigris.gef.presentation.FigNode;
 /**
  * @author bansal
  *
@@ -62,6 +64,7 @@ public class Visitor extends JFrame implements ActionListener{
     private Operation selectedOp;
     
     String gui_class_name ="Visitor";
+    JButton instructionalSubmitButton;
 
 //    public Visitor(String title, List<Object> target, Object diagram) {
 //        super(title);
@@ -98,10 +101,10 @@ public class Visitor extends JFrame implements ActionListener{
         }
         
 		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
+		setLocation(scrSize.width / 2 - 500, scrSize.height / 2 - 300);
 
 		getContentPane().setLayout(new BorderLayout());
-		setSize( 400, 200);
+		setSize(400, 200);
         
         constructVisitorBox();
     }
@@ -199,7 +202,7 @@ public class Visitor extends JFrame implements ActionListener{
         }
         
         methods = new String[lstCommonOp.size()];
-        for(int g=0;g<lstCommonOp.size();g++){
+        for(int g=0; g < lstCommonOp.size(); g++){
         	LOG.info("Common Operation: " + lstCommonOp.get(g).getName());
         	methods[g] = lstCommonOp.get(g).getName();
         }     	
@@ -227,6 +230,12 @@ public class Visitor extends JFrame implements ActionListener{
         	submitButton.setEnabled(false);
         }
         cp.add(submitButton); 
+        
+        instructionalSubmitButton = new JButton("Instructional Demo");
+        if(methods.length == 0){
+        	submitButton.setEnabled(false);
+        }
+        cp.add(instructionalSubmitButton); 
                 
         gui_common_methods_list.addActionListener (new ActionListener () {
             public void actionPerformed(ActionEvent e) {
@@ -240,12 +249,14 @@ public class Visitor extends JFrame implements ActionListener{
         		break;
         	}
         }
+
+        instructionalSubmitButton.addActionListener(this);
         submitButton.addActionListener(this);
       }
     
-    public UmlClass createVisitorClass() {
+    public UmlClass createVisitorClass(String className, String function) {
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
-		UmlClass visitorClass = (UmlClass)Model.getCoreFactory().buildClass(gui_class_name, namespace);
+		UmlClass visitorClass = (UmlClass)Model.getCoreFactory().buildClass(className + function + gui_class_name, namespace);
 		Point p = new Point(550, 160);
 		Fig element =  (Fig) diagram.drop(visitorClass, p);
 		LayerPerspective layer = diagram.getLayer();
@@ -256,9 +267,9 @@ public class Visitor extends JFrame implements ActionListener{
 		return visitorClass;
     }
     
-    public Interface createVisitorInterface() {
+    public Interface createVisitorInterface(String name) {
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
-    	Interface visitorInterface = (Interface) Model.getCoreFactory().buildInterface("Visitor", namespace);
+    	Interface visitorInterface = (Interface) Model.getCoreFactory().buildInterface(name  + "Visitor", namespace);
 		Point p = new Point(550, 10);
 		Fig element =  (Fig) diagram.drop(visitorInterface, p);
 		LayerPerspective layer = diagram.getLayer();
@@ -269,20 +280,36 @@ public class Visitor extends JFrame implements ActionListener{
 		return visitorInterface;
     }
   
-    public Abstraction createRealization(UmlClass klass, Interface inf){
+    public Object createRealization(UmlClass klass, Interface inf) {
 
-    	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
+    	Namespace namespace = (Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
     	Abstraction realization = (Abstraction) Model.getCoreFactory().buildRealization(inf, klass, namespace);
     	diagram.getGraphModel().getEdges().add(realization);
     	
     	LayerPerspective layer = diagram.getLayer();
     	layer.presentationFor(realization);
-    	//FigEdge figEdge = new FigLink(realization, settings);
-    	
-		//layer.getDiagramElements().add(realization);
-    	//Layer lay = editor.getLayerManager().getActiveLayer();
-        //FigEdge fe = (FigEdge) lay.presentationFor(getNewEdge());
-        
+//    	
+//    	//FigEdge figEdge = new FigLink(realization, settings);
+//    	FigLink lnkFig = new FigLink(realization, diagram.getDiagramSettings());
+//        Collection linkEnds = Model.getFacade().getConnections(realization);
+//        Object[] leArray = linkEnds.toArray();
+//        Object fromEnd = leArray[0];
+//        Object fromInst = Model.getFacade().getInstance(fromEnd);
+//        Object toEnd = leArray[1];
+//        Object toInst = Model.getFacade().getInstance(toEnd);
+//        FigNode fromFN = (FigNode) layer.presentationFor(fromInst);
+//        FigNode toFN = (FigNode) layer.presentationFor(toInst);
+//        lnkFig.setSourcePortFig(fromFN);
+//        lnkFig.setSourceFigNode(fromFN);
+//        lnkFig.setDestPortFig(toFN);
+//        lnkFig.setDestFigNode(toFN);
+//    	
+//		//layer.getDiagramElements().add(realization);
+//    	//Layer lay = editor.getLayerManager().getActiveLayer();
+//        //FigEdge fe = (FigEdge) lay.presentationFor(getNewEdge());
+//        UmlDiagramRenderer.setPorts(layer, lnkFig);
+
+//        layer.add(lnkFig);
 		return realization;
     }
 
@@ -293,20 +320,30 @@ public class Visitor extends JFrame implements ActionListener{
 		try {
 			RefactoringUndoManager.saveFile();
 
-    	UmlClass visitor = createVisitorClass();   	
-    	Interface visitorInterface = createVisitorInterface();
+			Operation op = null;
+	    	for(UmlClass klass: selectedClasses) {
+	    		List<Feature> elementList = klass.getFeature();
+	    		for(Feature f : elementList){
+	    			if(f instanceof Operation) {
+	    				op = (Operation) f;
+	    			}
+	    		}
+	    	}
 
-    	for(UmlClass klass: selectedClasses){
+    	UmlClass visitor = createVisitorClass(selectedClass.getName(), op.getName());   	
+    	Interface visitorInterface = createVisitorInterface(selectedClass.getName());
+    	
+    	String[] arguments = new String[op.getParameter().size()-1];
+		String[] argumenttypes = new String[op.getParameter().size()-1];
+
+    	for(UmlClass klass: selectedClasses) {
     		List<Feature> elementList = klass.getFeature();
     		for(Feature f : elementList){
     			if(f instanceof Operation){
-    				Operation op = (Operation) f;
+    				op = (Operation) f;
     				if(op.getName().equals(selectedOp.getName())){
     					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , "visit");
     					Operation newInfOP = (Operation) Model.getCoreFactory().buildOperation2(visitorInterface, selectedOp.getParameter().get(0).getType() , "visit");
-    					
-    					String[] arguments = new String[op.getParameter().size()-1];
-    					String[] argumenttypes = new String[op.getParameter().size()-1];
     					
     					for(int i=0; i < op.getParameter().size();i++){
     						Parameter p = op.getParameter().get(i);;
@@ -343,26 +380,39 @@ public class Visitor extends JFrame implements ActionListener{
         						if(p.getType()!=null)
         							argumenttypes[i-1] = p.getType().getName();
     						}
+    						this.hide();
+    				        
+    				        if(event.getSource() == instructionalSubmitButton) {
+    				        	JOptionPane.showMessageDialog(this, "Click ok to proceed.");
+    				        }
     					}
     					// Change method signature accept string as return type, which messes it up.
     					// Therefore, retain your return type and YOO !!!	
-    					Classifier returnType = op.getParameter().get(0).getType();
-    					boolean sigChange = ChangeSignatureBox.change_method_signature(op, "accept", "", arguments, argumenttypes);
-    					op.getParameter().get(0).setType(returnType);
-    					
-    					System.out.println("Return type: " + op.getParameter().get(0).getName());
-    					System.out.println("Signature " + sigChange);
     				}
     			}
     		}
     	}
     	
+    	for(UmlClass klass: selectedClasses) {
+    		List<Feature> elementList = klass.getFeature();
+    		for(Feature f : elementList){
+    			if(f instanceof Operation) {
+    				op = (Operation) f;
+    				Classifier returnType = op.getParameter().get(0).getType();
+    				boolean sigChange = ChangeSignatureBox.change_method_signature(op, "accept", "abcd", arguments, argumenttypes);
+    				op.getParameter().get(0).setType(returnType);
+    			}
+    		}
+    	}
+		
 		try {
 			boolean status = (new CheckConstraints()).validateUML();
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, ex.getMessage() + "\n\n" + "Going to revert back to the original state.");
 			RefactoringUndoManager.reloadbackUp();
 		}
+		
+		//createRealization(visitor, visitorInterface);
 		// Project it back.
 	} catch (Exception ex) {
 		ex.printStackTrace();
