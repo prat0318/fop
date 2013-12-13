@@ -40,6 +40,7 @@ import org.omg.uml.foundation.datatypes.ParameterDirectionKindEnum;
 import org.omg.uml.foundation.datatypes.ScopeKindEnum;
 import org.omg.uml.foundation.datatypes.VisibilityKindEnum;
 import org.argouml.uml.diagram.static_structure.ui.*;
+import org.tigris.gef.base.Layer;
 import org.tigris.gef.base.LayerPerspective;
 import org.tigris.gef.presentation.Fig;
 import org.tigris.gef.presentation.FigEdge;
@@ -258,18 +259,18 @@ public class Visitor extends JFrame implements ActionListener{
     public Abstraction createRealization(UmlClass klass, Interface inf){
 
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
-    	Abstraction visitorInterface = (Abstraction) Model.getCoreFactory().buildRealization(inf, klass, namespace);
+    	Abstraction realization = (Abstraction) Model.getCoreFactory().buildRealization(inf, klass, namespace);
+    	diagram.getGraphModel().getEdges().add(realization);
     	
-    	//diagram.ad
-    	//LayerPerspective layer = diagram.getLayer();
-		//layer.add(element);
-
-//		Point p = new Point(550, 90);
-//		Fig element =  (Fig) diagram.drop(visitorInterface, p);
-//		LayerPerspective layer = diagram.getLayer();
-//		layer.add(element);
-
-		return visitorInterface;
+    	LayerPerspective layer = diagram.getLayer();
+    	layer.presentationFor(realization);
+    	//FigEdge figEdge = new FigLink(realization, settings);
+    	
+		//layer.getDiagramElements().add(realization);
+    	//Layer lay = editor.getLayerManager().getActiveLayer();
+        //FigEdge fe = (FigEdge) lay.presentationFor(getNewEdge());
+        
+		return realization;
     }
 
     
