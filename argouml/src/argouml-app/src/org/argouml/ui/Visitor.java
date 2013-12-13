@@ -282,35 +282,14 @@ public class Visitor extends JFrame implements ActionListener{
   
     public Object createRealization(UmlClass klass, Interface inf) {
 
-    	Namespace namespace = (Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
-    	Abstraction realization = (Abstraction) Model.getCoreFactory().buildRealization(inf, klass, namespace);
-    	diagram.getGraphModel().getEdges().add(realization);
-    	
-    	LayerPerspective layer = diagram.getLayer();
-    	layer.presentationFor(realization);
-//    	
-//    	//FigEdge figEdge = new FigLink(realization, settings);
-//    	FigLink lnkFig = new FigLink(realization, diagram.getDiagramSettings());
-//        Collection linkEnds = Model.getFacade().getConnections(realization);
-//        Object[] leArray = linkEnds.toArray();
-//        Object fromEnd = leArray[0];
-//        Object fromInst = Model.getFacade().getInstance(fromEnd);
-//        Object toEnd = leArray[1];
-//        Object toInst = Model.getFacade().getInstance(toEnd);
-//        FigNode fromFN = (FigNode) layer.presentationFor(fromInst);
-//        FigNode toFN = (FigNode) layer.presentationFor(toInst);
-//        lnkFig.setSourcePortFig(fromFN);
-//        lnkFig.setSourceFigNode(fromFN);
-//        lnkFig.setDestPortFig(toFN);
-//        lnkFig.setDestFigNode(toFN);
-//    	
-//		//layer.getDiagramElements().add(realization);
-//    	//Layer lay = editor.getLayerManager().getActiveLayer();
-//        //FigEdge fe = (FigEdge) lay.presentationFor(getNewEdge());
-//        UmlDiagramRenderer.setPorts(layer, lnkFig);
+    	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
+    	Abstraction visitorInterface = (Abstraction) Model.getCoreFactory().buildRealization(klass, inf, namespace);
+//		Point p = new Point(550, 90);
+//		Fig element =  (Fig) diagram.drop(visitorInterface, p);
+//		LayerPerspective layer = diagram.getLayer();
+//		layer.add(element);
 
-//        layer.add(lnkFig);
-		return realization;
+		return visitorInterface;
     }
 
     
@@ -319,7 +298,6 @@ public class Visitor extends JFrame implements ActionListener{
     	//From all the elected classes Extract the operations are part of it 
 		try {
 			RefactoringUndoManager.saveFile();
-
 			Operation op = null;
 	    	for(UmlClass klass: selectedClasses) {
 	    		List<Feature> elementList = klass.getFeature();
@@ -386,8 +364,6 @@ public class Visitor extends JFrame implements ActionListener{
     				        	JOptionPane.showMessageDialog(this, "Click ok to proceed.");
     				        }
     					}
-    					// Change method signature accept string as return type, which messes it up.
-    					// Therefore, retain your return type and YOO !!!	
     				}
     			}
     		}
