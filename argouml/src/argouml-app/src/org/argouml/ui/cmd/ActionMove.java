@@ -97,7 +97,7 @@ public class ActionMove extends AbstractAction {
    				if(aemap.containsKey(c.refMofId()+srcClass.getName())){
    					for (Map.Entry<String, AssociationEnd> entry : aemap.entrySet())
    					{
-   						if(!entry.getKey().equals(c.getName()+srcClass.getName())){
+   						if(!entry.getKey().equals(c.refMofId()+srcClass.getName())){
    							UmlClass targetClass = (UmlClass)entry.getValue().getParticipant();
    							classes.add(targetClass);
    						}
