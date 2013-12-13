@@ -66,7 +66,8 @@ public class ActionMove extends AbstractAction {
 						if (nodes.get(j) instanceof UmlClass){
 							UmlClass klass = (UmlClass)nodes.get(j);
 							if(p.getType().equals(klass)){
-								classes.add(klass);
+								if(!classes.contains(klass))
+									classes.add(klass);
 							}
 						}
 					}
@@ -99,7 +100,8 @@ public class ActionMove extends AbstractAction {
    					{
    						if(!entry.getKey().equals(c.refMofId()+srcClass.getName())){
    							UmlClass targetClass = (UmlClass)entry.getValue().getParticipant();
-   							classes.add(targetClass);
+   							if(!classes.contains(targetClass))
+   								classes.add(targetClass);
    						}
    					}
    				}   			
