@@ -12,6 +12,7 @@ import javax.swing.AbstractAction;
 
 import org.argouml.application.helpers.ResourceLoaderWrapper;
 import org.argouml.i18n.Translator;
+import org.argouml.model.Model;
 import org.argouml.ui.HelpBox;
 import org.argouml.ui.ChangeSignatureBox;
 import org.argouml.ui.MoveBox;
@@ -21,6 +22,7 @@ import org.argouml.uml.diagram.DiagramUtils;
 import org.omg.uml.foundation.core.AssociationEnd;
 import org.omg.uml.foundation.core.Classifier;
 import org.omg.uml.foundation.core.Generalization;
+import org.omg.uml.foundation.core.Parameter;
 import org.omg.uml.foundation.core.UmlClass;
 import org.omg.uml.foundation.core.AssociationClass;
 import org.omg.uml.foundation.core.UmlAssociation;
@@ -52,26 +54,44 @@ public class ActionMove extends AbstractAction {
     	List edges = diagram.getEdges();
     	List<UmlClass> classes = new ArrayList<UmlClass>();
     	Object source = TargetManager.getInstance().getTarget();
-    	
-    	    	
+
+		UmlClass srcClass = null;
+		if(source instanceof Operation){
+			Operation op = (Operation)source;
+			srcClass = (UmlClass)op.getOwner();
+			for(int i=0; i < op.getParameter().size();i++){
+				Parameter p = op.getParameter().get(i);
+				if(p.getType()!= null ){
+					for(int j=0; j< nodes.size();j++){
+						if (nodes.get(j) instanceof UmlClass){
+							UmlClass klass = (UmlClass)nodes.get(j);
+							if(p.getType().equals(klass)){
+								classes.add(klass);
+							}
+						}
+					}
+				}
+			}
+		}
+			
+		else if(source instanceof Attribute){
+			Attribute at = (Attribute)source;
+			srcClass = (UmlClass)at.getOwner();
+		}
+
     	if (!edges.isEmpty()) {
     		for(int i=0;i<edges.size();i++){
-    			UmlClass srcClass = null;
-    			if(source instanceof Operation){
-    				Operation op = (Operation)source;
-    				srcClass = (UmlClass)op.getOwner();
-    			}
-    			else if(source instanceof Attribute){
-    				Attribute at = (Attribute)source;
-    				srcClass = (UmlClass)at.getOwner();
-    			}
     			Map<String,AssociationEnd> aemap = new HashMap<String,AssociationEnd>();
-   				UmlAssociation c = (UmlAssociation)edges.get(i);
+   				UmlAssociation c = (UmlAssociation) edges.get(i);
    				LOG.info("@@@@@@@@##############TEST: " + c.getName());
    				List<AssociationEnd> aend = c.getConnection();
+   				
+   				//Model.getFacade().getModelElement(handle)
+   				
    				for(AssociationEnd a:aend){
    					LOG.info("@@@@@@@@##############TEST: " + a.getParticipant().getName());
    					aemap.put(c.getName()+a.getParticipant().getName(), a);
+   					
    				}
     			
    				if(aemap.containsKey(c.getName()+srcClass.getName())){
