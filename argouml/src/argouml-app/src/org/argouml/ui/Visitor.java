@@ -237,7 +237,33 @@ public class Visitor extends JFrame implements ActionListener{
 		//o.setOwner(visitorClass);
 
     }
+    
+    public Interface createVisitorInterface(){
 
+    	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
+    	Interface visitorInterface = (Interface) Model.getCoreFactory().buildInterface("Visitor", namespace);
+		Point p = new Point(550, 90);
+		Fig element =  (Fig) diagram.drop(visitorInterface, p);
+		LayerPerspective layer = diagram.getLayer();
+		layer.add(element);
+
+		return visitorInterface;
+    }
+
+    
+    public Abstraction createRealization(UmlClass klass, Interface inf){
+
+    	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
+    	Abstraction visitorInterface = (Abstraction) Model.getCoreFactory().buildRealization(klass, inf, namespace);
+//		Point p = new Point(550, 90);
+//		Fig element =  (Fig) diagram.drop(visitorInterface, p);
+//		LayerPerspective layer = diagram.getLayer();
+//		layer.add(element);
+
+		return visitorInterface;
+    }
+
+    
     @Override
         public void actionPerformed(ActionEvent event) {
     	//From all the elected classes Extract the operations are part of it 
@@ -246,6 +272,9 @@ public class Visitor extends JFrame implements ActionListener{
 
     	UmlClass visitor = createVisitorClass();
     	
+    	Interface visitorInterface = createVisitorInterface();
+   
+    	
     	for(UmlClass klass: selectedClasses){
     		List<Feature> elementList = klass.getFeature();
     		for(Feature f : elementList){
@@ -253,6 +282,8 @@ public class Visitor extends JFrame implements ActionListener{
     				Operation op = (Operation) f;
     				if(op.getName().equals(selectedOp.getName())){
     					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
+    					Operation newInfOP = (Operation) Model.getCoreFactory().buildOperation2(visitorInterface, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
+    					
     					String[] arguments = new String[op.getParameter().size()-1];
     					String[] argumenttypes = new String[op.getParameter().size()-1];
     					
@@ -262,8 +293,15 @@ public class Visitor extends JFrame implements ActionListener{
     							Parameter newP = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
     	    	    					.getCore().getParameter().createParameter();
     							newP.setType((org.omg.uml.foundation.core.Classifier)klass);
-    							newP.setName("klass");
+    							newP.setName("class");
     							newP.setBehavioralFeature(newOP);
+
+    							Parameter newInfP = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
+    	    	    					.getCore().getParameter().createParameter();
+    							newInfP.setType((org.omg.uml.foundation.core.Classifier)klass);
+    							newInfP.setName("class");
+    							newInfP.setBehavioralFeature(newInfOP);
+
     						}else{
     							Parameter newP = ((org.omg.uml.UmlPackage) p.refOutermostPackage())
     	    	    					.getCore().getParameter().createParameter();
@@ -271,6 +309,15 @@ public class Visitor extends JFrame implements ActionListener{
     	    						newP.setType((org.omg.uml.foundation.core.Classifier)p.getType());
     							newP.setName(p.getName());
     							newP.setBehavioralFeature(newOP);
+    							
+    							Parameter newInfP = ((org.omg.uml.UmlPackage) p.refOutermostPackage())
+    	    	    					.getCore().getParameter().createParameter();
+    							if(p.getType()!=null)
+    								newInfP.setType((org.omg.uml.foundation.core.Classifier)p.getType());
+    							newInfP.setName(p.getName());
+    							newInfP.setBehavioralFeature(newInfOP);
+
+    							
         						arguments[i-1]=p.getName();
         						if(p.getType()!=null)
         							argumenttypes[i-1]=p.getType().getName();
