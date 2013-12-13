@@ -90,11 +90,11 @@ public class ActionMove extends AbstractAction {
    				
    				for(AssociationEnd a:aend){
    					LOG.info("@@@@@@@@##############TEST: " + a.getParticipant().getName());
-   					aemap.put(c.getName()+a.getParticipant().getName(), a);
+   					aemap.put(c.refMofId()+a.getParticipant().getName(), a);
    					
    				}
     			
-   				if(aemap.containsKey(c.getName()+srcClass.getName())){
+   				if(aemap.containsKey(c.refMofId()+srcClass.getName())){
    					for (Map.Entry<String, AssociationEnd> entry : aemap.entrySet())
    					{
    						if(!entry.getKey().equals(c.getName()+srcClass.getName())){
