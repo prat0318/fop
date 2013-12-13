@@ -55,6 +55,7 @@ public class Visitor extends JFrame implements ActionListener{
     private List nodes = new ArrayList();
     private Object target;
     private List<UmlClass> selectedClasses;
+    private UmlClass selectedClass;
     private Operation[] visitorMethods;
     private String commonMethod;
     private UMLClassDiagram diagram;
@@ -62,21 +63,39 @@ public class Visitor extends JFrame implements ActionListener{
     
     String gui_class_name ="Visitor";
 
+//    public Visitor(String title, List<Object> target, Object diagram) {
+//        super(title);
+//        this.diagram = (UMLClassDiagram) diagram;
+//        this.selectedClasses = new ArrayList<UmlClass>();
+//        for(Object t:target){
+//        	if(t instanceof UmlClass){ 
+//        		this.selectedClasses.add((UmlClass)t);
+//        		
+//        	}else{
+//        		//Invalid selection 
+//        	}
+//        }
+//        
+//        LOG.info("@@@@@@@@@@@@@@@" + selectedClasses.size());
+//        
+//		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+//		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
+//
+//		getContentPane().setLayout(new BorderLayout());
+//		setSize( 400, 200);
+//        
+//        setRenameNode();
+//    }
+    
     public Visitor(String title, List<Object> target, Object diagram) {
         super(title);
         this.diagram = (UMLClassDiagram) diagram;
-        this.selectedClasses = new ArrayList<UmlClass>();
-        for(Object t:target){
-        	if(t instanceof UmlClass){ 
-        		
-        		this.selectedClasses.add((UmlClass)t);
-        		
-        	}else{
-        		//Invalid selection 
+        for(Object t:target) {
+        	if (t instanceof UmlClass) {
+        		this.selectedClass = (UmlClass) t;
+        		break;
         	}
         }
-        
-        LOG.info("@@@@@@@@@@@@@@@" + selectedClasses.size());
         
 		Dimension scrSize = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation(scrSize.width / 2 - 400, scrSize.height / 2 - 300);
@@ -84,29 +103,45 @@ public class Visitor extends JFrame implements ActionListener{
 		getContentPane().setLayout(new BorderLayout());
 		setSize( 400, 200);
         
-        setRenameNode();
+        constructVisitorBox();
     }
 
-    private void setRenameNode() {
+    private void constructVisitorBox() {
         String method_name = null, return_type = null;                      
-        Map<UmlClass, List<Operation>> mapClassListOp = new HashMap<UmlClass,List<Operation>>();        
+        
+        // We might now actually require a map here. But I thought for all the child classes
+        // also, I might store mapping here.
+        //
+        // Initially this map was there for storing multiple classes we used to select
+        // for the visitor pattern.
+        Map<UmlClass, List<Operation>> mapClassListOp = new HashMap<UmlClass,List<Operation>>();  
+
+        // Get the list of child classes.
+    	// I know, I know !! This function should be present somewhere else. But lets live for the moment.
+    	selectedClasses = ChangeSignatureBox.get_child_classes(selectedClass);
+    	//System.out.print("List of child classes found: " + selectedClasses.toString());        
+        
+        // Add parent also here.
+    	selectedClasses.add(selectedClass);
+        
+        // A List of common operations.
         List<Operation> lstCommonOp = new ArrayList<Operation>();
         String[] methods;
-        
-                       
-        for(UmlClass cl: selectedClasses){
-        	List<Feature> lstFeatures = cl.getFeature();  
-        	List<Operation> lstClassOp = new ArrayList<Operation>();
-        	for(Feature ft:lstFeatures){
-        		if(ft instanceof Operation){
-        			Operation op = (Operation)ft;
-        			LOG.info("$$$$$$$$ Method Name: " + op.getName());        			
-        			lstClassOp.add(op);
-        		}
-        		mapClassListOp.put(cl, lstClassOp);
-        	}
+
+        for (UmlClass cl : selectedClasses) {
+	        // Get the list of operations for the selected class and its children.
+	    	List<Feature> lstFeatures = cl.getFeature();  
+	    	List<Operation> lstClassOp = new ArrayList<Operation>();
+	    	for(Feature ft:lstFeatures){
+	    		if(ft instanceof Operation){
+	    			Operation op = (Operation)ft;       			
+	    			lstClassOp.add(op);
+	    		}
+	    		mapClassListOp.put(cl, lstClassOp);
+	    	}
         }
-        	
+
+    	// Brute force to find the list of functions which are common among the classes.
         for (Map.Entry<UmlClass, List<Operation>> entry : mapClassListOp.entrySet()) {
         	List<Operation> lstOuterOp = entry.getValue();
         	for(Operation _opOuter:lstOuterOp){
@@ -156,7 +191,6 @@ public class Visitor extends JFrame implements ActionListener{
             			}
             		}
             	}
-            	LOG.info("%%%%%%%%%%%%%%%%%%%% ct size: " + ct);
             	if(ct == selectedClasses.size() - 1){
             		lstCommonOp.add(_opOuter);
             	}           
@@ -164,16 +198,13 @@ public class Visitor extends JFrame implements ActionListener{
         	break;
         }
         
-        LOG.info("!!!!!!!!!!!!!!!!!!!!Common Size: " + lstCommonOp.size());
-        
         methods = new String[lstCommonOp.size()];
         for(int g=0;g<lstCommonOp.size();g++){
         	LOG.info("Common Operation: " + lstCommonOp.get(g).getName());
         	methods[g] = lstCommonOp.get(g).getName();
-        }
-        	
+        }     	
         
-        //UI
+        // UI.
         Container cp = getContentPane();
         cp.setLayout(new FlowLayout());
                
@@ -209,25 +240,13 @@ public class Visitor extends JFrame implements ActionListener{
         		break;
         	}
         }
-        submitButton.addActionListener(this);          
-                
-        //For each of the extracted Operation Check which signatures are similar 
-       
-        //Get the name of the class User wants for the new Visitor Class = gui_class_name
-        
-        //selectedClasses -- classes selected by the user -- List<UmlClass>
-        //gui_class_name -- destination visitor class name -- String
-        //selectedOp -- selected common method -- Operation
-         
+        submitButton.addActionListener(this);
       }
-
-
-
-    public UmlClass createVisitorClass(){
-
+    
+    public UmlClass createVisitorClass() {
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
 		UmlClass visitorClass = (UmlClass)Model.getCoreFactory().buildClass(gui_class_name, namespace);
-		Point p = new Point(550, 110);
+		Point p = new Point(550, 160);
 		Fig element =  (Fig) diagram.drop(visitorClass, p);
 		LayerPerspective layer = diagram.getLayer();
 		layer.add(element);
@@ -235,14 +254,9 @@ public class Visitor extends JFrame implements ActionListener{
 		diagram.getGraphModel().getNodes().add(visitorClass);
 
 		return visitorClass;
-		//Classifier classifier = Model.getCoreFactory().createClass();
-		//Operation o = Model.getCoreFactory().buildOperation(classifier, returnType)
-		//o.setOwner(visitorClass);
-
     }
     
-    public Interface createVisitorInterface(){
-
+    public Interface createVisitorInterface() {
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
     	Interface visitorInterface = (Interface) Model.getCoreFactory().buildInterface("Visitor", namespace);
 		Point p = new Point(550, 10);
@@ -254,8 +268,7 @@ public class Visitor extends JFrame implements ActionListener{
 		
 		return visitorInterface;
     }
-
-    
+  
     public Abstraction createRealization(UmlClass klass, Interface inf){
 
     	Namespace namespace =(Namespace) Model.getFacade().getNamespace(selectedClasses.get(0));
@@ -280,27 +293,24 @@ public class Visitor extends JFrame implements ActionListener{
 		try {
 			RefactoringUndoManager.saveFile();
 
-    	UmlClass visitor = createVisitorClass();
-    	
+    	UmlClass visitor = createVisitorClass();   	
     	Interface visitorInterface = createVisitorInterface();
-   
-    	createRealization(visitor,visitorInterface);
-    	
+
     	for(UmlClass klass: selectedClasses){
     		List<Feature> elementList = klass.getFeature();
     		for(Feature f : elementList){
     			if(f instanceof Operation){
     				Operation op = (Operation) f;
     				if(op.getName().equals(selectedOp.getName())){
-    					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
-    					Operation newInfOP = (Operation) Model.getCoreFactory().buildOperation2(visitorInterface, selectedOp.getParameter().get(0).getType() , selectedOp.getName());
+    					Operation newOP = (Operation) Model.getCoreFactory().buildOperation2(visitor, selectedOp.getParameter().get(0).getType() , "visit");
+    					Operation newInfOP = (Operation) Model.getCoreFactory().buildOperation2(visitorInterface, selectedOp.getParameter().get(0).getType() , "visit");
     					
     					String[] arguments = new String[op.getParameter().size()-1];
     					String[] argumenttypes = new String[op.getParameter().size()-1];
     					
     					for(int i=0; i < op.getParameter().size();i++){
     						Parameter p = op.getParameter().get(i);;
-    						if(i==0){
+    						if (i == 0) {
     							Parameter newP = ((org.omg.uml.UmlPackage) klass.refOutermostPackage())
     	    	    					.getCore().getParameter().createParameter();
     							newP.setType((org.omg.uml.foundation.core.Classifier)klass);
@@ -313,7 +323,7 @@ public class Visitor extends JFrame implements ActionListener{
     							newInfP.setName("class");
     							newInfP.setBehavioralFeature(newInfOP);
 
-    						}else{
+    						} else {
     							Parameter newP = ((org.omg.uml.UmlPackage) p.refOutermostPackage())
     	    	    					.getCore().getParameter().createParameter();
     							if(p.getType()!=null)
@@ -327,15 +337,21 @@ public class Visitor extends JFrame implements ActionListener{
     								newInfP.setType((org.omg.uml.foundation.core.Classifier)p.getType());
     							newInfP.setName(p.getName());
     							newInfP.setBehavioralFeature(newInfOP);
-
-    							
-        						arguments[i-1]=p.getName();
+						
+        						arguments[i-1] = p.getName();
+        						
         						if(p.getType()!=null)
-        							argumenttypes[i-1]=p.getType().getName();
+        							argumenttypes[i-1] = p.getType().getName();
     						}
     					}
-    					boolean sigChange = ChangeSignatureBox.change_method_signature(op, "accept", op.getParameter().get(0).getName(), arguments, argumenttypes);
-    					LOG.info("Signature "+sigChange);
+    					// Change method signature accept string as return type, which messes it up.
+    					// Therefore, retain your return type and YOO !!!	
+    					Classifier returnType = op.getParameter().get(0).getType();
+    					boolean sigChange = ChangeSignatureBox.change_method_signature(op, "accept", "", arguments, argumenttypes);
+    					op.getParameter().get(0).setType(returnType);
+    					
+    					System.out.println("Return type: " + op.getParameter().get(0).getName());
+    					System.out.println("Signature " + sigChange);
     				}
     			}
     		}
@@ -354,8 +370,6 @@ public class Visitor extends JFrame implements ActionListener{
 		this.dispose();
 	}
 
-    	
-		
 		// Save the project. Invoke the swipl module with this path for checking constraints.
 //		visitor = (UmlClass) Model.getCoreFactory().buildClass("visitor", klass.getNamespace());
 //		Point p = new Point(240, 90);
@@ -400,3 +414,5 @@ public class Visitor extends JFrame implements ActionListener{
 //Parameter returnParameter = (Parameter) Model.getCoreFactory().buildParameter( (Classifier) ele,(BehavioralFeature) ((UmlClass)ele).getFeature().get(2));
 //op = (Operation) Model.getCoreFactory().buildOperation2(((Operation) f).getOwner(), returnParameter , "testOP");
 //op = (Operation) Model.getCoreFactory().buildOperation2(((Operation) i).getOwner(), i, "testOP");
+
+// createRealization(visitor,visitorInterface);

@@ -107,7 +107,7 @@ public class ChangeSignatureBox  extends JFrame implements ActionListener{
         return return_list;
     }
 
-    private static List<UmlClass> get_child_classes(UmlClass klass) {
+    public static List<UmlClass> get_child_classes(UmlClass klass) {
         ArrayList<UmlClass> child_list = new ArrayList<UmlClass>();
         Collection<Generalization> coll = Model.getFacade().getSpecializations(
                 (Object) klass);

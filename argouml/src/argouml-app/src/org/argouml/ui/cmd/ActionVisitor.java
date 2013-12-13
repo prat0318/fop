@@ -42,18 +42,7 @@ public class ActionVisitor extends AbstractAction {
  		List<Object> target = TargetManager.getInstance().getTargets();
  		if (target != null) {
  			Visitor box = new Visitor(Translator.localize("action.apply-visitor-pattern"), target, diagram);
-	    		//LOG.info(target.getClass().getName());
-	    		
-	//    		if (target != null && target instanceof UmlClass) {
-	//    			UmlClass ele = (UmlClass) target;
-	//    			String name = ele.getName();
-	//    			
-	//    			box.setRenameNode();
-	//    		} else {
-	//    			// This is what we are not doing currently. 
-	//    			box.addNodes(nodes);
-	//    		}
-	    		box.setVisible(true);	
+	    	box.setVisible(true);	
  		}
  	} else {
  		//OptionPane.showMessageDialog(diagram, "here comes the text.");  
