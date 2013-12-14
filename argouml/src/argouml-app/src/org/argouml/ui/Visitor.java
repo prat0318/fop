@@ -212,7 +212,7 @@ public class Visitor extends JFrame implements ActionListener{
         cp.setLayout(new FlowLayout());
                
         JLabel gui_visitor_class = new JLabel("Visitor Class Name:");
-        JTextField gui_visitor_class_name = new JTextField(gui_class_name, 15);
+        JTextField gui_visitor_class_name = new JTextField(selectedClass.getName()+gui_class_name, 15);
         
         JLabel gui_common_methods = new JLabel("Common Methods:");
         final JComboBox gui_common_methods_list = new JComboBox(methods);
