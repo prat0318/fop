@@ -82,8 +82,10 @@ public class ActionMove extends AbstractAction {
 
     	if (!edges.isEmpty()) {
     		for(int i=0;i<edges.size();i++){
-    			Map<String,AssociationEnd> aemap = new HashMap<String,AssociationEnd>();
-   				UmlAssociation c = (UmlAssociation) edges.get(i);
+    			UmlAssociation c;
+    			Map<String,AssociationEnd> aemap = new HashMap<String,AssociationEnd>();    			
+   				if(!(edges.get(i) instanceof UmlAssociation)) continue;
+    			c = (UmlAssociation) edges.get(i);
    				LOG.info("@@@@@@@@##############TEST: " + c.getName());
    				List<AssociationEnd> aend = c.getConnection();
    				
